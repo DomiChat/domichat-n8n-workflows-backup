@@ -449,7 +449,7 @@
         },
         "filePath": "={{ $('Globals').item.json.repo.path }}{{$('Execute Workflow Trigger').item.json.name.replace(/\\s+/g, '-').toLowerCase()}}.json",
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
-        "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
+        "commitMessage": "={{$('Execute Workflow Trigger').first().json.name.replace(/\\s+/g, '-').toLowerCase()}} ({{$json.github_status}})"
       },
       "id": "ff7b7fa4-9959-44ae-acb1-68caf681f7bc",
       "name": "Create new file",
@@ -484,7 +484,7 @@
         },
         "filePath": "={{ $('Globals').item.json.repo.path }}{{$('Execute Workflow Trigger').item.json.name.replace(/\\s+/g, '-').toLowerCase()}}.json",
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
-        "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
+        "commitMessage": "={{$('Execute Workflow Trigger').first().json.name.replace(/\\s+/g, '-').toLowerCase()}} ({{$json.github_status}})"
       },
       "id": "ef7048d8-b9cb-4ec2-b1f4-4f77cce8dedd",
       "name": "Edit existing file",
@@ -759,6 +759,6 @@
     }
   ],
   "triggerCount": 1,
-  "updatedAt": "2025-09-25T14:44:16.000Z",
-  "versionId": "5b4ff4de-4f42-405c-bfff-78292becaba4"
+  "updatedAt": "2025-09-25T14:56:35.000Z",
+  "versionId": "77238502-818a-45a9-92bc-01fad7b45f64"
 }
