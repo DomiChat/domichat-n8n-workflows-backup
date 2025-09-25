@@ -1,0 +1,183 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Pedido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Pedido": {
+      "main": [
+        [
+          {
+            "node": "Notificar Domiciliario Asignado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Domiciliario Asignado": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-10T14:15:45.737Z",
+  "id": "Dz6rZbVpMY2fGNI5",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "0007 Clientes Rechazar Contraoferta",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "be70b635-77df-481f-841d-b36fd37991cf",
+              "name": "estado_contraoferta",
+              "value": "Rechazada",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        -176
+      ],
+      "id": "a8118e3e-b875-416b-9720-4d4d1325df1d",
+      "name": "Return"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "pedido_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -176
+      ],
+      "id": "ddf382b9-21fe-4a74-8075-4b3cb1fd0538",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "pedidos",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "pedido_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.pedido_id }}"
+            },
+            {
+              "keyName": "estado",
+              "condition": "eq",
+              "keyValue": "EsperandoConfirmacion"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "estado",
+              "fieldValue": "=Rechazado"
+            },
+            {
+              "fieldId": "fecha_confirmacion",
+              "fieldValue": "={{ new Date(new Date().toLocaleString('sv-SE', { timeZone: 'America/Bogota' }) + 'Z').toISOString() }}"
+            },
+            {
+              "fieldId": "motivo_cancelacion",
+              "fieldValue": "El cliente canceló manualmente el pedido"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -176
+      ],
+      "id": "bdc2e955-dada-4b25-a047-3c7bcb6f6fe7",
+      "name": "Actualizar Pedido",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "719990257874011",
+        "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
+        "textBody": "=👀 RESULTADO PROPUESTA\n\n❌ El cliente ha rechazado tu contraoferta\n🆔 Pedido: {{ $json.pedido_id }}\n\n🚚 Próximos pedidos en camino ",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -176
+      ],
+      "id": "9b7ab11b-9605-4078-97e0-78ba28739f2d",
+      "name": "Notificar Domiciliario Asignado",
+      "webhookId": "84f7640f-c449-421d-9ef9-6c37b572530c",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "YM1CDPaqIynCqebo",
+          "name": "WhatsApp Domiciliarios QA - Sender"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-10T14:15:45.751Z",
+      "updatedAt": "2025-09-10T14:15:45.751Z",
+      "role": "workflow:owner",
+      "workflowId": "Dz6rZbVpMY2fGNI5",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-25T05:04:17.000Z",
+  "versionId": "3dba94c2-b078-4da8-a179-893658b384b2"
+}
