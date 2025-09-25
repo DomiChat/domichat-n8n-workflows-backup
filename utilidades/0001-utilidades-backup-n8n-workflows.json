@@ -747,7 +747,9 @@
       "recurrenceRules": []
     },
     "node:Schedule Trigger1": {
-      "recurrenceRules": []
+      "recurrenceRules": [
+        10
+      ]
     }
   },
   "tags": [
