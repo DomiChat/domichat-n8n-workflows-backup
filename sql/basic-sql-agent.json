@@ -1,0 +1,150 @@
+{
+  "active": false,
+  "connections": {
+    "Chat History": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-19T21:11:02.624Z",
+  "id": "jrQpYxaUtJDbf9ty",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Basic SQL Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7eee7d5c-5c9b-4546-9b4c-fe4c7ae8d596",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        -240,
+        -32
+      ],
+      "webhookId": "cf1de04f-3e38-426c-89f0-3bdb110a5dcf",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "agent": "sqlAgent",
+        "options": {}
+      },
+      "id": "efbd338a-bce8-481a-8e87-f5ec9eb231e3",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -16,
+        -32
+      ],
+      "typeVersion": 1.7,
+      "credentials": {
+        "postgres": {
+          "id": "JRAtD5GxfvOjQyf0",
+          "name": "Postgres account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "id": "549f8b9c-9539-46b7-bbc3-9001142e6ccb",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        -8,
+        192
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "4Ihpp4lTVVLhN7Al",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "687a7f74-9443-4ba1-b808-31baeb21f3a3",
+      "name": "Chat History",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        120,
+        192
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "content": "### 👨‍🎤 Setup\n1. Add your **postgresql** and **OpenAI** credentials.\n2. Click **Chat** button and start asking questions to your database.\n3. Activate the workflow and you can make the chat publicly available.",
+        "height": 120,
+        "width": 560,
+        "color": 5
+      },
+      "id": "7acc91ea-430d-42c3-a584-fa7ebcd30a8d",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -192
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-19T21:11:02.630Z",
+      "updatedAt": "2025-09-19T21:11:02.630Z",
+      "role": "workflow:owner",
+      "workflowId": "jrQpYxaUtJDbf9ty",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-26T01:37:52.000Z",
+  "versionId": "93b1135b-05bc-4537-8e34-2d960e179499"
+}
