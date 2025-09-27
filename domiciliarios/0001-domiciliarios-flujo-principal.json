@@ -1030,7 +1030,11 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "cGFHe0wsizcDFbHD"
   },
   "shared": [
     {
@@ -1044,6 +1048,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-25T04:58:14.000Z",
-  "versionId": "a4aba779-74b8-4d40-a497-c98fa7c40616"
+  "updatedAt": "2025-09-27T01:11:22.000Z",
+  "versionId": "6f038e1b-8ef2-49e5-abaf-43310e0f1740"
 }
