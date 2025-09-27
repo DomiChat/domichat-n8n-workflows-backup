@@ -1,0 +1,102 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Avisar Manuel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-27T00:50:47.788Z",
+  "id": "TDDEN2JI47E2I0KU",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "000x workflow errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -80
+      ],
+      "id": "fd714de6-a383-4431-8ac7-0abb6aedd77d",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "719990257874011",
+        "recipientPhoneNumber": "573006064535",
+        "textBody": "=There was an error in domichat clientes:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        176,
+        -208
+      ],
+      "id": "30a7bc10-be03-4b2a-a6c0-ee57b9e03e8d",
+      "name": "Avisar Manuel",
+      "webhookId": "b3e7a617-63a4-4a5a-b139-f51cd8f26930",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "YM1CDPaqIynCqebo",
+          "name": "WhatsApp Domiciliarios QA - Sender"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "794263737101433",
+        "recipientPhoneNumber": "573204081631",
+        "textBody": "=There was an error in domichat clientes:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        176,
+        32
+      ],
+      "id": "ef19092d-e7ec-402c-906c-a4665b0c246b",
+      "name": "Avisar Nico",
+      "webhookId": "56c9edff-b5bd-4ecd-9336-1eeab9735a2c",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "gdJzqhLFzuNTphTz",
+          "name": "WhatsApp Clientes QA - Sender"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-27T00:50:47.795Z",
+      "updatedAt": "2025-09-27T00:50:47.795Z",
+      "role": "workflow:owner",
+      "workflowId": "TDDEN2JI47E2I0KU",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-27T01:07:15.000Z",
+  "versionId": "55b19f66-a45b-4016-be1b-79e753c6fec6"
+}
