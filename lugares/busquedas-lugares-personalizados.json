@@ -1,0 +1,407 @@
+{
+  "active": false,
+  "connections": {
+    "Set busqueda": {
+      "main": [
+        [
+          {
+            "node": "Brave Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brave Search": {
+      "main": [
+        [
+          {
+            "node": "Obtener URL Tiktoks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener URL Tiktoks": {
+      "main": [
+        [
+          {
+            "node": "Preparar Petición Transcripción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Petición Transcripción": {
+      "main": [
+        [
+          {
+            "node": "Obtener Transcripción (En Inglés)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Transcripción (En Inglés)": {
+      "main": [
+        [
+          {
+            "node": "Limpiar Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Set busqueda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpiar Respuesta": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-09-26T19:07:16.907Z",
+  "id": "OUFyHMgG5P9zA8WH",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Busquedas lugares personalizados",
+  "nodes": [
+    {
+      "parameters": {
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        768,
+        0
+      ],
+      "id": "dff68b88-87a2-405b-8e43-0eaad05b7274",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6c976f81-7861-4e3a-855a-32b113561b79",
+              "name": "busqueda",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2704,
+        -432
+      ],
+      "id": "d9e026ee-8b6d-4921-a9f7-841d6020b911",
+      "name": "Set busqueda"
+    },
+    {
+      "parameters": {
+        "query": "=site:tiktok.com inurl:/video/ {{ $json.busqueda }} -",
+        "additionalParameters": {}
+      },
+      "type": "@brave/n8n-nodes-brave-search.braveSearch",
+      "typeVersion": 1,
+      "position": [
+        -2512,
+        -432
+      ],
+      "id": "b2431eba-8ca4-410a-96b7-c7e19202f586",
+      "name": "Brave Search",
+      "credentials": {
+        "braveSearchApi": {
+          "id": "F8AeqaYbB14GFmtI",
+          "name": "Brave Search account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Script para n8n - Extrae URLs de videos de TikTok con patrón específico\n// Solo acepta URLs con formato: tiktok.com/@usuario/video/id\n\n// Obtener el array de resultados\nconst results = $input.first().json.web.results;\n\n// Patrón regex para URLs de TikTok con formato específico\nconst tiktokPattern = /^https:\\/\\/(?:www\\.)?tiktok\\.com\\/@[^\\/]+\\/video\\/\\d+/;\n\n// Filtrar y extraer solo las URLs que coincidan con el patrón\nconst validTikTokUrls = results\n  .map(result => result.url)\n  .filter(url => tiktokPattern.test(url));\n\n// Retornar solo las URLs válidas\nreturn validTikTokUrls.map(url => ({\n  json: { url: url }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2272,
+        -432
+      ],
+      "id": "afadcc04-9f01-4417-b3bf-0674eede9f9d",
+      "name": "Obtener URL Tiktoks",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "002bcc5d-b5b3-490e-ad5a-9fa410ee4181",
+              "name": "url_video",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "84167d77-d9ba-4bea-8b75-59c55e73380f",
+              "name": "ip_generada",
+              "value": "={{\n(() => {\n  function rand(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min;\n  }\n\n  let ip;\n  while (true) {\n    const o1 = rand(1, 223); // evita 0 y >223 (multicast/reservado)\n    const o2 = rand(0, 255);\n    const o3 = rand(0, 255);\n    const o4 = rand(1, 254); // evita 0 y 255 (red y broadcast)\n\n    // filtrar rangos privados\n    if (\n      o1 === 10 || // 10.0.0.0/8\n      (o1 === 172 && o2 >= 16 && o2 <= 31) || // 172.16.0.0/12\n      (o1 === 192 && o2 === 168) || // 192.168.0.0/16\n      o1 === 127 || // loopback\n      (o1 === 169 && o2 === 254) // APIPA\n    ) {\n      continue;\n    }\n\n    ip = `${o1}.${o2}.${o3}.${o4}`;\n    break;\n  }\n  return ip;\n})()\n}}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2048,
+        -432
+      ],
+      "id": "3d22a4b1-556c-453e-bc44-9adcfa6311db",
+      "name": "Preparar Petición Transcripción"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://scriptadmin.tokbackup.com/v1/tiktok/fetchMultipleTikTokData?get_transcript=true&ip={{ $json.ip_generada }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "x-api-key",
+              "value": "Toktools2024@!Now"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"videoUrls\": [\n        \"{{ $json.url_video }}\"\n    ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1824,
+        -432
+      ],
+      "id": "9e8f4adb-3b6c-48e8-9143-c912639342ed",
+      "name": "Obtener Transcripción (En Inglés)",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1eef4f6c-0394-42e4-acf5-f4a730809760",
+              "name": "descripcion_video",
+              "value": "={{ $json.data[0].data.desc.split(\"Tags:\")[0].trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "cf178ba2-3d0a-4ade-b781-b71a52389fde",
+              "name": "subtitulos_video",
+              "value": "={{ $json.data[0].subtitles.replace(/WEBVTT\\n?/g, '').replace(/\\d{2}:\\d{2}:\\d{2}\\s-->\\s\\d{2}:\\d{2}:\\d{2}\\n?/g, '').replace(/\\n+/g, ' ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1552,
+        -464
+      ],
+      "id": "c5465555-36e5-4829-8759-d5515ea745f3",
+      "name": "Limpiar Respuesta"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2928,
+        -432
+      ],
+      "id": "28a5e97c-eb6a-4ae1-90ad-1dc05fac6d54",
+      "name": "When chat message received",
+      "webhookId": "cd8c3664-008f-45df-a036-c48cb066a3ee"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.texto_consolidado }}",
+        "options": {
+          "systemMessage": "Eres un agente experto en dar recomendaciones de lugares\n\nse amable y cordial con el usuario\n\nde los videos analizados escoge 3 y entrega organizadamente y en mensajes muy cortos y concisos\n\n*que es lo más atractivo de este lugar y por que debería ir\n*cuales son sus precios\n*cual es su dirección exacta"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1136,
+        -464
+      ],
+      "id": "ac6541ca-c8e8-4cb6-ba50-1e90be619503",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1152,
+        -256
+      ],
+      "id": "99369dbe-fa56-42d5-a5fa-a84350696221",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IsH1W1e4HDyYBz55",
+          "name": "Google AI Studio QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('When chat message received').first().json.sessionId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -944,
+        -224
+      ],
+      "id": "4dd60f42-e908-49f3-97b9-63ba5daeafc1",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Script para n8n - Consolida múltiples items de videos de TikTok en un solo texto\n// Une todos los items de entrada en un texto unificado\n\n// Obtener todos los items de entrada\nconst allItems = $input.all();\n\n// Verificar que tengamos items\nif (!allItems || allItems.length === 0) {\n  return [{\n    json: { \n      texto_consolidado: \"No se encontraron videos para procesar\",\n      total_videos: 0\n    }\n  }];\n}\n\n// Crear el texto consolidado\nlet textoConsolidado = '';\n\nallItems.forEach((item, index) => {\n  const numeroVideo = index + 1;\n  const videoData = item.json;\n  \n  textoConsolidado += `Video ${numeroVideo}:\\n`;\n  textoConsolidado += `Descripción: ${videoData.descripcion_video || 'No disponible'}\\n`;\n  textoConsolidado += `Transcripción: ${videoData.subtitulos_video || 'No disponible'}\\n\\n`;\n});\n\n// Remover el último salto de línea doble\ntextoConsolidado = textoConsolidado.trim();\n\n// Retornar el texto consolidado como un solo item\nreturn [{\n  json: { \n    texto_consolidado: textoConsolidado,\n    total_videos: allItems.length\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1344,
+        -464
+      ],
+      "id": "c9eaed84-8f8f-4f4b-a9e0-8ec5e60673ce",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -784,
+        -464
+      ],
+      "id": "3f5d6133-ef6f-43af-92da-b44b861dd86b",
+      "name": "Respond to Chat1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-09-26T19:07:16.910Z",
+      "updatedAt": "2025-09-26T19:07:16.910Z",
+      "role": "workflow:owner",
+      "workflowId": "OUFyHMgG5P9zA8WH",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-09-26T19:15:37.000Z",
+  "versionId": "68158efb-fb44-4e0a-a1fd-bb06c78085ca"
+}
