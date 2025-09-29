@@ -290,7 +290,7 @@
             {
               "id": "f1a441ea-6d0d-4b07-8f45-d9f128d59e8c",
               "name": "resultado_broadcast",
-              "value": "No hay domiciliarios disponibles en este momento",
+              "value": "Sin domiciliarios",
               "type": "string"
             }
           ]
@@ -313,7 +313,7 @@
             {
               "id": "f1a441ea-6d0d-4b07-8f45-d9f128d59e8c",
               "name": "resultado_broadcast",
-              "value": "Los domiciliarios han sido notificados exitosamente",
+              "value": "Exitoso",
               "type": "string"
             },
             {
@@ -333,7 +333,8 @@
         -160
       ],
       "id": "c643dc59-6ed8-4e29-8797-a330e430dc63",
-      "name": "Broadcast Completado"
+      "name": "Broadcast Completado",
+      "executeOnce": true
     },
     {
       "parameters": {
@@ -507,11 +508,11 @@
     "Start": [
       {
         "json": {
-          "lista_compras": "1 hamburguesa sencilla, 2 almuerzos corrientes con pechuga",
-          "valor_oferta": "6000",
-          "zona_domicilio": "Urbana",
-          "pedido_id": "14",
-          "direccion": "Calle 12B número 1427 en Barrio Santa Lucía",
+          "lista_compras": "1 hamburguesa con tocineta de El Paso",
+          "valor_oferta": "15000",
+          "zona_domicilio": "Rural",
+          "pedido_id": "53",
+          "direccion": "Vereda San Juan, finca Santa Cecilia, después del portón rojo, a mano derecha, la primera entrada.",
           "ciudad": "La Vega"
         }
       }
@@ -532,6 +533,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T05:02:55.000Z",
-  "versionId": "ae3003d0-cffa-4abf-8857-76160ed32adc"
+  "updatedAt": "2025-09-28T16:05:00.000Z",
+  "versionId": "ea454e9f-9c2b-4ba9-a576-3af5f702aef8"
 }
