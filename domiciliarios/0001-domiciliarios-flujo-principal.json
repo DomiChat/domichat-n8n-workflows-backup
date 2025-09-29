@@ -236,7 +236,6 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {
           "temperature": 0.4
         }
@@ -1048,6 +1047,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-27T01:11:22.000Z",
-  "versionId": "6f038e1b-8ef2-49e5-abaf-43310e0f1740"
+  "updatedAt": "2025-09-29T00:19:25.000Z",
+  "versionId": "daddf186-5665-4bfd-9043-79dc32b2134d"
 }
