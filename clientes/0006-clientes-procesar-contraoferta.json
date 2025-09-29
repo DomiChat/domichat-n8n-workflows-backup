@@ -242,7 +242,7 @@
         "operation": "send",
         "phoneNumberId": "719990257874011",
         "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
-        "textBody": "=❌ Tu contraoferta para el pedido #{{ $('Start').item.json.pedido_id }} ha sido rechazada. \n\nEl cliente decidió no aceptar tu propuesta.",
+        "textBody": "=⚠️ Tu contraoferta para el pedido No. *{{ $('Start').item.json.pedido_id }}* ha sido rechazada. \n\nEl cliente decidió no aceptar tu propuesta.",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
@@ -287,6 +287,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T05:03:51.000Z",
-  "versionId": "defc0441-a5d3-4397-ab41-51e0762379c3"
+  "updatedAt": "2025-09-29T00:04:22.000Z",
+  "versionId": "b82892af-5e50-43ca-8279-567a0e203649"
 }
