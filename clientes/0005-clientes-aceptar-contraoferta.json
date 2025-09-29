@@ -23,11 +23,6 @@
         ]
       ]
     },
-    "Notificar Domiciliario Asignado222": {
-      "main": [
-        []
-      ]
-    },
     "Notificar Domiciliario Asignado": {
       "main": [
         [
@@ -115,7 +110,7 @@
             {
               "id": "be70b635-77df-481f-841d-b36fd37991cf",
               "name": "estado_contraoferta",
-              "value": "Aceptada ",
+              "value": "Aceptada",
               "type": "string"
             },
             {
@@ -155,30 +150,6 @@
       ],
       "id": "d013c171-5217-49c9-bb87-a11ffe714813",
       "name": "Start"
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "719990257874011",
-        "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
-        "textBody": "=🎉 ¡PEDIDO ASIGNADO!\n\n✅ Se aceptó tu contraoferta\n\n🆔 Pedido: {{ $json.pedido_id }}\n💰 Valor: ${{ $json.valor_final }}\n📍 Dirección: {{ $json.direccion }}\n🛒 Productos: {{ $json.lista_compras }}\n📱 Cliente: {{ $json.nombre_usuario }}\n📞 Teléfono: {{ $json.numero_usuario.replace(/^57/, '') }}\n\n🚚 ¡Puedes comenzar el domicilio!\n⏰ Recuerda contactar al cliente\n\n⚠️ Al entregar: Pide código al cliente y escribe *ENTREGAR (CÓDIGO)*",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        0,
-        -320
-      ],
-      "id": "e072903f-c5b3-4db7-bcc8-e1cc81f2e2f1",
-      "name": "Notificar Domiciliario Asignado222",
-      "webhookId": "d79a7a20-3ab0-4472-b276-1ec4b6b5f828",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
     },
     {
       "parameters": {
@@ -249,7 +220,7 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "11"
+          "pedido_id": "56"
         }
       }
     ]
@@ -271,6 +242,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T05:03:37.000Z",
-  "versionId": "c6fd5439-8e2c-4caf-90a8-60d453fd4e10"
+  "updatedAt": "2025-09-28T23:30:34.000Z",
+  "versionId": "e31f0171-fd2b-4129-a846-a474775546b8"
 }
