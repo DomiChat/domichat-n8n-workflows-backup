@@ -242,7 +242,7 @@
         "operation": "send",
         "phoneNumberId": "719990257874011",
         "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
-        "textBody": "=⚠️ Tu contraoferta para el pedido No. *{{ $('Start').item.json.pedido_id }}* ha sido rechazada. \n\nEl cliente decidió no aceptar tu propuesta.",
+        "textBody": "=😔 Tu propuesta para el pedido No. *{{ $('Start').item.json.pedido_id }}* no fue aceptada por el cliente. \n\n🚀 Nuevos pedidos vienen en camino. ¡Estate atento!",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
@@ -266,8 +266,8 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "1188",
-          "oferta_id": "OFE-1113"
+          "pedido_id": "59",
+          "oferta_id": "OFE-33"
         }
       }
     ]
@@ -287,6 +287,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-29T00:04:22.000Z",
-  "versionId": "b82892af-5e50-43ca-8279-567a0e203649"
+  "updatedAt": "2025-09-29T16:58:52.000Z",
+  "versionId": "8a6d14f2-4feb-4a24-8033-be0cbf9e9f57"
 }
