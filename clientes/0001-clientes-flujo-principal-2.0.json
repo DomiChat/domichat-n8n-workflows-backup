@@ -316,24 +316,6 @@
         ]
       ]
     },
-    "Validar Resultado Ofertas1": {
-      "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Enviar Respuesta Contraoferta Procesada",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Enviar Respuesta Contraoferta Procesada": {
       "main": [
         [
@@ -371,7 +353,7 @@
       "main": [
         [
           {
-            "node": "Validar Resultado Ofertas1",
+            "node": "Validar Aceptación Contraoferta",
             "type": "main",
             "index": 0
           }
@@ -405,6 +387,24 @@
         [
           {
             "node": "Detectar Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Aceptación Contraoferta": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Respuesta Contraoferta Procesada",
             "type": "main",
             "index": 0
           }
@@ -1555,72 +1555,6 @@
       }
     },
     {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.resultado }}",
-                    "rightValue": "Contraoferta aceptada",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "68850f7d-c178-48d9-8da9-b0a8441f99bd"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Aceptado"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "5aeb7b82-4965-476c-800f-97dc80d97ae6",
-                    "leftValue": "={{ $json.resultado }}",
-                    "rightValue": "Contraoferta no aceptada",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Contraofertado"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        5312,
-        240
-      ],
-      "id": "3f2221b0-5ecc-434f-b493-0804e9ab8ede",
-      "name": "Validar Resultado Ofertas1"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
@@ -1819,6 +1753,72 @@
       ],
       "id": "c3375d17-08df-4b88-86a9-e4203fd5f086",
       "name": "Agente Registrador"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.resultado }}",
+                    "rightValue": "Contraoferta aceptada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "68850f7d-c178-48d9-8da9-b0a8441f99bd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Aceptado"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5aeb7b82-4965-476c-800f-97dc80d97ae6",
+                    "leftValue": "={{ $json.resultado }}",
+                    "rightValue": "Contraoferta no aceptada",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Contraofertado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        5312,
+        240
+      ],
+      "id": "3f2221b0-5ecc-434f-b493-0804e9ab8ede",
+      "name": "Validar Aceptación Contraoferta"
     }
   ],
   "pinData": {},
@@ -1841,6 +1841,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-29T00:18:08.000Z",
-  "versionId": "d5b06846-621b-4e6e-b16c-e1383444ca9a"
+  "updatedAt": "2025-09-29T16:50:00.000Z",
+  "versionId": "48f0961e-dc67-4e9e-b7c8-dc0924b1f4c2"
 }
