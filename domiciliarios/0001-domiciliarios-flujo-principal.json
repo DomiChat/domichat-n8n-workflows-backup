@@ -32,7 +32,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "AI Agent1",
             "type": "main",
             "index": 0
           }
@@ -157,13 +157,7 @@
     },
     "AI Agent": {
       "main": [
-        [
-          {
-            "node": "Enviar Respuesta",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Preparar Mensaje Texto": {
@@ -215,14 +209,81 @@
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
+    "3 contraofertar pedido": {
+      "main": [
         []
       ]
     },
-    "OpenAI Chat Model": {
+    "Google Gemini Chat Model1": {
       "ai_languageModel": [
-        []
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "2 aceptar pedido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3 contraofertar pedido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "4 validar entrega",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "5 obtener estado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "6 Cambiar estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -244,8 +305,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        368,
-        -288
+        192,
+        912
       ],
       "id": "984a8a27-0f5b-49e8-8bce-dd1a2c9e2441",
       "name": "Google Gemini Chat Model",
@@ -381,8 +442,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        608,
-        -288
+        64,
+        592
       ],
       "id": "223bdbdc-bdde-4a3f-81f6-df83ebe51755",
       "name": "aceptar_pedido"
@@ -460,8 +521,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        736,
-        -256
+        192,
+        624
       ],
       "id": "4b3fb1bd-419e-47d9-b2e2-5e506ef334ea",
       "name": "contraofertar_pedido"
@@ -518,8 +579,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        864,
-        -288
+        320,
+        592
       ],
       "id": "852a17bb-5617-4eed-a6ef-2cac54460470",
       "name": "validar_entrega_pedido"
@@ -579,8 +640,8 @@
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1328,
-        -208
+        1216,
+        64
       ],
       "id": "23c4c82f-5524-48a0-9156-df3cbeb3e5d1",
       "name": "Enviar Respuesta",
@@ -786,7 +847,7 @@
       "typeVersion": 1,
       "position": [
         736,
-        224
+        256
       ],
       "id": "be6b3f18-9e62-4891-bea5-9264c7aac5d2",
       "name": "registrar_domiciliario",
@@ -808,8 +869,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        672,
-        -512
+        128,
+        368
       ],
       "id": "71d2a1b6-7c69-4860-83e9-3a8951ce631a",
       "name": "AI Agent"
@@ -847,8 +908,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        480,
-        -256
+        448,
+        928
       ],
       "id": "821c56d9-dc66-463a-b299-1384df1695b5",
       "name": "Postgres Chat Memory",
@@ -902,8 +963,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        992,
-        -256
+        448,
+        624
       ],
       "id": "a8de0829-722e-4caf-a452-3c5c585856a1",
       "name": "cambiar_estado_domiciliario"
@@ -944,11 +1005,330 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.2,
       "position": [
-        1120,
-        -288
+        576,
+        592
       ],
       "id": "10e69168-e240-4c6d-bd72-d0f2f99df64b",
       "name": "obtener_estado_domiciliario"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ZlGuD4CfbuDS4EMR",
+          "mode": "list",
+          "cachedResultName": "0002 Domiciliarios Aceptar Pedido"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "calificacion_domiciliario": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "numero_domiciliario",
+              "displayName": "numero_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "nombre_domiciliario",
+              "displayName": "nombre_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "calificacion_domiciliario",
+              "displayName": "calificacion_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -896
+      ],
+      "id": "dcb012e3-a4a3-4aea-9d65-cb8cbdf68d15",
+      "name": "2 aceptar pedido"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "HzK6mbnjJfsRlNyW",
+          "mode": "list",
+          "cachedResultName": "0003 Domiciliarios Contraofertar Pedido"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor_contraoferta": 0,
+            "calificacion_domiciliario": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "valor_contraoferta",
+              "displayName": "valor_contraoferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "numero_domiciliario",
+              "displayName": "numero_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "nombre_domiciliario",
+              "displayName": "nombre_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "calificacion_domiciliario",
+              "displayName": "calificacion_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -720
+      ],
+      "id": "d04705de-6c10-4999-be75-3433d303ce91",
+      "name": "3 contraofertar pedido"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qERWYLB6k0hZ7k4s",
+          "mode": "list",
+          "cachedResultName": "0004 Domiciliarios Validar Entrega Pedido"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_pedido",
+              "displayName": "id_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "numero_domiciliario",
+              "displayName": "numero_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "codigo_verificacion",
+              "displayName": "codigo_verificacion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -544
+      ],
+      "id": "69760273-b41b-4c81-a8f7-156680954913",
+      "name": "4 validar entrega"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "sbrxjwvPDKQJbafa",
+          "mode": "list",
+          "cachedResultName": "0005 Domiciliarios Obtener Estado"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "numero_domiciliario"
+          ],
+          "schema": [
+            {
+              "id": "numero_domiciliario",
+              "displayName": "numero_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -336
+      ],
+      "id": "09198a8f-4c16-429b-a58a-ef2d1497f53f",
+      "name": "5 obtener estado"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "3qKyLhg7cDGi1Ijs",
+          "mode": "list",
+          "cachedResultName": "0006 Domiciliarios Cambiar Estado"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "numero_domiciliario",
+              "displayName": "numero_domiciliario",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "estado_actual",
+              "displayName": "estado_actual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -160
+      ],
+      "id": "68c9d3c2-62da-42a0-b71f-32988696fba1",
+      "name": "6 Cambiar estado"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        -432
+      ],
+      "id": "1e28e877-0138-46b3-b1db-7e423fd9c430",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -256
+      ],
+      "id": "71fe6df4-22d3-4cca-badb-2a7c62f91868",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IsH1W1e4HDyYBz55",
+          "name": "Google AI Studio QA"
+        }
+      }
     },
     {
       "parameters": {
@@ -956,39 +1336,151 @@
         "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}",
         "contextWindowLength": 10
       },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        336,
-        112
+        576,
+        -208
       ],
-      "id": "9a1665f6-7f14-4d12-8ef2-b2551e2e53d1",
-      "name": "Simple Memory"
+      "id": "d17a634e-f069-4b80-a329-d0f4bb1d8094",
+      "name": "Postgres Chat Memory1",
+      "credentials": {
+        "postgres": {
+          "id": "JRAtD5GxfvOjQyf0",
+          "name": "Postgres account 3"
+        }
+      }
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a67a000f-3d26-46fa-ac6b-6674266506b2"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0df42e81-4e54-49dc-9dbc-e4549954d832",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ffd9cef5-4ae5-41f5-9aa4-9e47658b0a04",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4250d585-0883-4442-a8d4-ae6b7f17bb04",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8241e48b-8e5e-49b5-ad14-66f7f4a0fb60",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
         },
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
       "position": [
-        112,
-        48
+        768,
+        -512
       ],
-      "id": "c2bbfa8e-4fb0-461f-8872-e7398cfff6da",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "4Ihpp4lTVVLhN7Al",
-          "name": "OpenAi account"
-        }
-      }
+      "id": "f8e8acba-3956-4447-8ad5-17a03cd8023a",
+      "name": "Switch"
     }
   ],
   "pinData": {
@@ -1048,6 +1540,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-29T16:26:40.000Z",
-  "versionId": "c407e914-46c5-4414-8c0d-c8de60c74c80"
+  "updatedAt": "2025-09-30T18:20:15.000Z",
+  "versionId": "27a144b9-8be6-432d-8806-0913aaa9a5a1"
 }
