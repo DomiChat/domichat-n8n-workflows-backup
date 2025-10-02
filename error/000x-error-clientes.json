@@ -8,6 +8,11 @@
             "node": "Avisar Manuel",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -35,7 +40,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "794263737101433",
         "recipientPhoneNumber": "573006064535",
         "textBody": "=There was an error in domichat clientes:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
         "additionalFields": {}
@@ -51,32 +56,30 @@
       "webhookId": "b3e7a617-63a4-4a5a-b139-f51cd8f26930",
       "credentials": {
         "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
+          "id": "gdJzqhLFzuNTphTz",
+          "name": "WhatsApp Clientes QA - Sender"
         }
       }
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "794263737101433",
-        "recipientPhoneNumber": "573204081631",
-        "textBody": "=There was an error in domichat clientes:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
+        "chatId": "6017205151",
+        "text": "=There was an error in domichat domiciliarios:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
         "additionalFields": {}
       },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
       "position": [
-        176,
-        32
+        192,
+        80
       ],
-      "id": "ef19092d-e7ec-402c-906c-a4665b0c246b",
-      "name": "Avisar Nico",
-      "webhookId": "56c9edff-b5bd-4ecd-9336-1eeab9735a2c",
+      "id": "037cd074-c1be-44d1-bf58-c1de56fa97af",
+      "name": "Send a text message",
+      "webhookId": "251c0c2f-737d-4d42-bcfc-7b73fbe8290d",
       "credentials": {
-        "whatsAppApi": {
-          "id": "gdJzqhLFzuNTphTz",
-          "name": "WhatsApp Clientes QA - Sender"
+        "telegramApi": {
+          "id": "kVLEpd6KGB5y48ja",
+          "name": "carito errores"
         }
       }
     }
@@ -97,6 +100,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-29T19:18:25.000Z",
-  "versionId": "77100809-5c51-46a7-81bd-16ce583d4bd0"
+  "updatedAt": "2025-10-01T22:25:38.000Z",
+  "versionId": "a226d920-fcbe-43c5-bfaf-4d29ed58f577"
 }
