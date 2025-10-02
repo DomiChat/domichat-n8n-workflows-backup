@@ -8,6 +8,16 @@
             "node": "Avisar Manuel",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Send error Nico",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send error Manu",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -16,7 +26,9 @@
   "createdAt": "2025-09-27T01:10:32.914Z",
   "id": "cGFHe0wsizcDFbHD",
   "isArchived": false,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "name": "000x error domiciliarios",
   "nodes": [
     {
@@ -24,8 +36,8 @@
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
       "position": [
-        -560,
-        80
+        -576,
+        16
       ],
       "id": "b60a5668-8f80-4713-a430-86e339349d6f",
       "name": "Error Trigger"
@@ -41,8 +53,8 @@
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        -224,
-        -48
+        -208,
+        -128
       ],
       "id": "f738fff4-0139-433b-8955-ac1bb696e2c6",
       "name": "Avisar Manuel",
@@ -56,25 +68,45 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "794263737101433",
-        "recipientPhoneNumber": "573204081631",
-        "textBody": "=There was an error in domichat clientes:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
+        "chatId": "6017205151",
+        "text": "=There was an error in domichat domiciliarios:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
         "additionalFields": {}
       },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
       "position": [
-        -224,
-        192
+        -208,
+        64
       ],
-      "id": "cda3f0ce-0c7a-496e-93bc-09a78f3988c6",
-      "name": "Avisar Nico",
-      "webhookId": "56c9edff-b5bd-4ecd-9336-1eeab9735a2c",
+      "id": "e69d1a1b-d41c-45b0-a8fb-48bbcfa0a8c9",
+      "name": "Send error Nico",
+      "webhookId": "251c0c2f-737d-4d42-bcfc-7b73fbe8290d",
       "credentials": {
-        "whatsAppApi": {
-          "id": "gdJzqhLFzuNTphTz",
-          "name": "WhatsApp Clientes QA - Sender"
+        "telegramApi": {
+          "id": "kVLEpd6KGB5y48ja",
+          "name": "carito errores"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "209571519",
+        "text": "=There was an error in domichat domiciliarios:\ndate: {{ new Date($json.execution.error.timestamp).toLocaleString(\"es-CO\") }}\n\n{{ JSON.stringify($json, null, 2) }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -208,
+        240
+      ],
+      "id": "e0b033f9-3dc4-474f-a732-dd25c6e53eb0",
+      "name": "Send error Manu",
+      "webhookId": "251c0c2f-737d-4d42-bcfc-7b73fbe8290d",
+      "credentials": {
+        "telegramApi": {
+          "id": "kVLEpd6KGB5y48ja",
+          "name": "carito errores"
         }
       }
     }
@@ -95,6 +127,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-29T19:18:09.000Z",
-  "versionId": "5ca6ed95-2b77-4200-af6d-6365023e54e2"
+  "updatedAt": "2025-10-01T23:00:43.000Z",
+  "versionId": "da5c939e-48df-4200-b76d-c095679f07dc"
 }
