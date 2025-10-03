@@ -1526,7 +1526,7 @@
     "timezone": "America/Bogota",
     "saveExecutionProgress": true,
     "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "cGFHe0wsizcDFbHD"
+    "errorWorkflow": "tCJVhMSfqtz6Lsv2"
   },
   "shared": [
     {
@@ -1540,6 +1540,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-09-30T18:20:15.000Z",
-  "versionId": "27a144b9-8be6-432d-8806-0913aaa9a5a1"
+  "updatedAt": "2025-10-02T23:28:37.000Z",
+  "versionId": "425044e8-9a85-4d9c-9626-2016d674176e"
 }
