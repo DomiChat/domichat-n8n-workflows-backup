@@ -1,0 +1,284 @@
+{
+  "active": false,
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Guardar Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Enviar Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Error": {
+      "main": [
+        [
+          {
+            "node": "Establecer ChatIDs Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dividir ChatIDs": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Error": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Establecer ChatIDs Telegram": {
+      "main": [
+        [
+          {
+            "node": "Dividir ChatIDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-02T21:57:41.036Z",
+  "id": "tCJVhMSfqtz6Lsv2",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "0002 Utilidades Control y Notificacion de Errores",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b4a18d55-bdc4-42fd-86f8-76f1574ceaf4",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        864,
+        0
+      ],
+      "id": "ec1cefe4-024a-4ad1-8813-69c05d4c6d08",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1oqCuSKOFnW9A8k6WJuz5-3ZJ_JDEIU4HfPRhHkUUXyk",
+          "mode": "list",
+          "cachedResultName": "Log Errores DomiChat",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oqCuSKOFnW9A8k6WJuz5-3ZJ_JDEIU4HfPRhHkUUXyk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Errores QA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oqCuSKOFnW9A8k6WJuz5-3ZJ_JDEIU4HfPRhHkUUXyk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "WorkFlow ID": "={{ $json.workflow.id }}",
+            "WorkFlow Name": "={{ $json.workflow.name }}",
+            "Execution ID": "={{ $json.execution.id }}",
+            "Error Message": "={{ $json.execution.error.message }}",
+            "Error URL": "={{ $json.execution.url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "WorkFlow ID",
+              "displayName": "WorkFlow ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WorkFlow Name",
+              "displayName": "WorkFlow Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Execution ID",
+              "displayName": "Execution ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Error URL",
+              "displayName": "Error URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a6369af5-607b-41f0-89d7-73e4d9a24b73",
+      "name": "Guardar Error",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IWpPfVSfepJXkzOK",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const chatIds = $input.first().json.telegram_chat_id.split(',');\n\nreturn chatIds.map(id => ({\n  json: {\n    telegram_chat_id: id.trim()\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "6513dbd0-acb2-4987-9d15-8c68f22c286b",
+      "name": "Dividir ChatIDs"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.telegram_chat_id }}",
+        "text": "=*🔴 Notificación de Error*\n\nEl workflow *{{ $('Error Trigger').first().json.workflow.name }}* tuvo un problema.\n\n*📋 Error:* {{ $('Error Trigger').first().json.execution.error.message }}\n\n🔗 Ver detalles: {{ $('Error Trigger').first().json.execution.url }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        16
+      ],
+      "id": "8350ab3d-720c-4299-a379-4ede96f351dd",
+      "name": "Enviar Error",
+      "webhookId": "251c0c2f-737d-4d42-bcfc-7b73fbe8290d",
+      "credentials": {
+        "telegramApi": {
+          "id": "kVLEpd6KGB5y48ja",
+          "name": "carito errores"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b29eb163-2a5a-45b5-b6f4-e029c32c326e",
+              "name": "telegram_chat_id",
+              "value": "209571519,6017205151",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "e5d07e6d-3932-4d49-99ce-606662fc7843",
+      "name": "Establecer ChatIDs Telegram"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-02T21:57:41.043Z",
+      "updatedAt": "2025-10-02T21:57:41.043Z",
+      "role": "workflow:owner",
+      "workflowId": "tCJVhMSfqtz6Lsv2",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-02T22:47:21.000Z",
+  "versionId": "77c038c9-a0df-4f42-91d4-8e197a2b09dd"
+}
