@@ -176,7 +176,7 @@
       "type": "@brave/n8n-nodes-brave-search.braveSearch",
       "typeVersion": 1,
       "position": [
-        -2512,
+        -2480,
         -432
       ],
       "id": "b2431eba-8ca4-410a-96b7-c7e19202f586",
@@ -190,12 +190,12 @@
     },
     {
       "parameters": {
-        "jsCode": "// Script para n8n - Extrae URLs de videos de TikTok con patrón específico\n// Solo acepta URLs con formato: tiktok.com/@usuario/video/id\n\n// Obtener el array de resultados\nconst results = $input.first().json.web.results;\n\n// Patrón regex para URLs de TikTok con formato específico\nconst tiktokPattern = /^https:\\/\\/(?:www\\.)?tiktok\\.com\\/@[^\\/]+\\/video\\/\\d+/;\n\n// Filtrar y extraer solo las URLs que coincidan con el patrón\nconst validTikTokUrls = results\n  .map(result => result.url)\n  .filter(url => tiktokPattern.test(url));\n\n// Retornar solo las URLs válidas\nreturn validTikTokUrls.map(url => ({\n  json: { url: url }\n}));"
+        "jsCode": "// Script para n8n - Extrae URLs de videos de TikTok con patrón específico\n// Solo acepta URLs con formato: tiktok.com/@usuario/video/id\n}}}\n// Obtener el array de resultados\nconst results = $input.first().json.web.results;\n\n// Patrón regex para URLs de TikTok con formato específico\nconst tiktokPattern = /^https:\\/\\/(?:www\\.)?tiktok\\.com\\/@[^\\/]+\\/video\\/\\d+/;\n\n// Filtrar y extraer solo las URLs que coincidan con el patrón\nconst validTikTokUrls = results\n  .map(result => result.url)\n  .filter(url => tiktokPattern.test(url));\n\n// Retornar solo las URLs válidas\nreturn validTikTokUrls.map(url => ({\n  json: { url: url }\n}));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -2272,
+        -2256,
         -432
       ],
       "id": "afadcc04-9f01-4417-b3bf-0674eede9f9d",
@@ -225,7 +225,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2048,
+        -2032,
         -432
       ],
       "id": "3d22a4b1-556c-453e-bc44-9adcfa6311db",
@@ -256,7 +256,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1824,
+        -1808,
         -432
       ],
       "id": "9e8f4adb-3b6c-48e8-9143-c912639342ed",
@@ -388,7 +388,8 @@
   ],
   "pinData": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "shared": [
     {
@@ -399,9 +400,13 @@
       "projectId": "0IzhKVOc0T9TvoCy"
     }
   ],
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-09-26T19:15:37.000Z",
-  "versionId": "68158efb-fb44-4e0a-a1fd-bb06c78085ca"
+  "triggerCount": 2,
+  "updatedAt": "2025-10-02T23:28:09.000Z",
+  "versionId": "3cce717c-84d5-4dcf-8e16-79195639da1e"
 }
