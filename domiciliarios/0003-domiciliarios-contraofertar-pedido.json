@@ -110,16 +110,8 @@
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "El pedido no existe o no está disponible",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"contraofertar_pedido\",\n  \"status\": \"not_found\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {},\n  \"error_code\": \"NOT_FOUND_OR_NOT_AVAILABLE\",\n  \"message\": \"El pedido no existe o ya no está disponible para contraofertar.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -199,16 +191,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "La ventana de ofertas para este pedido ha cerrado",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"contraofertar_pedido\",\n  \"status\": \"window_closed\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"ventana_id\": \"{{$('Obtener Ventana').first().json.ventana_id}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    },\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }}\n  },\n  \"error_code\": \"WINDOW_CLOSED\",\n  \"message\": \"La ventana de ofertas está cerrada para este pedido.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -368,16 +352,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "La propuesta de aceptación ha sido registrada exitosamente",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"contraofertar_pedido\",\n  \"status\": \"ok\",\n  \"pedido_id\": {{ $json.pedido_id || $('Obtener Ventana').first().json.pedido_id }},\n  \"domiciliario\": \"{{$json.numero_domiciliario}}\",\n  \"data\": {\n    \"oferta_id\": \"{{$('Registrar Oferta').first().json.oferta_id}}\",\n    \"ventana_id\": \"{{$('Registrar Oferta').first().json.ventana_id}}\",\n    \"tipo_oferta\": \"{{$('Registrar Oferta').first().json.tipo_oferta}}\",\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }},\n    \"valor_contraoferta\": {{ $('Registrar Oferta').first().json.valor_oferta }},\n    \"calificacion_domiciliario\": {{ $('Registrar Oferta').first().json.calificacion_domiciliario }},\n    \"fecha_oferta\": \"{{$('Registrar Oferta').first().json.fecha_oferta}}\",\n    \"direccion\": \"{{$('Obtener Pedido').first().json.direccion}}\",\n    \"ciudad\": \"{{$('Obtener Pedido').first().json.ciudad}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    }\n  },\n  \"error_code\": null,\n  \"message\": \"Contraoferta registrada.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -424,22 +400,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "El valor de la contraoferta debe ser mayor al original",
-              "type": "string"
-            },
-            {
-              "id": "2f456d04-109b-4415-b64d-d6d8f54a7c12",
-              "name": "valor_original",
-              "value": "={{ $('Obtener Pedido').first().json.valor_oferta }}",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"contraofertar_pedido\",\n  \"status\": \"value_too_low\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }},\n    \"valor_contraoferta\": {{ $('Start').item.json.valor_contraoferta }}\n  },\n  \"error_code\": \"VALUE_TOO_LOW\",\n  \"message\": \"La contraoferta debe ser mayor que la oferta del cliente.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -456,8 +418,8 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "1103",
-          "valor_contraoferta": 12000,
+          "pedido_id": "64",
+          "valor_contraoferta": 18000,
           "numero_domiciliario": "573006064535",
           "nombre_domiciliario": "Manuel Torres",
           "calificacion_domiciliario": 5
@@ -466,7 +428,9 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "cGFHe0wsizcDFbHD"
   },
   "shared": [
     {
@@ -480,6 +444,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T04:59:08.000Z",
-  "versionId": "e9704d75-36cd-46bc-a570-806654eac3e6"
+  "updatedAt": "2025-10-05T05:23:07.000Z",
+  "versionId": "92047122-e516-45df-ba09-133ee10d4cc5"
 }
