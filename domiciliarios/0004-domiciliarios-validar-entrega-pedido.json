@@ -132,7 +132,7 @@
         "workflowInputs": {
           "values": [
             {
-              "name": "id_pedido"
+              "name": "pedido_id"
             },
             {
               "name": "numero_domiciliario"
@@ -188,16 +188,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "925b7cd2-84b8-4562-8ae0-5b1976b0d8b2",
-              "name": "resultado",
-              "value": "El pedido no existe o ya fue entregado",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"not_found\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {},\n  \"error_code\": \"NOT_FOUND\",\n  \"message\": \"El pedido no existe en el sistema.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -286,16 +278,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "925b7cd2-84b8-4562-8ae0-5b1976b0d8b2",
-              "name": "resultado",
-              "value": "El código de verificación no coincide",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"invalid_code\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"codigo_ingresado\": \"{{ $('Start').item.json.codigo_verificacion }}\",\n    \"codigo_esperado\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\"\n  },\n  \"error_code\": \"INVALID_CODE\",\n  \"message\": \"El código de verificación no coincide con el pedido.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -309,16 +293,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6cfc0d5f-f4a2-40fb-8274-d56990a37d0a",
-              "name": "resultado",
-              "value": "El código ha sido validado y el pedido entregado con éxito. Audio enviado al cliente.",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"ok\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"codigo_ingresado\": \"{{ $('Start').item.json.codigo_verificacion }}\",\n    \"codigo_registrado\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\",\n    \"fecha_entrega\": \"{{$('Entregar Pedido').first().json.fecha_entrega}}\",\n    \"direccion\": \"{{$('Entregar Pedido').first().json.direccion}}\",\n    \"ciudad\": \"{{$('Entregar Pedido').first().json.ciudad}}\",\n    \"valor_cliente\": {{ $('Entregar Pedido').first().json.valor_oferta }},\n    \"valor_final\": {{ $('Entregar Pedido').first().json.valor_final }}\n  },\n  \"error_code\": null,\n  \"message\": \"Entrega validada y registrada.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -359,15 +335,17 @@
     "Start": [
       {
         "json": {
-          "id_pedido": "4",
+          "id_pedido": "64",
           "numero_domiciliario": "573006064535",
-          "codigo_verificacion": "2613"
+          "codigo_verificacion": "4945"
         }
       }
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "cGFHe0wsizcDFbHD"
   },
   "shared": [
     {
@@ -381,6 +359,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T04:59:28.000Z",
-  "versionId": "b5d17e93-3ca0-4141-b356-76a0b3389345"
+  "updatedAt": "2025-10-05T05:30:27.000Z",
+  "versionId": "4755ca36-ce72-4b97-8f59-cb901435c76e"
 }
