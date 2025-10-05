@@ -92,16 +92,8 @@
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "El pedido no existe o no está disponible",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"not_found\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {},\n  \"error_code\": \"NOT_FOUND_OR_NOT_AVAILABLE\",\n  \"message\": \"El pedido no existe o ya no está disponible para aceptar.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -181,16 +173,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
-              "value": "La ventana de ofertas para este pedido ha cerrado",
-              "type": "string"
-            }
-          ]
-        },
+        "mode": "raw",
+        "jsonOutput": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"window_closed\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"ventana_id\": \"{{$('Obtener Ventana').first().json.ventana_id}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    },\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }}\n  },\n  \"error_code\": \"WINDOW_CLOSED\",\n  \"message\": \"La ventana de ofertas está cerrada para este pedido.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -350,7 +334,7 @@
           "assignments": [
             {
               "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "resultado",
+              "name": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"ok\",\n  \"pedido_id\": {{ $json.pedido_id || $('Obtener Ventana').first().json.pedido_id }},\n  \"domiciliario\": \"{{$json.numero_domiciliario}}\",\n  \"data\": {\n    \"oferta_id\": \"{{$('Registrar Oferta').first().json.oferta_id}}\",\n    \"ventana_id\": \"{{$('Registrar Oferta').first().json.ventana_id}}\",\n    \"tipo_oferta\": \"{{$('Registrar Oferta').first().json.tipo_oferta}}\",\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }},\n    \"valor_oferta\": {{ $('Registrar Oferta').first().json.valor_oferta }},\n    \"calificacion_domiciliario\": {{ $('Registrar Oferta').first().json.calificacion_domiciliario }},\n    \"fecha_oferta\": \"{{$('Registrar Oferta').first().json.fecha_oferta}}\",\n    \"direccion\": \"{{$('Obtener Pedido').first().json.direccion}}\",\n    \"ciudad\": \"{{$('Obtener Pedido').first().json.ciudad}}\",\n    \"codigo_verificacion\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    }\n  },\n  \"error_code\": null,\n  \"message\": \"Oferta de aceptación registrada.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
               "value": "La propuesta de aceptación ha sido registrada exitosamente",
               "type": "string"
             }
@@ -372,7 +356,7 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "1211",
+          "pedido_id": "55",
           "numero_domiciliario": "573006064535",
           "nombre_domiciliario": "Manuel Torres",
           "calificacion_domiciliario": 5
@@ -381,7 +365,9 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "cGFHe0wsizcDFbHD"
   },
   "shared": [
     {
@@ -395,6 +381,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T04:58:49.000Z",
-  "versionId": "64af8256-ea5d-4976-a894-d4530fe68897"
+  "updatedAt": "2025-10-05T05:15:50.000Z",
+  "versionId": "bafaaa37-0740-46f2-a2c9-e031895f2d83"
 }
