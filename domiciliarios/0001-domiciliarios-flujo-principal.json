@@ -78,9 +78,9 @@
       "main": [
         [
           {
-            "node": "Enviar Respuesta",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ]
       ]
@@ -317,7 +317,7 @@
       "main": [
         [
           {
-            "node": "Enviar Respuesta",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -329,6 +329,33 @@
         [
           {
             "node": "OPS agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Respuesta": {
+      "main": [
+        []
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Enviar Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Formateo de respuesta",
             "type": "ai_outputParser",
             "index": 0
           }
@@ -346,7 +373,6 @@
   "nodes": [
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {
           "temperature": 0.4
         }
@@ -682,16 +708,16 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "719823567888921",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
-        "textBody": "={{ $('Formateo de respuesta').first().json.text || $('Agente registrador').first().output }}",
+        "textBody": "={{ $json.output }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1536,
-        -208
+        1696,
+        -256
       ],
       "id": "23c4c82f-5524-48a0-9156-df3cbeb3e5d1",
       "name": "Enviar Respuesta",
@@ -830,7 +856,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "719823567888921",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
         "textBody": "📵 Este tipo de mensaje no puede ser procesado.  Por favor, escríbenos por texto 📝",
         "additionalFields": {}
@@ -1435,16 +1461,15 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
         "options": {
-          "temperature": 0.4
+          "temperature": 0.2
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        304,
-        -240
+        336,
+        -256
       ],
       "id": "c02527fb-763d-4a07-a6b0-a76c33c78d6a",
       "name": "Google Gemini Chat Model2",
@@ -1458,7 +1483,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}1",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}2",
         "contextWindowLength": 10
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
@@ -1496,16 +1521,13 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
-        "options": {
-          "temperature": 0.4
-        }
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1184,
-        -288
+        1152,
+        -304
       ],
       "id": "cdfb5f66-0041-47f9-8bff-36302e85e96a",
       "name": "Google Gemini Chat Model3",
@@ -1520,6 +1542,7 @@
       "parameters": {
         "promptType": "define",
         "text": "={{ $json.output.toJsonString() }}\n\n\nMensaje de usuario:\n{{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
+        "hasOutputParser": true,
         "messages": {
           "messageValues": [
             {
@@ -1540,50 +1563,66 @@
     },
     {
       "parameters": {
-        "schemaType": "manual",
-        "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"oneOf\": [\n    {\n      \"title\": \"TOOL_CALL\",\n      \"description\": \"El agente ha identificado una acción que requiere ejecutar una tool\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": { \n          \"const\": \"TOOL_CALL\",\n          \"description\": \"Tipo de respuesta: llamada a herramienta\"\n        },\n        \"accion\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"aceptar_pedido\",\n            \"contraofertar_pedido\",\n            \"validar_entrega\",\n            \"cambiar_estado\",\n            \"obtener_estado\"\n          ],\n          \"description\": \"Acción identificada del usuario\"\n        },\n        \"tool\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"aceptar_pedido\",\n            \"contraofertar_pedido\",\n            \"validar_entrega_pedido\",\n            \"cambiar_estado_domiciliario\",\n            \"obtener_estado_domiciliario\"\n          ],\n          \"description\": \"Nombre exacto de la tool a ejecutar\"\n        },\n        \"args\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"numero_domiciliario\": { \n              \"type\": \"string\",\n              \"pattern\": \"^57[0-9]{10}$\",\n              \"description\": \"Número de celular colombiano con prefijo 57\"\n            },\n            \"pedido_id\": { \n              \"type\": [\"integer\", \"null\"],\n              \"minimum\": 1,\n              \"description\": \"ID del pedido (null si no aplica)\"\n            },\n            \"valor_contraoferta\": { \n              \"type\": [\"integer\", \"null\"],\n              \"minimum\": 1000,\n              \"description\": \"Valor de contraoferta en pesos colombianos (null si no aplica)\"\n            },\n            \"codigo_verificacion\": {\n              \"oneOf\": [\n                { \n                  \"type\": \"string\", \n                  \"pattern\": \"^[0-9]{4}$\",\n                  \"description\": \"Código de 4 dígitos numéricos\"\n                },\n                { \"type\": \"null\" }\n              ]\n            },\n            \"estado_nuevo\": {\n              \"oneOf\": [\n                { \n                  \"type\": \"string\", \n                  \"enum\": [\"Activo\", \"Inactivo\"],\n                  \"description\": \"Nuevo estado del domiciliario\"\n                },\n                { \"type\": \"null\" }\n              ]\n            }\n          },\n          \"required\": [\"numero_domiciliario\", \"pedido_id\", \"valor_contraoferta\", \"codigo_verificacion\", \"estado_nuevo\"],\n          \"additionalProperties\": false\n        },\n        \"missing_fields\": { \n          \"type\": \"array\", \n          \"items\": { \n            \"type\": \"string\",\n            \"enum\": [\"pedido_id\", \"valor_contraoferta\", \"codigo_verificacion\", \"estado_nuevo\"]\n          },\n          \"description\": \"Lista de campos que faltan para ejecutar la tool (vacío si están todos)\"\n        },\n        \"confidence\": { \n          \"type\": [\"number\", \"null\"],\n          \"minimum\": 0,\n          \"maximum\": 1,\n          \"description\": \"Nivel de confianza en la interpretación (0-1)\"\n        },\n        \"trace_id\": { \n          \"type\": \"string\",\n          \"description\": \"ID de trazabilidad único para esta operación\"\n        }\n      },\n      \"required\": [\"type\", \"accion\", \"tool\", \"args\", \"missing_fields\", \"trace_id\"],\n      \"additionalProperties\": false\n    },\n    {\n      \"title\": \"ASK_USER\",\n      \"description\": \"El agente necesita más información del usuario\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": { \n          \"const\": \"ASK_USER\",\n          \"description\": \"Tipo de respuesta: solicitar datos al usuario\"\n        },\n        \"accion\": { \n          \"type\": \"string\",\n          \"enum\": [\n            \"aceptar_pedido\",\n            \"contraofertar_pedido\",\n            \"validar_entrega\",\n            \"cambiar_estado\",\n            \"obtener_estado\",\n            \"ayuda\",\n            \"menu\",\n            \"desconocido\"\n          ],\n          \"description\": \"Acción que se está intentando completar\"\n        },\n        \"missing_fields\": { \n          \"type\": \"array\", \n          \"items\": { \n            \"type\": \"string\",\n            \"enum\": [\"pedido_id\", \"valor_contraoferta\", \"codigo_verificacion\", \"estado_nuevo\", \"confirmacion\"]\n          },\n          \"minItems\": 1,\n          \"description\": \"Campos faltantes que se deben solicitar\"\n        },\n        \"question\": { \n          \"type\": \"string\",\n          \"minLength\": 10,\n          \"maxLength\": 500,\n          \"description\": \"Pregunta específica para solicitar los datos faltantes (sin emojis, técnica)\"\n        },\n        \"context\": {\n          \"type\": \"object\",\n          \"description\": \"Contexto parcial recolectado hasta ahora\",\n          \"properties\": {\n            \"pedido_id\": { \"type\": [\"integer\", \"null\"] },\n            \"valor_contraoferta\": { \"type\": [\"integer\", \"null\"] },\n            \"codigo_verificacion\": { \"type\": [\"string\", \"null\"] }\n          }\n        },\n        \"trace_id\": { \n          \"type\": \"string\",\n          \"description\": \"ID de trazabilidad único\"\n        }\n      },\n      \"required\": [\"type\", \"accion\", \"missing_fields\", \"question\", \"trace_id\"],\n      \"additionalProperties\": false\n    },\n    {\n      \"title\": \"RESULT\",\n      \"description\": \"El agente ha procesado el resultado de una tool y genera respuesta final\",\n      \"type\": \"object\",\n      \"properties\": {\n        \"type\": { \n          \"const\": \"RESULT\",\n          \"description\": \"Tipo de respuesta: resultado final\"\n        },\n        \"accion\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"aceptar_pedido\",\n            \"contraofertar_pedido\",\n            \"validar_entrega\",\n            \"cambiar_estado\",\n            \"obtener_estado\",\n            \"ayuda\",\n            \"menu\",\n            \"desconocido\"\n          ],\n          \"description\": \"Acción ejecutada\"\n        },\n        \"status\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"ok\",\n            \"not_found\",\n            \"window_closed\",\n            \"invalid_code\",\n            \"value_too_low\",\n            \"conflict\",\n            \"already_done\",\n            \"error\"\n          ],\n          \"description\": \"Estado del resultado de la operación\"\n        },\n        \"args\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"numero_domiciliario\": { \n              \"type\": \"string\",\n              \"pattern\": \"^57[0-9]{10}$\"\n            },\n            \"pedido_id\": { \n              \"type\": [\"integer\", \"null\"],\n              \"minimum\": 1\n            },\n            \"valor_contraoferta\": { \n              \"type\": [\"integer\", \"null\"],\n              \"minimum\": 1000\n            },\n            \"codigo_verificacion\": {\n              \"oneOf\": [\n                { \"type\": \"string\", \"pattern\": \"^[0-9]{4}$\" },\n                { \"type\": \"null\" }\n              ]\n            },\n            \"estado_nuevo\": {\n              \"oneOf\": [\n                { \"type\": \"string\", \"enum\": [\"Activo\", \"Inactivo\"] },\n                { \"type\": \"null\" }\n              ]\n            }\n          },\n          \"required\": [\"numero_domiciliario\", \"pedido_id\", \"valor_contraoferta\", \"codigo_verificacion\", \"estado_nuevo\"],\n          \"additionalProperties\": false\n        },\n        \"data\": { \n          \"type\": \"object\",\n          \"description\": \"Datos estructurados retornados por la tool\",\n          \"properties\": {\n            \"pedido_id\": { \"type\": [\"integer\", \"null\"] },\n            \"ventana_id\": { \"type\": [\"string\", \"null\"] },\n            \"valor_cliente\": { \"type\": [\"integer\", \"null\"] },\n            \"valor_contraoferta\": { \"type\": [\"integer\", \"null\"] },\n            \"estado_nuevo\": { \"type\": [\"string\", \"null\"] },\n            \"estado_anterior\": { \"type\": [\"string\", \"null\"] },\n            \"fecha_oferta\": { \"type\": [\"string\", \"null\"], \"format\": \"date-time\" },\n            \"fecha_entrega\": { \"type\": [\"string\", \"null\"], \"format\": \"date-time\" },\n            \"direccion\": { \"type\": [\"string\", \"null\"] },\n            \"ciudad\": { \"type\": [\"string\", \"null\"] },\n            \"codigo_verificacion\": { \"type\": [\"string\", \"null\"] },\n            \"ventana\": {\n              \"type\": [\"object\", \"null\"],\n              \"properties\": {\n                \"inicio\": { \"type\": \"string\", \"format\": \"date-time\" },\n                \"fin\": { \"type\": \"string\", \"format\": \"date-time\" },\n                \"estado\": { \"type\": \"string\", \"enum\": [\"abierta\", \"cerrada\"] }\n              }\n            }\n          }\n        },\n        \"error_code\": {\n          \"type\": [\"string\", \"null\"],\n          \"enum\": [\n            null,\n            \"WINDOW_CLOSED\",\n            \"VALUE_TOO_LOW\",\n            \"NOT_FOUND\",\n            \"ALREADY_DELIVERED\",\n            \"INVALID_CODE\",\n            \"CONFLICT\",\n            \"DATABASE_ERROR\",\n            \"TIMEOUT\"\n          ],\n          \"description\": \"Código de error técnico si status != ok\"\n        },\n        \"request_id\": { \n          \"type\": \"string\",\n          \"description\": \"ID de la request (execution_id de n8n)\"\n        },\n        \"trace_id\": { \n          \"type\": \"string\",\n          \"description\": \"ID de trazabilidad único\"\n        }\n      },\n      \"required\": [\"type\", \"accion\", \"status\", \"args\", \"data\", \"request_id\", \"trace_id\"],\n      \"additionalProperties\": false\n    }\n  ]\n}"
+        "jsonSchemaExample": "{\n\"acciones_ejecutadas\": \"Se registró la aceptación del pedido 1001 en el sistema. La propuesta está en evaluación junto con otras ofertas.\",\n  \"contexto_conversacion\": \"El domiciliario Juan quiere aceptar el pedido 1001 por 15.000 COP.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada exitosamente. Te notificaremos si tu propuesta es seleccionada.\"\n}"
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        992,
+        1008,
         -384
       ],
       "id": "760e104f-3ad6-4e68-979a-bc5d5ed8f519",
       "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1504,
+        -256
+      ],
+      "id": "c70fd8cb-a2cc-4055-b2ba-ba188d5d7f08",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"output\": \"El pedido ha sido entregado\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        -320
+      ],
+      "id": "e7f3cf9f-9a22-4d10-8911-9a460edcb832",
+      "name": "Structured Output Parser1"
     }
   ],
   "pinData": {
-    "OPS agent": [
-      {
-        "json": {
-          "output": "🎉 ¡Entrega confirmada con éxito!\n\n✅ Pedido 64 completado\n\n🚀 ¡Gracias por tu excelente servicio!\nEstás listo para el próximo pedido ✨\n\n1️⃣ Volver al menú principal"
-        }
-      }
-    ],
     "WhatsApp Trigger": [
       {
         "json": {
           "messaging_product": "whatsapp",
           "metadata": {
-            "display_phone_number": "15551830822",
-            "phone_number_id": "719990257874011"
+            "display_phone_number": "15551630351",
+            "phone_number_id": "719823567888921"
           },
           "contacts": [
             {
               "profile": {
-                "name": "Manuel Torres"
+                "name": "Nicolas Velasquez Lopez"
               },
-              "wa_id": "573006064535"
+              "wa_id": "573204081631"
             }
           ],
           "messages": [
             {
-              "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDYxQUM4MUNBNjBFMUIzNkVDQgA=",
-              "timestamp": "1759164223",
+              "from": "573204081631",
+              "id": "wamid.HBgMNTczMjA0MDgxNjMxFQIAEhgUM0Y1MUU0ODRBMDhBQ0E3OEVENjAA",
+              "timestamp": "1759790774",
               "text": {
-                "body": "aceptar"
+                "body": "gracias"
               },
               "type": "text"
             }
@@ -1612,6 +1651,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-06T01:34:37.000Z",
-  "versionId": "9cd2835d-68f1-48b7-a79d-33678cb95505"
+  "updatedAt": "2025-10-06T23:47:10.000Z",
+  "versionId": "49f5bf08-95b9-4add-8e4a-f6aa753342c1"
 }
