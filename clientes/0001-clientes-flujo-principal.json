@@ -1092,6 +1092,7 @@
       ],
       "id": "984000e7-65b8-48d1-9e50-1dccb3a8b613",
       "name": "Transcribir Audio",
+      "retryOnFail": true,
       "credentials": {
         "googlePalmApi": {
           "id": "IsH1W1e4HDyYBz55",
@@ -1821,7 +1822,145 @@
       "name": "Validar Aceptación Contraoferta"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "WhatsApp Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "15551375365",
+            "phone_number_id": "794263737101433"
+          },
+          "contacts": [
+            {
+              "profile": {
+                "name": "Manuel Torres"
+              },
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "from": "573006064535",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMEEzMTEyOThCQkRFMkVCRENERQA=",
+              "timestamp": "1759767141",
+              "text": {
+                "body": "1"
+              },
+              "type": "text"
+            }
+          ],
+          "field": "messages"
+        }
+      }
+    ],
+    "Preparar Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "contenido": "1"
+          }
+        }
+      }
+    ],
+    "Datos Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "tipo": "text",
+            "telefono_usuario": "573006064535"
+          }
+        }
+      }
+    ],
+    "Detectar Confirmación": [
+      {
+        "json": {
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 65\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
+          "is_pedido_confirmado": true,
+          "order_data": {
+            "pedido_id": "65",
+            "ventana_id": "VEN-65",
+            "nombre_completo": "Manuel Torres",
+            "ciudad": "La Vega",
+            "lista_compras": "1 hamburguesa con tocineta de El Paso",
+            "zona_domicilio": "Rural",
+            "direccion": "Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.",
+            "valor_oferta": "15000"
+          }
+        }
+      }
+    ],
+    "¿Pedido Confirmado?": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573006064535",
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSOEFFMzVDN0E5QUYzNDJGN0MxAA=="
+            }
+          ]
+        }
+      }
+    ],
+    "Validar Usuario": [
+      {
+        "json": {
+          "id": "0c516960-14e7-4981-b4e0-f13c48204463",
+          "nombre": "Manuel",
+          "apellido": "Torres",
+          "numero_telefono": "573006064535",
+          "direccion": null,
+          "fecha_registro": "2025-09-10T20:25:27.808456+00:00",
+          "ciudad": "La Vega"
+        }
+      }
+    ],
+    "¿Está Registrado?": [
+      {
+        "json": {
+          "id": "0c516960-14e7-4981-b4e0-f13c48204463",
+          "nombre": "Manuel",
+          "apellido": "Torres",
+          "numero_telefono": "573006064535",
+          "direccion": null,
+          "fecha_registro": "2025-09-10T20:25:27.808456+00:00",
+          "ciudad": "La Vega"
+        }
+      }
+    ],
+    "Enviar Respuesta": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573006064535",
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSOEFFMzVDN0E5QUYzNDJGN0MxAA=="
+            }
+          ]
+        }
+      }
+    ],
+    "Agente Principal": [
+      {
+        "json": {
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 65\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"65\",\n  \"ventana_id\": \"VEN-65\",\n  \"nombre_completo\": \"Manuel Torres\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 hamburguesa con tocineta de El Paso\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.\",\n  \"valor_oferta\": \"15000\"\n}\n```"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "timezone": "America/Bogota",
@@ -1841,6 +1980,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-02T23:27:27.000Z",
-  "versionId": "e8bcd216-8d3a-431d-84c2-2623b492a97e"
+  "updatedAt": "2025-10-06T16:15:57.000Z",
+  "versionId": "541a015d-8334-4dc1-8567-f3f76d7d9a0b"
 }
