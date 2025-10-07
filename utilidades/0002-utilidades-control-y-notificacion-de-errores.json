@@ -125,10 +125,21 @@
             "WorkFlow Name": "={{ $json.workflow.name }}",
             "Execution ID": "={{ $json.execution.id }}",
             "Error Message": "={{ $json.execution.error.message }}",
-            "Error URL": "={{ $json.execution.url }}"
+            "Error URL": "={{ $json.execution.url }}",
+            "Estado": "Sin Revisar"
           },
           "matchingColumns": [],
           "schema": [
+            {
+              "id": "Execution ID",
+              "displayName": "Execution ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
             {
               "id": "WorkFlow ID",
               "displayName": "WorkFlow ID",
@@ -150,16 +161,6 @@
               "removed": false
             },
             {
-              "id": "Execution ID",
-              "displayName": "Execution ID",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
               "id": "Error Message",
               "displayName": "Error Message",
               "required": false,
@@ -172,6 +173,16 @@
             {
               "id": "Error URL",
               "displayName": "Error URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -217,7 +228,7 @@
     {
       "parameters": {
         "chatId": "={{ $json.telegram_chat_id }}",
-        "text": "=*🔴 Notificación de Error*\n\nEl workflow *{{ $('Error Trigger').first().json.workflow.name }}* tuvo un problema.\n\n*📋 Error:* {{ $('Error Trigger').first().json.execution.error.message }}\n\n🔗 Ver detalles: {{ $('Error Trigger').first().json.execution.url }}",
+        "text": "=*🔴 Notificación de Error*\n\nEl workflow *{{ $('Error Trigger').first().json.workflow.name }}* tuvo un problema.\n\n*📋 Error:* {{ $('Error Trigger').first().json.execution.error.message }}\n\n*🔵 Último nodo:* {{ $('Error Trigger').item.json.execution.lastNodeExecuted }}\n\n🔗 Ver detalles: {{ $('Error Trigger').first().json.execution.url }}",
         "additionalFields": {
           "appendAttribution": false,
           "parse_mode": "Markdown"
@@ -263,7 +274,79 @@
       "name": "Establecer ChatIDs Telegram"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Error Trigger": [
+      {
+        "json": {
+          "execution": {
+            "id": "1670",
+            "url": "https://qa-n8n.domichat.com.co/workflow/vZz3KSWmbZa2xPyx/executions/1670",
+            "error": {
+              "level": "warning",
+              "tags": {
+                "reWrapped": true
+              },
+              "description": "The model is overloaded. Please try again later.",
+              "timestamp": 1759765242409,
+              "context": {
+                "data": {
+                  "error": {
+                    "code": 503,
+                    "message": "The model is overloaded. Please try again later.",
+                    "status": "UNAVAILABLE"
+                  }
+                },
+                "itemIndex": 0
+              },
+              "functionality": "regular",
+              "name": "NodeOperationError",
+              "node": {
+                "parameters": {
+                  "resource": "audio",
+                  "operation": "transcribe",
+                  "modelId": {
+                    "__rl": true,
+                    "value": "models/gemini-2.5-flash",
+                    "mode": "list",
+                    "cachedResultName": "models/gemini-2.5-flash"
+                  },
+                  "inputType": "binary",
+                  "binaryPropertyName": "data",
+                  "simplify": true,
+                  "options": {}
+                },
+                "type": "@n8n/n8n-nodes-langchain.googleGemini",
+                "typeVersion": 1,
+                "position": [
+                  1184,
+                  240
+                ],
+                "id": "984000e7-65b8-48d1-9e50-1dccb3a8b613",
+                "name": "Transcribir Audio",
+                "credentials": {
+                  "googlePalmApi": {
+                    "id": "IsH1W1e4HDyYBz55",
+                    "name": "Google AI Studio QA"
+                  }
+                }
+              },
+              "messages": [
+                "Request failed with status code 503"
+              ],
+              "message": "Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)",
+              "stack": "NodeOperationError: Service unavailable - try again later or consider setting this node to retry automatically (in the node settings)\n    at ExecuteContext.router (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/@n8n+n8n-nodes-langchain@file+packages+@n8n+nodes-langchain_944c224e2f203516e58b6afc03783333/node_modules/@n8n/n8n-nodes-langchain/nodes/vendors/GoogleGemini/actions/router.ts:60:10)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at ExecuteContext.execute (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/@n8n+n8n-nodes-langchain@file+packages+@n8n+nodes-langchain_944c224e2f203516e58b6afc03783333/node_modules/@n8n/n8n-nodes-langchain/nodes/vendors/GoogleGemini/GoogleGemini.node.ts:15:10)\n    at WorkflowExecute.runNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_0c275070fd0434c00ffd62213b2bcae4/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1212:9)\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_0c275070fd0434c00ffd62213b2bcae4/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1582:27\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_0c275070fd0434c00ffd62213b2bcae4/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:2158:11"
+            },
+            "lastNodeExecuted": "Transcribir Audio",
+            "mode": "webhook"
+          },
+          "workflow": {
+            "id": "vZz3KSWmbZa2xPyx",
+            "name": "0001 Clientes Flujo Principal"
+          }
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -279,6 +362,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-02T22:47:21.000Z",
-  "versionId": "77c038c9-a0df-4f42-91d4-8e197a2b09dd"
+  "updatedAt": "2025-10-06T16:04:41.000Z",
+  "versionId": "746137f9-d5a0-434e-9471-ea3fb81cb839"
 }
