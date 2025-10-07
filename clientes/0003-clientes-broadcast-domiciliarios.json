@@ -384,7 +384,7 @@
             {
               "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
               "name": "phone_number_id",
-              "value": "719990257874011",
+              "value": "719823567888921",
               "type": "string"
             },
             {
@@ -444,7 +444,7 @@
     },
     {
       "parameters": {
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "719823567888921",
         "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
         "template": "notificar_pedido_1|es",
         "components": {
@@ -511,8 +511,8 @@
           "lista_compras": "1 hamburguesa con tocineta de El Paso",
           "valor_oferta": "15000",
           "zona_domicilio": "Rural",
-          "pedido_id": "53",
-          "direccion": "Vereda San Juan, finca Santa Cecilia, después del portón rojo, a mano derecha, la primera entrada.",
+          "pedido_id": "66",
+          "direccion": "Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.",
           "ciudad": "La Vega"
         }
       }
@@ -533,6 +533,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-28T16:05:00.000Z",
-  "versionId": "ea454e9f-9c2b-4ba9-a576-3af5f702aef8"
+  "updatedAt": "2025-10-06T16:23:00.000Z",
+  "versionId": "4eccac4e-7845-414d-8072-f08506e982ee"
 }
