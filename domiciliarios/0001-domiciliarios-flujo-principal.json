@@ -708,7 +708,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719823567888921",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
         "textBody": "={{ $json.output }}",
         "additionalFields": {}
@@ -1651,6 +1651,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-06T23:47:10.000Z",
-  "versionId": "49f5bf08-95b9-4add-8e4a-f6aa753342c1"
+  "updatedAt": "2025-10-08T23:56:05.000Z",
+  "versionId": "1ddb53b9-ca86-47db-9ae9-c37603aefa23"
 }
