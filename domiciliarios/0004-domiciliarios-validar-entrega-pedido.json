@@ -98,7 +98,7 @@
           "conditions": [
             {
               "keyName": "pedido_id",
-              "keyValue": "={{ $json.id_pedido }}"
+              "keyValue": "={{ $json.pedido_id }}"
             },
             {
               "keyName": "estado",
@@ -210,7 +210,7 @@
             {
               "keyName": "pedido_id",
               "condition": "eq",
-              "keyValue": "={{ $('Start').first().json.id_pedido }}"
+              "keyValue": "={{ $('Start').first().json.pedido_id }}"
             }
           ]
         },
@@ -309,7 +309,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "794263737101433",
+        "phoneNumberId": "837613199430783",
         "recipientPhoneNumber": "={{ $('Entregar Pedido').item.json.numero_usuario }}",
         "textBody": "=✅ ¡Domicilio entregado con éxito! \n\n🎉 Tu pedido llegó a destino\n📦 Entrega completada satisfactoriamente\n⭐ Esperamos que todo haya sido de tu agrado\n\n😊 *¡Gracias por confiar en DomiChat!*",
         "additionalFields": {}
@@ -335,9 +335,9 @@
     "Start": [
       {
         "json": {
-          "id_pedido": "64",
-          "numero_domiciliario": "573006064535",
-          "codigo_verificacion": "4945"
+          "pedido_id": "70",
+          "numero_domiciliario": "573204081631",
+          "codigo_verificacion": "2840"
         }
       }
     ]
@@ -345,7 +345,7 @@
   "settings": {
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner",
-    "errorWorkflow": "cGFHe0wsizcDFbHD"
+    "errorWorkflow": "tCJVhMSfqtz6Lsv2"
   },
   "shared": [
     {
@@ -359,6 +359,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-05T05:30:27.000Z",
-  "versionId": "4755ca36-ce72-4b97-8f59-cb901435c76e"
+  "updatedAt": "2025-10-09T23:52:39.000Z",
+  "versionId": "276c0ca9-7203-46fb-9278-265ad03c8954"
 }
