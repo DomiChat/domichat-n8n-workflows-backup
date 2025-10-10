@@ -416,6 +416,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Notificar Registro Fallido",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
@@ -1925,7 +1932,8 @@
           "id": "4bpjJPK2fqZkspgx",
           "name": "Supabase QA"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -1939,7 +1947,7 @@
       "typeVersion": 1,
       "position": [
         1216,
-        496
+        480
       ],
       "id": "e8055c20-8eb2-4b32-8ec9-c668102cd1eb",
       "name": "Notificar Registro Exitoso",
@@ -1950,70 +1958,33 @@
           "name": "WhatsApp Clientes QA - Sender"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "837613199430783",
+        "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
+        "textBody": "=❌ Registro fallido\n\n😔 No pudimos completar tu registro\nOcurrió un error al intentar crear tu cuenta. Por favor, más tarde.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        640
+      ],
+      "id": "4f1d8f12-28b0-4d8c-ba79-476fd4b53f66",
+      "name": "Notificar Registro Fallido",
+      "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "gdJzqhLFzuNTphTz",
+          "name": "WhatsApp Clientes QA - Sender"
+        }
+      }
     }
   ],
   "pinData": {
-    "Detectar Confirmación": [
-      {
-        "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 65\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
-          "is_pedido_confirmado": true,
-          "order_data": {
-            "pedido_id": "65",
-            "ventana_id": "VEN-65",
-            "nombre_completo": "Manuel Torres",
-            "ciudad": "La Vega",
-            "lista_compras": "1 hamburguesa con tocineta de El Paso",
-            "zona_domicilio": "Rural",
-            "direccion": "Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.",
-            "valor_oferta": "15000"
-          }
-        }
-      }
-    ],
-    "¿Pedido Confirmado?": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "contacts": [
-            {
-              "input": "573006064535",
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSOEFFMzVDN0E5QUYzNDJGN0MxAA=="
-            }
-          ]
-        }
-      }
-    ],
-    "Enviar Respuesta": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "contacts": [
-            {
-              "input": "573006064535",
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSOEFFMzVDN0E5QUYzNDJGN0MxAA=="
-            }
-          ]
-        }
-      }
-    ],
-    "Agente Principal": [
-      {
-        "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 65\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"65\",\n  \"ventana_id\": \"VEN-65\",\n  \"nombre_completo\": \"Manuel Torres\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 hamburguesa con tocineta de El Paso\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.\",\n  \"valor_oferta\": \"15000\"\n}\n```"
-        }
-      }
-    ],
     "WhatsApp Trigger": [
       {
         "json": {
@@ -2032,25 +2003,140 @@
           ],
           "messages": [
             {
-              "context": {
-                "from": "573138106191",
-                "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSNTM4NTE1RTI2QUZCODY5MkQ0AA=="
-              },
               "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FCMjI0RjRGMEE5OEQyM0YxNDAA",
-              "timestamp": "1759970474",
-              "type": "interactive",
-              "interactive": {
-                "type": "nfm_reply",
-                "nfm_reply": {
-                  "response_json": "{\"nombres\":\"Manu\",\"email\":\"Djjsj\\u0040fodk.com\",\"flow_token\":\"registro_cliente\",\"acepta_terminos\":true,\"ciudad\":\"La Vega\",\"apellidos\":\"Torres\"}",
-                  "body": "Sent",
-                  "name": "flow"
-                }
-              }
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDk0MUZFMzM5OTEwMTZENTM0MAA=",
+              "timestamp": "1760028101",
+              "text": {
+                "body": "1"
+              },
+              "type": "text"
             }
           ],
           "field": "messages"
+        }
+      }
+    ],
+    "Preparar Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "contenido": "1"
+          }
+        }
+      }
+    ],
+    "Datos Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "tipo": "text",
+            "telefono_usuario": "573006064535"
+          }
+        }
+      }
+    ],
+    "Detectar Confirmación": [
+      {
+        "json": {
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 69\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
+          "is_pedido_confirmado": true,
+          "order_data": {
+            "pedido_id": "69",
+            "ventana_id": "VEN-69",
+            "nombre_completo": "Pablito Perez",
+            "ciudad": "La Vega",
+            "lista_compras": "1 hamburguesa hawaiana de El Paso",
+            "zona_domicilio": "Rural",
+            "direccion": "Vereda San Juan, finca Santa Cecilia. Después del muro de piedra, la tercera casa.",
+            "valor_oferta": "12000"
+          }
+        }
+      }
+    ],
+    "¿Pedido Confirmado?": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573006064535",
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQkJDMDUyRTUxOEQyMTkyOEFFAA=="
+            }
+          ]
+        }
+      }
+    ],
+    "Validar Usuario": [
+      {
+        "json": {
+          "id": "414b6557-faf3-400b-9e51-5ea512163a79",
+          "nombre": "Pablito",
+          "apellido": "Perez",
+          "numero_telefono": "573006064535",
+          "direccion": null,
+          "fecha_registro": "2025-10-09T03:09:30.590656+00:00",
+          "ciudad": "La Vega",
+          "email": null
+        }
+      }
+    ],
+    "¿Está Registrado?": [
+      {
+        "json": {
+          "id": "414b6557-faf3-400b-9e51-5ea512163a79",
+          "nombre": "Pablito",
+          "apellido": "Perez",
+          "numero_telefono": "573006064535",
+          "direccion": null,
+          "fecha_registro": "2025-10-09T03:09:30.590656+00:00",
+          "ciudad": "La Vega",
+          "email": null
+        }
+      }
+    ],
+    "Enviar Respuesta": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573006064535",
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQkJDMDUyRTUxOEQyMTkyOEFFAA=="
+            }
+          ]
+        }
+      }
+    ],
+    "Broadcast Domiciliarios": [
+      {
+        "json": {
+          "resultado_broadcast": "Exitoso",
+          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
+        }
+      }
+    ],
+    "¿Broadcast exitoso?": [
+      {
+        "json": {
+          "resultado_broadcast": "Exitoso",
+          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
+        }
+      }
+    ],
+    "Agente Principal": [
+      {
+        "json": {
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 69\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"69\",\n  \"ventana_id\": \"VEN-69\",\n  \"nombre_completo\": \"Pablito Perez\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 hamburguesa hawaiana de El Paso\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, finca Santa Cecilia. Después del muro de piedra, la tercera casa.\",\n  \"valor_oferta\": \"12000\"\n}\n```"
         }
       }
     ]
@@ -2074,6 +2160,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-09T00:52:26.000Z",
-  "versionId": "62c281b8-a669-4f16-a277-94ddb0cb9ba6"
+  "updatedAt": "2025-10-09T16:52:00.000Z",
+  "versionId": "52fa02f3-c5d3-40a6-8d51-b110f99962ed"
 }
