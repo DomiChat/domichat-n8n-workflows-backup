@@ -276,6 +276,11 @@
             "node": "OPS agent",
             "type": "ai_languageModel",
             "index": 0
+          },
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
           }
         ]
       ]
@@ -299,7 +304,8 @@
             "type": "main",
             "index": 0
           }
-        ]
+        ],
+        []
       ]
     },
     "Google Gemini Chat Model3": {
@@ -856,7 +862,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719823567888921",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
         "textBody": "📵 Este tipo de mensaje no puede ser procesado.  Por favor, escríbenos por texto 📝",
         "additionalFields": {}
@@ -1507,17 +1513,20 @@
         "text": "={{ $('Preparar Mensaje Texto').first().json.mensaje.contenido }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nNumero domiciliario: {{ $json.numero_domiciliario }}\nCédula: {{ $json.cedula }}\nCiudad: {{ $json.ciudad_domiciliario }}\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n```json\n{\n  \"acciones_ejecutadas\": \"Qué tools se ejecutaron y su resultado, o 'Ninguna' si faltan datos\",\n  \"contexto_conversacion\": \"Qué solicita el usuario y situación relevante\",\n  \"mensaje_usuario\": \"Mensaje claro para el domiciliario\"\n}\n```\n\n## Tools disponibles\n\n| Tool | Ejecutar cuando |\n|------|----------------|\n| aceptar_pedido | Acepta un pedido |\n| contraofertar_pedido | Hace contraoferta |\n| validar_entrega_pedido | Confirma entrega |\n| cambiar_estado_domiciliario | Cambia estado |\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\"\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Ninguna. Faltan el ID del pedido y el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el ID del pedido y el valor. Ejemplo: contraofertar 1001 18000\"\n}\n```\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en tool_result.status, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones"
+          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nEstado: {{ $json.estado_domiciliario }}\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n```json\n{\n  \"acciones_ejecutadas\": \"Qué tools se ejecutaron y su resultado, o 'Ninguna' si faltan datos\",\n  \"contexto_conversacion\": \"Qué solicita el usuario y situación relevante\",\n  \"mensaje_usuario\": \"Mensaje claro para el domiciliario\"\n}\n```\n\n## Tools disponibles\n\n| Tool | Ejecutar cuando |\n|------|----------------|\n| aceptar_pedido | Acepta un pedido |\n| contraofertar_pedido | Hace contraoferta |\n| validar_entrega_pedido | Confirma entrega |\n| cambiar_estado_domiciliario | Cambia estado |\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\"\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Ninguna. Faltan el ID del pedido y el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el ID del pedido y el valor. Ejemplo: contraofertar 1001 18000\"\n}\n```\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en tool_result.status, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
         576,
-        -496
+        -592
       ],
       "id": "71d2a1b6-7c69-4860-83e9-3a8951ce631a",
-      "name": "OPS agent"
+      "name": "OPS agent",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 500
     },
     {
       "parameters": {
@@ -1526,7 +1535,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1152,
+        1184,
         -304
       ],
       "id": "cdfb5f66-0041-47f9-8bff-36302e85e96a",
@@ -1555,21 +1564,22 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1088,
-        -496
+        1184,
+        -608
       ],
       "id": "a3f551f4-661b-40d9-b262-31473ba37289",
       "name": "Formateo de respuesta"
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n\"acciones_ejecutadas\": \"Se registró la aceptación del pedido 1001 en el sistema. La propuesta está en evaluación junto con otras ofertas.\",\n  \"contexto_conversacion\": \"El domiciliario Juan quiere aceptar el pedido 1001 por 15.000 COP.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada exitosamente. Te notificaremos si tu propuesta es seleccionada.\"\n}"
+        "jsonSchemaExample": "{\n\"acciones_ejecutadas\": \"Se registró la aceptación del pedido 1001 en el sistema. La propuesta está en evaluación junto con otras ofertas.\",\n  \"contexto_conversacion\": \"El domiciliario Juan quiere aceptar el pedido 1001 por 15.000 COP.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada exitosamente. Te notificaremos si tu propuesta es seleccionada.\"\n}",
+        "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1008,
-        -384
+        912,
+        -464
       ],
       "id": "760e104f-3ad6-4e68-979a-bc5d5ed8f519",
       "name": "Structured Output Parser"
@@ -1592,8 +1602,8 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1312,
-        -320
+        1328,
+        -384
       ],
       "id": "e7f3cf9f-9a22-4d10-8911-9a460edcb832",
       "name": "Structured Output Parser1"
@@ -1605,8 +1615,8 @@
         "json": {
           "messaging_product": "whatsapp",
           "metadata": {
-            "display_phone_number": "15551630351",
-            "phone_number_id": "719823567888921"
+            "display_phone_number": "573138116378",
+            "phone_number_id": "768517399686178"
           },
           "contacts": [
             {
@@ -1619,10 +1629,10 @@
           "messages": [
             {
               "from": "573204081631",
-              "id": "wamid.HBgMNTczMjA0MDgxNjMxFQIAEhgUM0Y1MUU0ODRBMDhBQ0E3OEVENjAA",
-              "timestamp": "1759790774",
+              "id": "wamid.HBgMNTczMjA0MDgxNjMxFQIAEhggQTU1MThCOTQ5MzM5MDc1RjQ1ODQwM0ZBN0I2MzEzNTMA",
+              "timestamp": "1760053918",
               "text": {
-                "body": "gracias"
+                "body": "Entregar 70 código 2840"
               },
               "type": "text"
             }
@@ -1651,6 +1661,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-08T23:56:05.000Z",
-  "versionId": "1ddb53b9-ca86-47db-9ae9-c37603aefa23"
+  "updatedAt": "2025-10-10T00:40:59.000Z",
+  "versionId": "b934c6f7-0825-48e5-84ab-2f87072eb832"
 }
