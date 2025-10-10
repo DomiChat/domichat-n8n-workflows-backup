@@ -466,7 +466,8 @@
         368
       ],
       "id": "d92a5cd8-c237-4157-a20f-fa774ba7f3d6",
-      "name": "Switch Resultado Ventana"
+      "name": "Switch Resultado Ventana",
+      "executeOnce": true
     },
     {
       "parameters": {
@@ -510,7 +511,7 @@
       ],
       "id": "4ea6427c-0b9a-4733-a1bf-7886ba033958",
       "name": "Confirmar Pedido Automático",
-      "executeOnce": true,
+      "executeOnce": false,
       "credentials": {
         "supabaseApi": {
           "id": "4bpjJPK2fqZkspgx",
@@ -850,7 +851,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
         "textBody": "=👀 RESULTADO PROPUESTA\n\n❌ Tu propuesta no fue seleccionada\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\n\n🚚 Próximos pedidos en camino",
         "additionalFields": {}
@@ -874,7 +875,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
         "textBody": "=⏰ VENTANA DE OFERTAS CERRADA\n\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\n\n⚡ Mantente listo para ofertar ",
         "additionalFields": {}
@@ -926,7 +927,7 @@
       "credentials": {
         "httpBearerAuth": {
           "id": "5zpQFh3GmNApfzDH",
-          "name": "Token WhatsApp API Domiciliarios QA"
+          "name": "Credenciales WhatsApp Domiciliarios QA"
         }
       }
     },
@@ -937,7 +938,7 @@
             {
               "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
               "name": "phone_number_id",
-              "value": "719990257874011",
+              "value": "768517399686178",
               "type": "string"
             },
             {
@@ -964,10 +965,10 @@
     "Start": [
       {
         "json": {
-          "ventana_id": "VEN-1253",
-          "pedido_id": "1263",
+          "ventana_id": "VEN-69",
+          "pedido_id": "69",
           "valor_oferta": "12000",
-          "domiciliarios_notificados": "573013346576,573219453816,573006064535"
+          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
         }
       }
     ]
@@ -987,6 +988,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-28T17:25:09.000Z",
-  "versionId": "c5e8f5b0-2896-47cc-b26d-3cb34a06d337"
+  "updatedAt": "2025-10-09T16:54:39.000Z",
+  "versionId": "f0ca1180-23a7-4191-928f-8d0aec43ea33"
 }
