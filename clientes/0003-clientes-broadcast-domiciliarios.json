@@ -384,7 +384,7 @@
             {
               "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
               "name": "phone_number_id",
-              "value": "719823567888921",
+              "value": "768517399686178",
               "type": "string"
             },
             {
@@ -437,16 +437,16 @@
       "credentials": {
         "httpBearerAuth": {
           "id": "5zpQFh3GmNApfzDH",
-          "name": "Token WhatsApp API Domiciliarios QA"
+          "name": "Credenciales WhatsApp Domiciliarios QA"
         }
       },
       "onError": "continueErrorOutput"
     },
     {
       "parameters": {
-        "phoneNumberId": "719823567888921",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
-        "template": "notificar_pedido_1|es",
+        "template": "notificar_pedido|es",
         "components": {
           "component": [
             {
@@ -508,11 +508,11 @@
     "Start": [
       {
         "json": {
-          "lista_compras": "1 hamburguesa con tocineta de El Paso",
-          "valor_oferta": "15000",
+          "lista_compras": "1 hamburguesa hawaiana de El Paso",
+          "valor_oferta": "12000",
           "zona_domicilio": "Rural",
-          "pedido_id": "66",
-          "direccion": "Vereda San Juan, Finca Santa Cecilia, después del portón rojo a mano derecha la primera entrada.",
+          "pedido_id": "69",
+          "direccion": "Vereda San Juan, finca Santa Cecilia. Después del muro de piedra, la tercera casa.",
           "ciudad": "La Vega"
         }
       }
@@ -533,6 +533,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-06T16:23:00.000Z",
-  "versionId": "4eccac4e-7845-414d-8072-f08506e982ee"
+  "updatedAt": "2025-10-09T16:44:46.000Z",
+  "versionId": "696e34ba-f6c8-43b3-b11f-c90db5e49b84"
 }
