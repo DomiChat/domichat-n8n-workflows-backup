@@ -34,7 +34,7 @@
         ],
         [
           {
-            "node": "Agente registrador",
+            "node": "Variables del Flujo Domiciliario",
             "type": "main",
             "index": 0
           }
@@ -76,13 +76,7 @@
     },
     "Agente registrador": {
       "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
+        []
       ]
     },
     "WhatsApp Trigger": {
@@ -126,6 +120,13 @@
         [
           {
             "node": "Preparar Mensaje Texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extraer Datos Formulario",
             "type": "main",
             "index": 0
           }
@@ -304,8 +305,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     },
     "Google Gemini Chat Model3": {
@@ -323,7 +323,7 @@
       "main": [
         [
           {
-            "node": "Merge",
+            "node": "Enviar Respuesta",
             "type": "main",
             "index": 0
           }
@@ -346,23 +346,41 @@
         []
       ]
     },
-    "Merge": {
+    "Variables del Flujo Domiciliario": {
       "main": [
         [
           {
-            "node": "Enviar Respuesta",
+            "node": "Enviar Formulario Registro Domiciliario",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Structured Output Parser1": {
-      "ai_outputParser": [
+    "Extraer Datos Formulario": {
+      "main": [
         [
           {
-            "node": "Formateo de respuesta",
-            "type": "ai_outputParser",
+            "node": "Registrar Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Cliente": {
+      "main": [
+        [
+          {
+            "node": "Notificar Registro Exitoso",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notificar Registro Fallido",
+            "type": "main",
             "index": 0
           }
         ]
@@ -386,8 +404,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        624,
-        176
+        1280,
+        656
       ],
       "id": "984a8a27-0f5b-49e8-8bce-dd1a2c9e2441",
       "name": "Google Gemini Chat Model",
@@ -678,8 +696,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.7,
       "position": [
-        736,
-        -64
+        1392,
+        416
       ],
       "id": "cf797676-f6cf-470e-b327-7655f806abc6",
       "name": "Agente registrador"
@@ -716,14 +734,14 @@
         "operation": "send",
         "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
-        "textBody": "={{ $json.output }}",
+        "textBody": "={{ $json.text }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1696,
-        -256
+        1440,
+        -496
       ],
       "id": "23c4c82f-5524-48a0-9156-df3cbeb3e5d1",
       "name": "Enviar Respuesta",
@@ -741,7 +759,7 @@
           "assignments": [
             {
               "name": "mensaje.tipo",
-              "value": "={{ $json.messages[0].type === 'button' || $json.messages[0].type === 'interactive' ? 'button' : $json.messages[0].type }}",
+              "value": "={{ $json.messages[0].type === 'button' || $json.messages[0].interactive?.type === 'button_reply' ? 'button' : $json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $json.messages[0].type }}",
               "type": "string",
               "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
             },
@@ -841,6 +859,31 @@
               },
               "renameOutput": true,
               "outputKey": "Botón"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "51958b5e-07be-44c3-a28a-3ebc900ce46a",
+                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "rightValue": "flow",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Flow"
             }
           ]
         },
@@ -871,7 +914,7 @@
       "typeVersion": 1,
       "position": [
         -304,
-        48
+        208
       ],
       "id": "cce62f24-ad26-49cd-98c9-1142b27f7989",
       "name": "Enviar Respuesta Entrada No Soportada",
@@ -928,8 +971,8 @@
       "type": "n8n-nodes-base.supabaseTool",
       "typeVersion": 1,
       "position": [
-        912,
-        192
+        1568,
+        672
       ],
       "id": "be6b3f18-9e62-4891-bea5-9264c7aac5d2",
       "name": "registrar_domiciliario",
@@ -973,8 +1016,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        768,
-        192
+        1424,
+        672
       ],
       "id": "821c56d9-dc66-463a-b299-1384df1695b5",
       "name": "Postgres Chat Memory",
@@ -1489,7 +1532,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}2",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}",
         "contextWindowLength": 10
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
@@ -1513,20 +1556,17 @@
         "text": "={{ $('Preparar Mensaje Texto').first().json.mensaje.contenido }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nEstado: {{ $json.estado_domiciliario }}\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n```json\n{\n  \"acciones_ejecutadas\": \"Qué tools se ejecutaron y su resultado, o 'Ninguna' si faltan datos\",\n  \"contexto_conversacion\": \"Qué solicita el usuario y situación relevante\",\n  \"mensaje_usuario\": \"Mensaje claro para el domiciliario\"\n}\n```\n\n## Tools disponibles\n\n| Tool | Ejecutar cuando |\n|------|----------------|\n| aceptar_pedido | Acepta un pedido |\n| contraofertar_pedido | Hace contraoferta |\n| validar_entrega_pedido | Confirma entrega |\n| cambiar_estado_domiciliario | Cambia estado |\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\"\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Ninguna. Faltan el ID del pedido y el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el ID del pedido y el valor. Ejemplo: contraofertar 1001 18000\"\n}\n```\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en tool_result.status, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones"
+          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nEstado domiciliario: {{ $json.estado_domiciliario }}\n\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n{\n  \"acciones_ejecutadas\": \"...\",\n  \"contexto_conversacion\": \"\"...\",\n  \"mensaje_usuario\": \"...\"\n}\n\n\n## Tools disponibles\n\n\naceptar_pedido : Acepta un pedido\ncontraofertar_pedido : Hace contraoferta\nvalidar_entrega_pedido : Confirma entrega\ncambiar_estado_domiciliario : Cambia estado\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\"\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Ninguna. Faltan el ID del pedido y el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el valor. Ejemplo: contraofertar 18000\"\n}\n```\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en tool_result.status, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
         576,
-        -592
+        -496
       ],
       "id": "71d2a1b6-7c69-4860-83e9-3a8951ce631a",
-      "name": "OPS agent",
-      "retryOnFail": true,
-      "maxTries": 2,
-      "waitBetweenTries": 500
+      "name": "OPS agent"
     },
     {
       "parameters": {
@@ -1535,7 +1575,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1184,
+        1152,
         -304
       ],
       "id": "cdfb5f66-0041-47f9-8bff-36302e85e96a",
@@ -1551,11 +1591,10 @@
       "parameters": {
         "promptType": "define",
         "text": "={{ $json.output.toJsonString() }}\n\n\nMensaje de usuario:\n{{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
-        "hasOutputParser": true,
         "messages": {
           "messageValues": [
             {
-              "message": "=# Presenter Agent - DomiChat\n\n## Rol\nConviertes mensajes técnicos en respuestas amigables y energéticas para WhatsApp.\n\n## Entrada\nRecibes un JSON con estos campos:\n\n```json\n{\n  \"acciones_ejecutadas\": \"...\",\n  \"contexto_conversacion\": \"...\",\n  \"mensaje_usuario\": \"...\"\n}\n```\n\n## Tu trabajo\nToma el campo `mensaje_usuario` y transfórmalo en un mensaje conversacional con:\n- Emojis al inicio de cada párrafo\n- Tono amigable y motivador\n- Formato claro con negritas para datos importantes\n- Máximo 2 saltos de línea consecutivos\n- Opciones numeradas al final cuando sea apropiado\n\n## Reglas de formato\n\n1. **Emojis**: Usa emojis relevantes al inicio de cada idea\n   - ✅ Para confirmaciones exitosas\n   - ❌ Para errores o rechazos\n   - ⚠️ Para advertencias\n   - 💰 Para temas de dinero\n   - 🔐 Para códigos/seguridad\n   - 🚀 Para motivación\n   - 📋 Para datos/información\n\n2. **Negritas**: Resalta datos importantes\n   - IDs de pedidos: *1001*\n   - Valores: *$18,000*\n   - Estados: *Activo*, *Inactivo*\n\n3. **Estructura**:\n   - Mensaje principal (2-3 líneas)\n   - Datos relevantes si aplica\n   - Opciones de acción (si es apropiado)\n\n4. **Opciones de menú**:\n   Úsalas cuando el usuario pueda tomar otra acción:\n   ```\n   1️⃣ Volver al menú principal\n   2️⃣ [Otra acción relevante]\n   ```\n\n## Tipos de mensajes\n\n### Confirmación exitosa\n```\n✅ ¡Listo!\n\n[Confirma la acción con datos clave]\n\n🚀 [Frase motivadora o siguiente paso]\n\n1️⃣ Volver al menú principal\n```\n\n### Error o rechazo\n```\n❌ [Explica qué salió mal]\n\n💡 [Causa o razón]\n\n1️⃣ Reintentar\n2️⃣ Volver al menú principal\n```\n\n### Solicitud de datos\n```\n📋 [Qué necesitas]\n\n📝 Ejemplo: [ejemplo claro]\n\n💡 [Tip o aclaración breve]\n```\n\n### Menú u opciones\n```\n👋 [Saludo o contexto]\n\n¿Qué deseas hacer?\n\n1️⃣ [Opción 1]\n2️⃣ [Opción 2]\n3️⃣ [Opción 3]\n\n📱 Responde el número de tu opción\n```\n\n## Ejemplos\n\n### Ejemplo 1: Confirmación de aceptación\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n**Output:**\n```\n✅ ¡Propuesta recibida!\n\nTu aceptación para el pedido *1001* ha sido registrada. Estamos evaluando todas las respuestas y te notificaremos en breve si tu propuesta es la seleccionada.\n\n🚀 ¡Buena suerte!\n\n1️⃣ Volver al menú principal\n```\n\n### Ejemplo 2: Solicitud de datos\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"Para contraofertar necesito el ID del pedido y el valor. Ejemplo: contraofertar 1001 18000\"\n}\n```\n\n**Output:**\n```\n💰 Para hacer tu contraoferta necesito dos datos:\n\n📋 ID del pedido y el valor que ofreces\n\n📝 Ejemplo: *contraofertar 1001 18000*\n\n💡 ¡Haz una oferta competitiva!\n```\n\n### Ejemplo 3: Error (ventana cerrada)\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"La ventana de ofertas del pedido 1001 ya cerró. Este pedido ya no acepta nuevas propuestas.\"\n}\n```\n\n**Output:**\n```\n⏰ La ventana de ofertas para el pedido *1001* ya ha cerrado.\n\nEste pedido ya no acepta nuevas ofertas.\n\n🔔 ¡Estate atento a los próximos pedidos!\n\n1️⃣ Volver al menú principal\n```\n\n### Ejemplo 4: Código incorrecto\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"El código 9999 no es válido para el pedido 1001. Verifica con el cliente el código correcto.\"\n}\n```\n\n**Output:**\n```\n❌ Código de verificación incorrecto\n\n🔐 El código *9999* no coincide con el pedido *1001*\n\n📞 Verifica con el cliente el código correcto (4 números)\n\n1️⃣ Reintentar con otro código\n2️⃣ Volver al menú principal\n```\n\n## Reglas críticas\n\n1. SIEMPRE usa emojis al inicio de párrafos\n2. Mantén el tono energético pero profesional\n3. Formatea valores monetarios con separador de miles: *$15,000*\n4. Sé conciso: máximo 4-5 líneas de texto\n5. No repitas información, ve directo al punto\n6. Si el mensaje original no sugiere opciones, añádelas solo si tiene sentido\n\n## Validación final\n\nAntes de enviar, verifica:\n- ¿Tiene al menos un emoji?\n- ¿Los datos importantes están en negritas?\n- ¿Es claro qué debe hacer el usuario después?\n- ¿El tono es amigable pero no excesivo?"
+              "message": "=# Presenter Agent - DomiChat\n\n## Rol\nConviertes mensajes técnicos en respuestas amigables y energéticas para WhatsApp.\n\n## Entrada\nRecibes un JSON con estos campos:\n\n```json\n{\n  \"acciones_ejecutadas\": \"...\",\n  \"contexto_conversacion\": \"...\",\n  \"mensaje_usuario\": \"...\"\n}\n```\n\n## Tu trabajo\nToma el campo `mensaje_usuario` y transfórmalo en un mensaje conversacional con:\n- Emojis al inicio de cada párrafo\n- Tono amigable y motivador\n- Formato claro con negritas para datos importantes\n- Máximo 2 saltos de línea consecutivos\n- Opciones numeradas al final cuando sea apropiado\n\n## Reglas de formato\n\n1. **Emojis**: Usa emojis relevantes al inicio de cada idea\n   - ✅ Para confirmaciones exitosas\n   - ❌ Para errores o rechazos\n   - ⚠️ Para advertencias\n   - 💰 Para temas de dinero\n   - 🔐 Para códigos/seguridad\n   - 🚀 Para motivación\n   - 📋 Para datos/información\n\n2. **Negritas**: Resalta datos importantes\n   - IDs de pedidos: *1001*\n   - Valores: *$18,000*\n   - Estados: *Activo*, *Inactivo*\n\n3. **Estructura**:\n   - Mensaje principal (2-3 líneas)\n   - Datos relevantes si aplica\n   - Opciones de acción (si es apropiado)\n\n4. **Opciones de menú**:\n   Úsalas cuando el usuario pueda tomar otra acción:\n   ```\n   1️⃣ Volver al menú principal\n   2️⃣ [Otra acción relevante]\n   ```\n\n## Tipos de mensajes\n\n### Confirmación exitosa\n```\n✅ ¡Listo!\n\n[Confirma la acción con datos clave]\n\n🚀 [Frase motivadora o siguiente paso]\n\n1️⃣ Volver al menú principal\n```\n\n### Error o rechazo\n```\n❌ [Explica qué salió mal]\n\n💡 [Causa o razón]\n\n1️⃣ Reintentar\n2️⃣ Volver al menú principal\n```\n\n### Solicitud de datos\n```\n📋 [Qué necesitas]\n\n📝 Ejemplo: [ejemplo claro]\n\n💡 [Tip o aclaración breve]\n```\n\n### Menú u opciones\n```\n👋 [Saludo o contexto]\n\n¿Qué deseas hacer?\n\n1️⃣ [Opción 1]\n2️⃣ [Opción 2]\n3️⃣ [Opción 3]\n\n📱 Responde el número de tu opción\n```\n\n## Ejemplos\n\n### Ejemplo 1: Confirmación de aceptación\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n**Output:**\n```\n✅ ¡Propuesta recibida!\n\nTu aceptación para el pedido *1001* ha sido registrada. Estamos evaluando todas las respuestas y te notificaremos en breve si tu propuesta es la seleccionada.\n\n🚀 ¡Buena suerte!\n\n1️⃣ Volver al menú principal\n```\n\n### Ejemplo 2: Solicitud de datos\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"Para contraofertar necesito el  el valor. Ejemplo: contraofertar 18000\"\n}\n```\n\n**Output:**\n```\n💰 Para hacer tu contraoferta necesito:\n\n📋 El valor que ofreces\n\n📝 Ejemplo: *contraofertar 18000*\n\n💡 ¡Haz una oferta competitiva!\n```\n\n### Ejemplo 3: Error (ventana cerrada)\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"La ventana de ofertas del pedido 1001 ya cerró. Este pedido ya no acepta nuevas propuestas.\"\n}\n```\n\n**Output:**\n```\n⏰ La ventana de ofertas para el pedido *1001* ya ha cerrado.\n\nEste pedido ya no acepta nuevas ofertas.\n\n🔔 ¡Estate atento a los próximos pedidos!\n\n1️⃣ Volver al menú principal\n```\n\n### Ejemplo 4: Código incorrecto\n**Input:**\n```json\n{\n  \"mensaje_usuario\": \"El código 9999 no es válido para el pedido 1001. Verifica con el cliente el código correcto.\"\n}\n```\n\n**Output:**\n```\n❌ Código de verificación incorrecto\n\n🔐 El código *9999* no coincide con el pedido *1001*\n\n📞 Verifica con el cliente el código correcto (4 números)\n\n1️⃣ Reintentar con otro código\n2️⃣ Volver al menú principal\n```\n\n## Reglas críticas\n\n1. SIEMPRE usa emojis al inicio de párrafos\n2. Mantén el tono energético pero profesional\n3. Formatea valores monetarios con separador de miles: *$15,000*\n4. Sé conciso: máximo 4-5 líneas de texto\n5. No repitas información, ve directo al punto\n6. Si el mensaje original no sugiere opciones, añádelas solo si tiene sentido\n\n## Validación final\n\nAntes de enviar, verifica:\n- ¿Tiene al menos un emoji?\n- ¿Los datos importantes están en negritas?\n- ¿Es claro qué debe hacer el usuario después?\n- ¿El tono es amigable pero no excesivo?"
             }
           ]
         },
@@ -1564,8 +1603,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1184,
-        -608
+        1152,
+        -496
       ],
       "id": "a3f551f4-661b-40d9-b262-31473ba37289",
       "name": "Formateo de respuesta"
@@ -1578,35 +1617,201 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        912,
-        -464
+        880,
+        -416
       ],
       "id": "760e104f-3ad6-4e68-979a-bc5d5ed8f519",
       "name": "Structured Output Parser"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
+              "name": "phone_number_id",
+              "value": "768517399686178",
+              "type": "string"
+            },
+            {
+              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
+              "name": "version_whatsapp_api",
+              "value": "v22.0",
+              "type": "string"
+            },
+            {
+              "id": "7da3e6e6-be9d-4eae-a0f3-53b8ea8e8534",
+              "name": "flow_id_registro_domiciliario",
+              "value": "2638793699801465",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        1504,
-        -256
+        640,
+        64
       ],
-      "id": "c70fd8cb-a2cc-4055-b2ba-ba188d5d7f08",
-      "name": "Merge"
+      "id": "f1792311-f4e5-4207-aab3-70c1eb30d9e4",
+      "name": "Variables del Flujo Domiciliario"
     },
     {
       "parameters": {
-        "jsonSchemaExample": "{\n\t\"output\": \"El pedido ha sido entregado\"\n}"
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{$('Variables del Flujo Domiciliario').first().json.version_whatsapp_api}}/{{$('Variables del Flujo Domiciliario').first().json.phone_number_id}}/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Regístrate ahora y comienza a recibir pedidos\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_domiciliario\",\n                \"flow_id\": \"{{$('Variables del Flujo Domiciliario').first().json.flow_id_registro_domiciliario}}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
+        "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.3,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        1328,
-        -384
+        848,
+        64
       ],
-      "id": "e7f3cf9f-9a22-4d10-8911-9a460edcb832",
-      "name": "Structured Output Parser1"
+      "id": "5023f3cc-d6d4-43bd-9d4a-00e9f49e0ffb",
+      "name": "Enviar Formulario Registro Domiciliario",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 3,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "5zpQFh3GmNApfzDH",
+          "name": "Credenciales WhatsApp Domiciliarios QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95c07715-9e8e-4fb7-8a98-8492bb97fad2",
+              "name": "whatsapp_flow_data",
+              "value": "={{ $('WhatsApp Trigger').item.json.messages[0].interactive.nfm_reply.response_json.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        -32
+      ],
+      "id": "6d104e4d-5549-443f-8dec-b21d8ad44061",
+      "name": "Extraer Datos Formulario"
+    },
+    {
+      "parameters": {
+        "tableId": "domiciliarios",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nombre_domiciliario",
+              "fieldValue": "={{ $json.whatsapp_flow_data.nombres }}"
+            },
+            {
+              "fieldId": "apellido_domiciliario",
+              "fieldValue": "={{ $json.whatsapp_flow_data.apellidos }}"
+            },
+            {
+              "fieldId": "numero_domiciliario",
+              "fieldValue": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.whatsapp_flow_data.email }}"
+            },
+            {
+              "fieldId": "ciudad_domiciliario",
+              "fieldValue": "={{ $json.whatsapp_flow_data.ciudad }}"
+            },
+            {
+              "fieldId": "cedula",
+              "fieldValue": "={{ $json.whatsapp_flow_data.cedula }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        -32
+      ],
+      "id": "24d699e5-5d8e-4554-91e5-07c9fb60a9cd",
+      "name": "Registrar Cliente",
+      "retryOnFail": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "768517399686178",
+        "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
+        "textBody": "=✅ ¡Registro completado exitosamente!\n\nYa haces parte de nuestra red de domiciliarios 🚀\n\n💼 Desde ahora podrás recibir pedidos directamente por WhatsApp.\n\n💰 Acepta los que quieras, entrega a tiempo y gana por cada servicio.\n\n📲 Mantente pendiente de los mensajes, ¡los pedidos llegan rápido!",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -32
+      ],
+      "id": "723b57a0-aded-4113-828f-66c54ca50f2f",
+      "name": "Notificar Registro Exitoso",
+      "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "YM1CDPaqIynCqebo",
+          "name": "WhatsApp Domiciliarios QA - Sender"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "768517399686178",
+        "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
+        "textBody": "=❌ Registro fallido\n\n😔 No pudimos completar tu registro\nOcurrió un error al intentar crear tu cuenta. Por favor intenta más tarde.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        80,
+        160
+      ],
+      "id": "b4813c24-1c29-47e5-813b-3f3e2a9b447d",
+      "name": "Notificar Registro Fallido",
+      "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "YM1CDPaqIynCqebo",
+          "name": "WhatsApp Domiciliarios QA - Sender"
+        }
+      }
     }
   ],
   "pinData": {
@@ -1621,23 +1826,72 @@
           "contacts": [
             {
               "profile": {
-                "name": "Nicolas Velasquez Lopez"
+                "name": "Manuel Torres"
               },
-              "wa_id": "573204081631"
+              "wa_id": "573006064535"
             }
           ],
           "messages": [
             {
-              "from": "573204081631",
-              "id": "wamid.HBgMNTczMjA0MDgxNjMxFQIAEhggQTU1MThCOTQ5MzM5MDc1RjQ1ODQwM0ZBN0I2MzEzNTMA",
-              "timestamp": "1760053918",
-              "text": {
-                "body": "Entregar 70 código 2840"
+              "context": {
+                "from": "573138116378",
+                "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQ0FCMjNCNzY5NDNCOTJFQjEyAA=="
               },
-              "type": "text"
+              "from": "573006064535",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0EzQTdBRDFBMkVDMjMyMTlGMzcA",
+              "timestamp": "1760113454",
+              "type": "interactive",
+              "interactive": {
+                "type": "nfm_reply",
+                "nfm_reply": {
+                  "response_json": "{\"flow_token\":\"registro_domiciliario\",\"apellidos\":\"Tow\",\"acepta_terminos\":true,\"email\":\"Jddj\\u0040com.com\",\"nombres\":\"Manu\",\"ciudad\":\"La Vega\",\"cedula\":\"4684\"}",
+                  "body": "Sent",
+                  "name": "flow"
+                }
+              }
             }
           ],
           "field": "messages"
+        }
+      }
+    ],
+    "Datos Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "tipo": "flow",
+            "telefono_usuario": "573006064535"
+          }
+        }
+      }
+    ],
+    "Extraer Datos Formulario": [
+      {
+        "json": {
+          "whatsapp_flow_data": {
+            "flow_token": "registro_domiciliario",
+            "apellidos": "Tow",
+            "acepta_terminos": true,
+            "email": "Jddj@com.com",
+            "nombres": "Manu",
+            "ciudad": "La Vega",
+            "cedula": "4684"
+          }
+        }
+      }
+    ],
+    "Registrar Cliente": [
+      {
+        "json": {
+          "cedula": "4684",
+          "numero_domiciliario": "573006064535",
+          "nombre_domiciliario": "Manu",
+          "apellido_domiciliario": "Tow",
+          "ciudad_domiciliario": "La Vega",
+          "estado_domiciliario": "Activo",
+          "calificacion_domiciliario": 4,
+          "fecha_registro": "2025-10-10",
+          "email": "Jddj@com.com"
         }
       }
     ]
@@ -1661,6 +1915,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-10T00:40:59.000Z",
-  "versionId": "b934c6f7-0825-48e5-84ab-2f87072eb832"
+  "updatedAt": "2025-10-11T00:58:03.000Z",
+  "versionId": "10bad79c-ce5c-486b-9989-50e0c07980c3"
 }
