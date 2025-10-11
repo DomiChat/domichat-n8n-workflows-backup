@@ -49,7 +49,7 @@
       "main": [
         [
           {
-            "node": "Variables del Flujo",
+            "node": "Timer Ventana Ofertas (3min)",
             "type": "main",
             "index": 0
           }
@@ -235,17 +235,6 @@
           }
         ]
       ]
-    },
-    "Variables del Flujo": {
-      "main": [
-        [
-          {
-            "node": "Timer Ventana Ofertas (3min)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "createdAt": "2025-09-10T02:35:56.502Z",
@@ -258,7 +247,7 @@
   "nodes": [
     {
       "parameters": {
-        "amount": 60
+        "amount": "={{ $json.tiempo_procesar_ofertas }}"
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -385,6 +374,15 @@
             },
             {
               "name": "domiciliarios_notificados"
+            },
+            {
+              "name": "phone_number_id_domiciliarios"
+            },
+            {
+              "name": "version_whatsapp_api"
+            },
+            {
+              "name": "tiempo_procesar_ofertas"
             }
           ]
         }
@@ -394,7 +392,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -2368,
+        -2160,
         368
       ]
     },
@@ -899,7 +897,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{$('Variables del Flujo').first().json.version_whatsapp_api}}/{{$('Variables del Flujo').first().json.phone_number_id}}/messages",
+        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendHeaders": true,
@@ -930,35 +928,6 @@
           "name": "Credenciales WhatsApp Domiciliarios QA"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
-              "name": "phone_number_id",
-              "value": "768517399686178",
-              "type": "string"
-            },
-            {
-              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
-              "name": "version_whatsapp_api",
-              "value": "v22.0",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2144,
-        368
-      ],
-      "id": "a64aa879-684b-45f8-a7d5-0287a7dc0b84",
-      "name": "Variables del Flujo"
     }
   ],
   "pinData": {
@@ -968,7 +937,10 @@
           "ventana_id": "VEN-69",
           "pedido_id": "69",
           "valor_oferta": "12000",
-          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
+          "domiciliarios_notificados": "573219453816,573006064535,573204081631",
+          "phone_number_id_domiciliarios": "768517399686178",
+          "version_whatsapp_api": "v22.0",
+          "tiempo_procesar_ofertas": "10"
         }
       }
     ]
@@ -988,6 +960,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-09T16:54:39.000Z",
-  "versionId": "f0ca1180-23a7-4191-928f-8d0aec43ea33"
+  "updatedAt": "2025-10-11T00:43:17.000Z",
+  "versionId": "6706de6d-03b3-4694-91f0-fda0f718da1c"
 }
