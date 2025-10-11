@@ -26,7 +26,7 @@
         ],
         [
           {
-            "node": "Send message",
+            "node": "Notificar Mensaje Invalido",
             "type": "main",
             "index": 0
           }
@@ -164,7 +164,7 @@
         ],
         [
           {
-            "node": "Variables del Flujo Cliente",
+            "node": "Enviar Formulario Registro",
             "type": "main",
             "index": 0
           }
@@ -230,7 +230,7 @@
       "main": [
         [
           {
-            "node": "Datos Mensaje",
+            "node": "Variables del Flujo",
             "type": "main",
             "index": 0
           }
@@ -386,17 +386,6 @@
         ]
       ]
     },
-    "Variables del Flujo Cliente": {
-      "main": [
-        [
-          {
-            "node": "Enviar Formulario Registro",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Extraer Datos Formulario": {
       "main": [
         [
@@ -420,6 +409,39 @@
         [
           {
             "node": "Notificar Registro Fallido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Registro Exitoso": {
+      "main": [
+        [
+          {
+            "node": "Mensaje Inicial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensaje Inicial": {
+      "main": [
+        [
+          {
+            "node": "Preparar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Variables del Flujo": {
+      "main": [
+        [
+          {
+            "node": "Datos Mensaje",
             "type": "main",
             "index": 0
           }
@@ -498,12 +520,11 @@
                 "conditions": [
                   {
                     "id": "f46b3861-6efa-4ecb-b18b-c6f573f0c94b",
-                    "leftValue": "={{ $('WhatsApp Trigger').item.json.messages[0].interactive.type }}",
-                    "rightValue": "",
+                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "rightValue": "flow",
                     "operator": {
                       "type": "string",
-                      "operation": "exists",
-                      "singleValue": true
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -569,12 +590,12 @@
       "parameters": {
         "content": "## PROCESAR MENSAJES DE ENTRADA",
         "height": 848,
-        "width": 1600,
+        "width": 1808,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        -208,
         0
       ],
       "typeVersion": 1,
@@ -627,14 +648,14 @@
           "assignments": [
             {
               "name": "mensaje.tipo",
-              "value": "={{ $json.messages[0].type }}",
+              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Trigger').first().json.messages[0].type }}",
               "type": "string",
               "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
             },
             {
               "id": "877d8ebb-7655-41b9-a40f-8862b45a43ec",
               "name": "mensaje.telefono_usuario",
-              "value": "={{ $json.contacts[0].wa_id }}",
+              "value": "={{ $('WhatsApp Trigger').first().json.contacts[0].wa_id }}",
               "type": "string"
             }
           ]
@@ -645,7 +666,7 @@
       "typeVersion": 3.4,
       "position": [
         336,
-        368
+        384
       ],
       "id": "a257e180-aade-416a-bf00-97797f747c7b",
       "name": "Datos Mensaje",
@@ -658,7 +679,7 @@
           "__rl": true,
           "value": "Mdl3DHroFQwCDQKf",
           "mode": "list",
-          "cachedResultName": "2. Crear Pedido"
+          "cachedResultName": "0002 Clientes Crear Pedido"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -811,7 +832,9 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}"
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}",
+            "phone_number_id_domiciliarios": "={{ $('Variables del Flujo').item.json.phone_number_id_domiciliarios }}",
+            "version_whatsapp_api": "={{ $('Variables del Flujo').item.json.version_whatsapp_api }}"
           },
           "matchingColumns": [
             "pedido_id"
@@ -820,6 +843,26 @@
             {
               "id": "pedido_id",
               "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "phone_number_id_domiciliarios",
+              "displayName": "phone_number_id_domiciliarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "version_whatsapp_api",
+              "displayName": "version_whatsapp_api",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -880,7 +923,7 @@
           "__rl": true,
           "value": "Dz6rZbVpMY2fGNI5",
           "mode": "list",
-          "cachedResultName": "7. Rechazar Contraoferta"
+          "cachedResultName": "0007 Clientes Rechazar Contraoferta"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -978,30 +1021,6 @@
       "id": "936ff873-92be-4294-9e12-c9e7015a1a7c",
       "name": "¿Está Registrado?",
       "alwaysOutputData": false
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "837613199430783",
-        "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
-        "textBody": "=📵 Este tipo de mensaje no puede ser procesado. Por favor, escríbenos por texto o audio 📝",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        768,
-        688
-      ],
-      "id": "f3e9572f-44ee-4d14-995b-bd58d06043a0",
-      "name": "Send message",
-      "webhookId": "454163ef-b264-40ea-a9a8-e2deae3be41e",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "gdJzqhLFzuNTphTz",
-          "name": "WhatsApp Clientes QA - Sender"
-        }
-      }
     },
     {
       "parameters": {
@@ -1152,8 +1171,8 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        96,
-        368
+        -112,
+        384
       ],
       "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
       "name": "WhatsApp Trigger",
@@ -1181,7 +1200,9 @@
             "zona_domicilio": "={{ $('Detectar Confirmación').item.json.order_data.zona_domicilio }}",
             "pedido_id": "={{ $('Detectar Confirmación').item.json.order_data.pedido_id }}",
             "direccion": "={{ $('Detectar Confirmación').item.json.order_data.direccion }}",
-            "ciudad": "={{ $('Detectar Confirmación').item.json.order_data.ciudad }}"
+            "ciudad": "={{ $('Detectar Confirmación').item.json.order_data.ciudad }}",
+            "phone_number_id_domiciliarios": "={{ $('Variables del Flujo').item.json.phone_number_id_domiciliarios }}",
+            "version_whatsapp_api": "={{ $('Variables del Flujo').item.json.version_whatsapp_api }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1232,6 +1253,26 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone_number_id_domiciliarios",
+              "displayName": "phone_number_id_domiciliarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "version_whatsapp_api",
+              "displayName": "version_whatsapp_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -1259,10 +1300,13 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "ventana_id": "={{ $('Detectar Confirmación').item.json.order_data.ventana_id }}",
-            "pedido_id": "={{ $('Detectar Confirmación').item.json.order_data.pedido_id }}",
-            "valor_oferta": "={{ $('Detectar Confirmación').item.json.order_data.valor_oferta }}",
-            "domiciliarios_notificados": "={{ $json.domiciliarios_notificados }}"
+            "ventana_id": "={{ $('Detectar Confirmación').first().json.order_data.ventana_id }}",
+            "pedido_id": "={{ $('Detectar Confirmación').first().json.order_data.pedido_id }}",
+            "valor_oferta": "={{ $('Detectar Confirmación').first().json.order_data.valor_oferta }}",
+            "domiciliarios_notificados": "={{ $json.domiciliarios_notificados }}",
+            "phone_number_id_domiciliarios": "={{ $('Variables del Flujo').first().json.phone_number_id_domiciliarios }}",
+            "version_whatsapp_api": "={{ $('Variables del Flujo').first().json.version_whatsapp_api }}",
+            "tiempo_procesar_ofertas": "={{ $('Variables del Flujo').first().json.tiempo_procesar_ofertas }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1298,6 +1342,36 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "string"
+            },
+            {
+              "id": "phone_number_id_domiciliarios",
+              "displayName": "phone_number_id_domiciliarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "version_whatsapp_api",
+              "displayName": "version_whatsapp_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tiempo_procesar_ofertas",
+              "displayName": "tiempo_procesar_ofertas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -1498,7 +1572,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/v22.0/794263737101433/messages",
+        "url": "=https://graph.facebook.com/{{ $('Variables del Flujo').first().json.version_whatsapp_api }}/{{ $('Variables del Flujo').first().json.phone_number_id_clientes }}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendHeaders": true,
@@ -1509,7 +1583,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"body\": {\n            \"text\": \"❌ Sin domiciliarios por ${{ $('Detectar Confirmación').item.json.order_data.valor_oferta }}\\n🔥 *¿SUBIR A ${{ $json.valor_sugerido }}?*\"\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"SUBIR_OFERTA-{{ $json.Algoritmo_Seleccion.pedido_id }}\",\n                        \"title\": \"Subir oferta\"\n                    }\n                },\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"Adios\",\n                          \"title\": \"No subir oferta\"\n                    }\n                }\n            ]\n        }\n    }\n}",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"text\",\n    \"text\": {\n        \"body\": \"❌ Sin domiciliarios disponibles\\n\\nPor favor, intenta más tarde con un nuevo pedido\"\n    }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -1641,7 +1715,10 @@
           "mappingMode": "defineBelow",
           "value": {
             "pedido_id": "={{ $('Procesar Ventana Ofertas').first().json.Algoritmo_Seleccion.pedido_id }}",
-            "oferta_id": "={{ $('Procesar Ventana Ofertas').first().json.Algoritmo_Seleccion.oferta_id }}"
+            "oferta_id": "={{ $('Procesar Ventana Ofertas').first().json.Algoritmo_Seleccion.oferta_id }}",
+            "phone_number_id_domiciliarios": "={{ $('Variables del Flujo').first().json.phone_number_id_domiciliarios }}",
+            "version_whatsapp_api": "={{ $('Variables del Flujo').first().json.version_whatsapp_api }}",
+            "tiempo_procesar_contraoferta": "={{ $('Variables del Flujo').first().json.tiempo_procesar_contraoferta }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1661,6 +1738,36 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "string"
+            },
+            {
+              "id": "phone_number_id_domiciliarios",
+              "displayName": "phone_number_id_domiciliarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "version_whatsapp_api",
+              "displayName": "version_whatsapp_api",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tiempo_procesar_contraoferta",
+              "displayName": "tiempo_procesar_contraoferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -1805,37 +1912,8 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
-              "name": "phone_number_id",
-              "value": "837613199430783",
-              "type": "string"
-            },
-            {
-              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
-              "name": "version_whatsapp_api",
-              "value": "v22.0",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2320,
-        624
-      ],
-      "id": "161000e0-a4b6-4e16-9227-35fdee60584e",
-      "name": "Variables del Flujo Cliente"
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{$('Variables del Flujo Cliente').first().json.version_whatsapp_api}}/{{$('Variables del Flujo Cliente').first().json.phone_number_id}}/messages",
+        "url": "=https://graph.facebook.com/{{$('Variables del Flujo').first().json.version_whatsapp_api}}/{{$('Variables del Flujo').first().json.phone_number_id_clientes}}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendHeaders": true,
@@ -1846,14 +1924,14 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Para comenzar necesitamos registrarte\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_cliente\",\n                \"flow_id\": \"770371012434062\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Para comenzar necesitamos registrarte\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_cliente\",\n                \"flow_id\": \"{{$('Variables del Flujo').first().json.flow_id_registro_cliente}}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2512,
-        624
+        2336,
+        576
       ],
       "id": "deb70716-91c8-4854-aefd-19aa8fc0d332",
       "name": "Enviar Formulario Registro",
@@ -1921,7 +1999,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        992,
+        944,
         496
       ],
       "id": "4d2565a9-67ee-415f-91fb-ba18dd31be7a",
@@ -1940,13 +2018,13 @@
         "operation": "send",
         "phoneNumberId": "837613199430783",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
-        "textBody": "=✅ ¡Registro completado exitosamente!\n\n🛒 *Vamos a hacer tu pedido*\n\n📝 Dime qué necesitas con cantidades y dónde comprarlo.\n\n*Ejemplos:*\n🍔 1 hamburguesa con tocineta de El Corral\n🛒 2 kilos arroz del D1\n💊 1 Jarabe Dolex Niños de Farmatodo\n\n💡 Puedes mezclar diferentes productos",
+        "textBody": "=✅ ¡Registro completado exitosamente!",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1216,
+        1136,
         480
       ],
       "id": "e8055c20-8eb2-4b32-8ec9-c668102cd1eb",
@@ -1964,18 +2042,118 @@
         "operation": "send",
         "phoneNumberId": "837613199430783",
         "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
-        "textBody": "=❌ Registro fallido\n\n😔 No pudimos completar tu registro\nOcurrió un error al intentar crear tu cuenta. Por favor, más tarde.",
+        "textBody": "=❌ Registro fallido\n\n😔 No pudimos completar tu registro\nOcurrió un error al intentar crear tu cuenta. Por favor intenta más tarde.",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1216,
-        640
+        1136,
+        656
       ],
       "id": "4f1d8f12-28b0-4d8c-ba79-476fd4b53f66",
       "name": "Notificar Registro Fallido",
       "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "gdJzqhLFzuNTphTz",
+          "name": "WhatsApp Clientes QA - Sender"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb4bc34c-7ad1-43b8-aaef-daf4a7aaecfa",
+              "name": "content.parts[0].text",
+              "value": "Hola",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        480
+      ],
+      "id": "f67540f8-dba9-402a-9d52-a133ee2c37ea",
+      "name": "Mensaje Inicial"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
+              "name": "phone_number_id_clientes",
+              "value": "837613199430783",
+              "type": "string"
+            },
+            {
+              "id": "a2e10b32-e21d-4b09-8571-24820ed6a50e",
+              "name": "phone_number_id_domiciliarios",
+              "value": "768517399686178",
+              "type": "string"
+            },
+            {
+              "id": "a91dd0d2-cc97-4ff4-80b7-e800c0afa575",
+              "name": "flow_id_registro_cliente",
+              "value": "770371012434062",
+              "type": "string"
+            },
+            {
+              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
+              "name": "version_whatsapp_api",
+              "value": "v22.0",
+              "type": "string"
+            },
+            {
+              "id": "6d45927a-9fb5-43f4-96e0-f65178d6b569",
+              "name": "tiempo_procesar_ofertas",
+              "value": "60",
+              "type": "string"
+            },
+            {
+              "id": "1b0ae788-b62d-49f8-a3de-faee06a69426",
+              "name": "tiempo_procesar_contraoferta",
+              "value": "60",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        384
+      ],
+      "id": "1732e48f-6033-43c3-8958-c2f37d900e3d",
+      "name": "Variables del Flujo"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "837613199430783",
+        "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
+        "textBody": "=📵 Este tipo de mensaje no puede ser procesado. Por favor, escríbenos por texto o audio 📝",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        768,
+        688
+      ],
+      "id": "f3e9572f-44ee-4d14-995b-bd58d06043a0",
+      "name": "Notificar Mensaje Invalido",
+      "webhookId": "454163ef-b264-40ea-a9a8-e2deae3be41e",
       "credentials": {
         "whatsAppApi": {
           "id": "gdJzqhLFzuNTphTz",
@@ -2004,8 +2182,8 @@
           "messages": [
             {
               "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDk0MUZFMzM5OTEwMTZENTM0MAA=",
-              "timestamp": "1760028101",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0E2OUVGRUREQUNEQjg1M0JCRDMA",
+              "timestamp": "1760143700",
               "text": {
                 "body": "1"
               },
@@ -2038,17 +2216,17 @@
     "Detectar Confirmación": [
       {
         "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 69\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 76\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
           "is_pedido_confirmado": true,
           "order_data": {
-            "pedido_id": "69",
-            "ventana_id": "VEN-69",
-            "nombre_completo": "Pablito Perez",
+            "pedido_id": "76",
+            "ventana_id": "VEN-76",
+            "nombre_completo": "Manuel Torres",
             "ciudad": "La Vega",
-            "lista_compras": "1 hamburguesa hawaiana de El Paso",
+            "lista_compras": "1 salchipapa salchimacarena de Donde Ramón del parque",
             "zona_domicilio": "Rural",
-            "direccion": "Vereda San Juan, finca Santa Cecilia. Después del muro de piedra, la tercera casa.",
-            "valor_oferta": "12000"
+            "direccion": "Vereda San Juan, finca Santa Cecilia, lote dos Las Flores, después del muro de piedra.",
+            "valor_oferta": "18000"
           }
         }
       }
@@ -2065,7 +2243,7 @@
           ],
           "messages": [
             {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQkJDMDUyRTUxOEQyMTkyOEFFAA=="
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSNUJFRDVBNkRFNzU5MDg1QjA5AA=="
             }
           ]
         }
@@ -2074,28 +2252,28 @@
     "Validar Usuario": [
       {
         "json": {
-          "id": "414b6557-faf3-400b-9e51-5ea512163a79",
-          "nombre": "Pablito",
-          "apellido": "Perez",
+          "id": "d8b57235-04d6-42dc-9704-568e4645fbb3",
+          "nombre": "Manuel",
+          "apellido": "Torres",
           "numero_telefono": "573006064535",
           "direccion": null,
-          "fecha_registro": "2025-10-09T03:09:30.590656+00:00",
+          "fecha_registro": "2025-10-11T00:47:37.596412+00:00",
           "ciudad": "La Vega",
-          "email": null
+          "email": "Jdjd@ckxk.con"
         }
       }
     ],
     "¿Está Registrado?": [
       {
         "json": {
-          "id": "414b6557-faf3-400b-9e51-5ea512163a79",
-          "nombre": "Pablito",
-          "apellido": "Perez",
+          "id": "d8b57235-04d6-42dc-9704-568e4645fbb3",
+          "nombre": "Manuel",
+          "apellido": "Torres",
           "numero_telefono": "573006064535",
           "direccion": null,
-          "fecha_registro": "2025-10-09T03:09:30.590656+00:00",
+          "fecha_registro": "2025-10-11T00:47:37.596412+00:00",
           "ciudad": "La Vega",
-          "email": null
+          "email": "Jdjd@ckxk.con"
         }
       }
     ],
@@ -2111,7 +2289,7 @@
           ],
           "messages": [
             {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQkJDMDUyRTUxOEQyMTkyOEFFAA=="
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSNUJFRDVBNkRFNzU5MDg1QjA5AA=="
             }
           ]
         }
@@ -2121,7 +2299,25 @@
       {
         "json": {
           "resultado_broadcast": "Exitoso",
-          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
+          "domiciliarios_notificados": "573204081631,573006064535"
+        }
+      }
+    ],
+    "Procesar Ventana Ofertas": [
+      {
+        "json": {
+          "resultado": "Sin ofertas",
+          "valor_sugerido": "23400",
+          "Algoritmo_Seleccion": {
+            "pedido_id": "76",
+            "ventana_id": "VEN-76",
+            "oferta_id": null,
+            "tipo_seleccion": "sin_ofertas",
+            "valor_final": null,
+            "nombre_domiciliario": null,
+            "numero_domiciliario": null,
+            "calificacion_domiciliario": null
+          }
         }
       }
     ],
@@ -2129,14 +2325,26 @@
       {
         "json": {
           "resultado_broadcast": "Exitoso",
-          "domiciliarios_notificados": "573219453816,573006064535,573204081631"
+          "domiciliarios_notificados": "573204081631,573006064535"
         }
       }
     ],
     "Agente Principal": [
       {
         "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 69\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"69\",\n  \"ventana_id\": \"VEN-69\",\n  \"nombre_completo\": \"Pablito Perez\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 hamburguesa hawaiana de El Paso\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, finca Santa Cecilia. Después del muro de piedra, la tercera casa.\",\n  \"valor_oferta\": \"12000\"\n}\n```"
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 76\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"76\",\n  \"ventana_id\": \"VEN-76\",\n  \"nombre_completo\": \"Manuel Torres\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 salchipapa salchimacarena de Donde Ramón del parque\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, finca Santa Cecilia, lote dos Las Flores, después del muro de piedra.\",\n  \"valor_oferta\": \"18000\"\n}\n```"
+        }
+      }
+    ],
+    "Variables del Flujo": [
+      {
+        "json": {
+          "phone_number_id_clientes": "837613199430783",
+          "phone_number_id_domiciliarios": "768517399686178",
+          "flow_id_registro_cliente": "770371012434062",
+          "version_whatsapp_api": "v22.0",
+          "tiempo_procesar_ofertas": "60",
+          "tiempo_procesar_contraoferta": "60"
         }
       }
     ]
@@ -2160,6 +2368,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-09T16:52:00.000Z",
-  "versionId": "52fa02f3-c5d3-40a6-8d51-b110f99962ed"
+  "updatedAt": "2025-10-11T01:27:14.000Z",
+  "versionId": "99ea5c94-128a-4a13-be5e-4028d1668bd6"
 }
