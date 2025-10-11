@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Variables del Flujo",
+            "node": "Guardar Pedido",
             "type": "main",
             "index": 0
           }
@@ -28,17 +28,6 @@
         [
           {
             "node": "Return",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Variables del Flujo": {
-      "main": [
-        [
-          {
-            "node": "Guardar Pedido",
             "type": "main",
             "index": 0
           }
@@ -89,7 +78,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        448,
+        432,
         -96
       ],
       "id": "11820def-8d91-481d-ace0-27e3529dcac9",
@@ -126,7 +115,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        896,
+        880,
         -96
       ],
       "id": "768ed9a0-6258-492f-863d-5131f8ff9d02",
@@ -138,6 +127,12 @@
           "values": [
             {
               "name": "pedido_id"
+            },
+            {
+              "name": "phone_number_id_domiciliarios"
+            },
+            {
+              "name": "version_whatsapp_api"
             }
           ]
         }
@@ -145,7 +140,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        0,
+        208,
         -96
       ],
       "id": "d013c171-5217-49c9-bb87-a11ffe714813",
@@ -154,7 +149,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{$('Variables del Flujo').first().json.version_whatsapp_api}}/{{$('Variables del Flujo').first().json.phone_number_id}}/messages",
+        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendHeaders": true,
@@ -171,7 +166,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        672,
+        656,
         -96
       ],
       "id": "b7b09ef3-3860-4042-ab00-00c07c09bbb0",
@@ -182,45 +177,18 @@
       "credentials": {
         "httpBearerAuth": {
           "id": "5zpQFh3GmNApfzDH",
-          "name": "Token WhatsApp API Domiciliarios QA"
+          "name": "Credenciales WhatsApp Domiciliarios QA"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
-              "name": "phone_number_id",
-              "value": "719990257874011",
-              "type": "string"
-            },
-            {
-              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
-              "name": "version_whatsapp_api",
-              "value": "v22.0",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        224,
-        -96
-      ],
-      "id": "52168d5e-67b2-4c01-b702-fa7e9a747eba",
-      "name": "Variables del Flujo"
     }
   ],
   "pinData": {
     "Start": [
       {
         "json": {
-          "pedido_id": "56"
+          "pedido_id": "75",
+          "phone_number_id_domiciliarios": "768517399686178",
+          "version_whatsapp_api": "v22.0"
         }
       }
     ]
@@ -242,6 +210,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-28T23:30:34.000Z",
-  "versionId": "e31f0171-fd2b-4129-a846-a474775546b8"
+  "updatedAt": "2025-10-10T23:34:10.000Z",
+  "versionId": "25198f62-60e4-483e-9a5f-ba0e7e17ea1c"
 }
