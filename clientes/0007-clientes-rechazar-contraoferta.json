@@ -140,7 +140,7 @@
     {
       "parameters": {
         "operation": "send",
-        "phoneNumberId": "719990257874011",
+        "phoneNumberId": "768517399686178",
         "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
         "textBody": "=👀 RESULTADO PROPUESTA\n\n❌ El cliente ha rechazado tu contraoferta\n🆔 Pedido: {{ $json.pedido_id }}\n\n🚚 Próximos pedidos en camino ",
         "additionalFields": {}
@@ -178,6 +178,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T05:04:17.000Z",
-  "versionId": "3dba94c2-b078-4da8-a179-893658b384b2"
+  "updatedAt": "2025-10-11T01:23:24.000Z",
+  "versionId": "70c8e465-ef2f-4763-956e-343685dc9837"
 }
