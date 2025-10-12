@@ -897,7 +897,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
+        "url": "=https://graph.facebook.com/{{ $('Start').first().json.version_whatsapp_api }}/{{ $('Start').first().json.phone_number_id_domiciliarios }}/messages",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "httpBearerAuth",
         "sendHeaders": true,
@@ -934,13 +934,13 @@
     "Start": [
       {
         "json": {
-          "ventana_id": "VEN-69",
-          "pedido_id": "69",
-          "valor_oferta": "12000",
-          "domiciliarios_notificados": "573219453816,573006064535,573204081631",
+          "ventana_id": "VEN-88",
+          "pedido_id": "88",
+          "valor_oferta": "8000",
+          "domiciliarios_notificados": "573204081631,573006064535",
           "phone_number_id_domiciliarios": "768517399686178",
           "version_whatsapp_api": "v22.0",
-          "tiempo_procesar_ofertas": "10"
+          "tiempo_procesar_ofertas": "60"
         }
       }
     ]
@@ -960,6 +960,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-11T00:43:17.000Z",
-  "versionId": "6706de6d-03b3-4694-91f0-fda0f718da1c"
+  "updatedAt": "2025-10-11T20:17:09.000Z",
+  "versionId": "8fe43ae1-956b-4ed7-aca1-6d57ae5d2252"
 }
