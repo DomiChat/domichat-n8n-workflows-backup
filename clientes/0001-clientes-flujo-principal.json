@@ -574,8 +574,8 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario.split('@')[0] + '211212'}}",
-        "contextWindowLength": 10
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario.split('@')[0] + '211212'}}4",
+        "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
@@ -2368,6 +2368,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-11T01:27:14.000Z",
-  "versionId": "99ea5c94-128a-4a13-be5e-4028d1668bd6"
+  "updatedAt": "2025-10-11T20:46:05.000Z",
+  "versionId": "f067ecfe-4494-4a5a-a9ed-4a467489e682"
 }
