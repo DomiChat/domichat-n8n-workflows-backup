@@ -184,92 +184,6 @@
         ]
       ]
     },
-    "3 contraofertar pedido": {
-      "main": [
-        []
-      ]
-    },
-    "Google Gemini Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent1",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Postgres Chat Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent1",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent1": {
-      "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch": {
-      "main": [
-        [],
-        [
-          {
-            "node": "2 aceptar pedido",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "3 contraofertar pedido",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "4 validar entrega",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "6 Cambiar estado",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "6 Cambiar estado": {
-      "main": [
-        []
-      ]
-    },
-    "4 validar entrega": {
-      "main": [
-        []
-      ]
-    },
-    "2 aceptar pedido": {
-      "main": [
-        []
-      ]
-    },
     "Google Gemini Chat Model2": {
       "ai_languageModel": [
         [
@@ -480,7 +394,7 @@
     },
     {
       "parameters": {
-        "description": "Llama esta tool cuando el domiciliario quiera aceptar un domicilio",
+        "description": "Siempre llama esta tool cuando el domiciliario quiera aceptar un domicilio",
         "workflowId": {
           "__rl": true,
           "value": "ZlGuD4CfbuDS4EMR",
@@ -549,7 +463,7 @@
     },
     {
       "parameters": {
-        "description": "Llama esta tool cuando el domiciliario quiera contraofertar un pedido",
+        "description": "Siempre llama esta tool cuando el domiciliario quiera contraofertar un pedido",
         "workflowId": {
           "__rl": true,
           "value": "HzK6mbnjJfsRlNyW",
@@ -628,6 +542,7 @@
     },
     {
       "parameters": {
+        "description": "Siempre llama esta tool cuando necesites hacer la entrega del pedido",
         "workflowId": {
           "__rl": true,
           "value": "qERWYLB6k0hZ7k4s",
@@ -1030,7 +945,7 @@
     },
     {
       "parameters": {
-        "description": "Cambia el estado del domiciliario entre Activo e Inactivo",
+        "description": "Siempre llama esta tool cuando necesites cambiar el estado del domiciliario entre Activo e Inactivo",
         "workflowId": {
           "__rl": true,
           "value": "3qKyLhg7cDGi1Ijs",
@@ -1079,437 +994,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ZlGuD4CfbuDS4EMR",
-          "mode": "list",
-          "cachedResultName": "0002 Domiciliarios Aceptar Pedido"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "calificacion_domiciliario": 0
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "pedido_id",
-              "displayName": "pedido_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "numero_domiciliario",
-              "displayName": "numero_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "nombre_domiciliario",
-              "displayName": "nombre_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "calificacion_domiciliario",
-              "displayName": "calificacion_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number"
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1664,
-        -1472
-      ],
-      "id": "dcb012e3-a4a3-4aea-9d65-cb8cbdf68d15",
-      "name": "2 aceptar pedido"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "HzK6mbnjJfsRlNyW",
-          "mode": "list",
-          "cachedResultName": "0003 Domiciliarios Contraofertar Pedido"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "valor_contraoferta": 0,
-            "calificacion_domiciliario": 0
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "pedido_id",
-              "displayName": "pedido_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "valor_contraoferta",
-              "displayName": "valor_contraoferta",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number"
-            },
-            {
-              "id": "numero_domiciliario",
-              "displayName": "numero_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "nombre_domiciliario",
-              "displayName": "nombre_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "calificacion_domiciliario",
-              "displayName": "calificacion_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number"
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1664,
-        -1296
-      ],
-      "id": "d04705de-6c10-4999-be75-3433d303ce91",
-      "name": "3 contraofertar pedido"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qERWYLB6k0hZ7k4s",
-          "mode": "list",
-          "cachedResultName": "0004 Domiciliarios Validar Entrega Pedido"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "id_pedido",
-              "displayName": "id_pedido",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "numero_domiciliario",
-              "displayName": "numero_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "codigo_verificacion",
-              "displayName": "codigo_verificacion",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1664,
-        -1104
-      ],
-      "id": "69760273-b41b-4c81-a8f7-156680954913",
-      "name": "4 validar entrega"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "3qKyLhg7cDGi1Ijs",
-          "mode": "list",
-          "cachedResultName": "0006 Domiciliarios Cambiar Estado"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "numero_domiciliario",
-              "displayName": "numero_domiciliario",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "estado_actual",
-              "displayName": "estado_actual",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1664,
-        -928
-      ],
-      "id": "68c9d3c2-62da-42a0-b71f-32988696fba1",
-      "name": "6 Cambiar estado"
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        992,
-        -1136
-      ],
-      "id": "1e28e877-0138-46b3-b1db-7e423fd9c430",
-      "name": "AI Agent1"
-    },
-    {
-      "parameters": {
-        "modelName": "models/gemini-2.5-pro",
-        "options": {
-          "temperature": 0.4
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        976,
-        -960
-      ],
-      "id": "71fe6df4-22d3-4cca-badb-2a7c62f91868",
-      "name": "Google Gemini Chat Model1",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "IsH1W1e4HDyYBz55",
-          "name": "Google AI Studio QA"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}",
-        "contextWindowLength": 10
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
-      "typeVersion": 1.3,
-      "position": [
-        1136,
-        -912
-      ],
-      "id": "d17a634e-f069-4b80-a329-d0f4bb1d8094",
-      "name": "Postgres Chat Memory1",
-      "credentials": {
-        "postgres": {
-          "id": "JRAtD5GxfvOjQyf0",
-          "name": "Postgres account 3"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "f3aafa80-61f7-4134-8f87-4a25998f9b88",
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "a67a000f-3d26-46fa-ac6b-6674266506b2"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "0df42e81-4e54-49dc-9dbc-e4549954d832",
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "ffd9cef5-4ae5-41f5-9aa4-9e47658b0a04",
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "8241e48b-8e5e-49b5-ad14-66f7f4a0fb60",
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        1312,
-        -1216
-      ],
-      "id": "f8e8acba-3956-4447-8ad5-17a03cd8023a",
-      "name": "Switch"
-    },
-    {
-      "parameters": {
         "options": {
           "temperature": 0.2
         }
@@ -1532,8 +1016,8 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}",
-        "contextWindowLength": 10
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}1234567890",
+        "contextWindowLength": 2
       },
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
@@ -1556,7 +1040,7 @@
         "text": "={{ $('Preparar Mensaje Texto').first().json.mensaje.contenido }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nEstado domiciliario: {{ $json.estado_domiciliario }}\n\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n{\n  \"acciones_ejecutadas\": \"...\",\n  \"contexto_conversacion\": \"\"...\",\n  \"mensaje_usuario\": \"...\"\n}\n\n\n## Tools disponibles\n\n\naceptar_pedido : Acepta un pedido\ncontraofertar_pedido : Hace contraoferta\nvalidar_entrega_pedido : Confirma entrega\ncambiar_estado_domiciliario : Cambia estado\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\"\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n}\n```\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n```json\n{\n  \"acciones_ejecutadas\": \"Ninguna. Faltan el ID del pedido y el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el valor. Ejemplo: contraofertar 18000\"\n}\n```\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en tool_result.status, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones"
+          "systemMessage": "=# OPS Agent - DomiChat\n\n## Rol\nAnalizas mensajes de domiciliarios, decides si ejecutar tools o solicitar datos, y resumes lo ocurrido en lenguaje natural.\n\n## Contexto\n\nNombre domiciliario: {{ $json.nombre_domiciliario }} {{ $json.apellido_domiciliario }}\nEstado domiciliario: {{ $json.estado_domiciliario }}\n\n\n## Salida esperada\n\nSiempre generas este JSON:\n\n{\n  \"acciones_ejecutadas\": \"Descripción de qué tools se ejecutaron y qué resultados dieron\",\n  \"contexto_conversacion\": \"Resumen de qué solicitó el usuario y cuál es la situación\",\n  \"mensaje_usuario\": \"Mensaje que debe recibir el domiciliario\"\n}\n\n\n## Tools disponibles\n\n\naceptar_pedido : Acepta un pedido\ncontraofertar_pedido : Hace contraoferta\nvalidar_entrega_pedido : Confirma entrega\ncambiar_estado_domiciliario : Cambia estado\n\n## Lógica de operación\n\n1. **Identifica la intención** del mensaje\n2. **Extrae parámetros** disponibles:\n   - pedido_id: números tras \"aceptar\", \"pedido\", \"entregar\", \"contraofertar\", puedes obtenerlos del contexto\n   - valor_contraoferta: números tras \"contraoferta\", \"ofrecer\" (convierte \"18k\"→18000)\n   - codigo_verificacion: 4 dígitos exactos\n   - estado_nuevo: \"Activo\" o \"Inactivo\"\n\n3. **Decide**:\n   - Tienes todos los datos → Ejecuta tool → Describe resultado en los 3 campos\n   - Faltan datos → NO ejecutes tool → Solicita lo que falta en `mensaje_usuario`\n   - Mensaje ambiguo/genérico → Ofrece opciones claras\n\n## Cómo llenar los campos\n\n**acciones_ejecutadas:**\n- Con tool ejecutada: \"Se ejecutó [tool] para [contexto]. [Resultado basado en tool_result.status]\"\n- Sin tool: \"Ninguna. [Razón: faltan datos/mensaje no claro]\"\n\n**contexto_conversacion:**\nResume qué pide el usuario. Usa el nombre del domiciliario si está disponible.\n\n**mensaje_usuario:**\n- Éxito (status=\"ok\"): Confirma la acción con datos relevantes\n- Error: Explica qué falló según tool_result.status\n- Faltan datos: Solicita específicamente con ejemplo\n- Genérico: Ofrece opciones numeradas\n\n## Mapeo de status (tool_result)\n\n- `ok`: Operación exitosa\n- `not_found`: Pedido no existe o no disponible\n- `window_closed`: Ventana de ofertas cerrada\n- `invalid_code`: Código incorrecto\n- `value_too_low`: Contraoferta menor al valor cliente\n- `already_done`: Acción ya registrada\n- `error`: Error del sistema\n\n## Ejemplos\n\n### Ejemplo 1: Éxito\n**Input:** \"acepto el 1001\"\n\n**Output:**\n\n  \"acciones_ejecutadas\": \"Se ejecutó aceptar_pedido para el pedido 1001. La propuesta fue registrada exitosamente.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel acepta el pedido 1001.\",\n  \"mensaje_usuario\": \"Tu aceptación del pedido 1001 fue registrada. Te notificaremos si eres seleccionado.\"\n\n\n### Ejemplo 2: Faltan datos\n**Input:** \"quiero contraofertar\"\n\n**Output:**\n\n  \"acciones_ejecutadas\": \"Ninguna. Falta el valor de contraoferta.\",\n  \"contexto_conversacion\": \"El domiciliario Manuel quiere contraofertar pero no proporcionó los datos necesarios.\",\n  \"mensaje_usuario\": \"Para contraofertar necesito el valor. Ejemplo: contraofertar 18000\"\n\n\n## Reglas críticas\n\n1. Solo ejecuta tools con TODOS los datos requeridos\n2. Basa `mensaje_usuario` en los resultados de las tools, no inventes resultados\n3. Si faltan datos, especifica qué necesitas con ejemplo\n4. Usa numero_domiciliario del contexto, nunca del mensaje\n5. Sé conciso: cada campo máximo 2-3 oraciones\n6. Nunca mientas sobre las tools que has usado, siempre se transparente con los pasos que hiciste después del mensaje del usuario.\n7. Cuando el usuario dice CONTRAOFERTAR 78, 78 es el id de pedido\n8. Si el usuario no dice explicitamente el id de pedido pero ya lo tienes en memoria confirma con el usuario si es el id correcto."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1915,6 +1399,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-11T00:58:03.000Z",
-  "versionId": "10bad79c-ce5c-486b-9989-50e0c07980c3"
+  "updatedAt": "2025-10-11T20:33:24.000Z",
+  "versionId": "c8923291-4854-4af2-98d0-9a56a74bc337"
 }
