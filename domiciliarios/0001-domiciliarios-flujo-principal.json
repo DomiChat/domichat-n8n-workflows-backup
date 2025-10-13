@@ -83,7 +83,7 @@
       "main": [
         [
           {
-            "node": "Datos Mensaje",
+            "node": "¿Es mensaje del Sistema?",
             "type": "main",
             "index": 0
           }
@@ -294,6 +294,24 @@
         [
           {
             "node": "Notificar Registro Fallido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Es mensaje del Sistema?": {
+      "main": [
+        [
+          {
+            "node": "Datos Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No hacer nada",
             "type": "main",
             "index": 0
           }
@@ -631,8 +649,8 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        -992,
-        -112
+        -1248,
+        -80
       ],
       "id": "b95f0e79-9128-4e50-b2ee-9573f090eec8",
       "name": "WhatsApp Trigger",
@@ -674,7 +692,7 @@
           "assignments": [
             {
               "name": "mensaje.tipo",
-              "value": "={{ $json.messages[0].type === 'button' || $json.messages[0].interactive?.type === 'button_reply' ? 'button' : $json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $json.messages[0].type }}",
+              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].type === 'button' || $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'button_reply' ? 'button' : $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Trigger').first().json.messages[0].type }}",
               "type": "string",
               "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
             },
@@ -692,7 +710,7 @@
       "typeVersion": 3.4,
       "position": [
         -768,
-        -112
+        -96
       ],
       "id": "bd71a33b-0a64-4f99-9800-0f1375cbf049",
       "name": "Datos Mensaje",
@@ -1296,59 +1314,54 @@
           "name": "WhatsApp Domiciliarios QA - Sender"
         }
       }
-    }
-  ],
-  "pinData": {
-    "WhatsApp Trigger": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "metadata": {
-            "display_phone_number": "573138116378",
-            "phone_number_id": "768517399686178"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
           },
-          "contacts": [
+          "conditions": [
             {
-              "profile": {
-                "name": "Manuel Torres"
-              },
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "context": {
-                "from": "573138116378",
-                "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSQ0FCMjNCNzY5NDNCOTJFQjEyAA=="
-              },
-              "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0EzQTdBRDFBMkVDMjMyMTlGMzcA",
-              "timestamp": "1760113454",
-              "type": "interactive",
-              "interactive": {
-                "type": "nfm_reply",
-                "nfm_reply": {
-                  "response_json": "{\"flow_token\":\"registro_domiciliario\",\"apellidos\":\"Tow\",\"acepta_terminos\":true,\"email\":\"Jddj\\u0040com.com\",\"nombres\":\"Manu\",\"ciudad\":\"La Vega\",\"cedula\":\"4684\"}",
-                  "body": "Sent",
-                  "name": "flow"
-                }
+              "id": "0137f90b-c006-444f-b099-77ac27ac7be8",
+              "leftValue": "={{ $json.statuses[0] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "notExists",
+                "singleValue": true
               }
             }
           ],
-          "field": "messages"
-        }
-      }
-    ],
-    "Datos Mensaje": [
-      {
-        "json": {
-          "mensaje": {
-            "tipo": "flow",
-            "telefono_usuario": "573006064535"
-          }
-        }
-      }
-    ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        -80
+      ],
+      "id": "3fa8d205-0afc-4288-b6ba-25badd3e069d",
+      "name": "¿Es mensaje del Sistema?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        48
+      ],
+      "id": "0dd7ed36-55e9-45b3-960a-4b885e44a77d",
+      "name": "No hacer nada"
+    }
+  ],
+  "pinData": {
     "Extraer Datos Formulario": [
       {
         "json": {
@@ -1378,6 +1391,32 @@
           "email": "Jddj@com.com"
         }
       }
+    ],
+    "WhatsApp Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "573138116378",
+            "phone_number_id": "768517399686178"
+          },
+          "statuses": [
+            {
+              "id": "wamid.HBgMNTczMDUzMjU2MTkzFQIAERgSMTkyMjBCNTYxNjZFM0I0RTBCAA==",
+              "status": "read",
+              "timestamp": "1760290310",
+              "recipient_id": "573053256193",
+              "pricing": {
+                "billable": false,
+                "pricing_model": "PMP",
+                "category": "service",
+                "type": "free_customer_service"
+              }
+            }
+          ],
+          "field": "messages"
+        }
+      }
     ]
   },
   "settings": {
@@ -1399,6 +1438,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-11T20:33:24.000Z",
-  "versionId": "c8923291-4854-4af2-98d0-9a56a74bc337"
+  "updatedAt": "2025-10-12T17:41:37.000Z",
+  "versionId": "369ada3d-8e48-4501-a400-58451581a917"
 }
