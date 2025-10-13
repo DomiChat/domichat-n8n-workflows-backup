@@ -509,7 +509,7 @@
       ],
       "id": "4ea6427c-0b9a-4733-a1bf-7886ba033958",
       "name": "Confirmar Pedido Automático",
-      "executeOnce": false,
+      "executeOnce": true,
       "credentials": {
         "supabaseApi": {
           "id": "4bpjJPK2fqZkspgx",
@@ -697,6 +697,7 @@
       ],
       "id": "9cb9c132-5062-4271-9dd2-8fb69de393fe",
       "name": "Actualizar Estado Contraoferta",
+      "executeOnce": true,
       "credentials": {
         "supabaseApi": {
           "id": "4bpjJPK2fqZkspgx",
@@ -770,6 +771,7 @@
       ],
       "id": "c2532e24-3c86-46b4-b8d8-6767a2d7f725",
       "name": "Actualizar Estado Sin Ofertas",
+      "executeOnce": true,
       "credentials": {
         "supabaseApi": {
           "id": "4bpjJPK2fqZkspgx",
@@ -922,6 +924,7 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2,
+      "executeOnce": true,
       "credentials": {
         "httpBearerAuth": {
           "id": "5zpQFh3GmNApfzDH",
@@ -934,10 +937,10 @@
     "Start": [
       {
         "json": {
-          "ventana_id": "VEN-88",
-          "pedido_id": "88",
-          "valor_oferta": "8000",
-          "domiciliarios_notificados": "573204081631,573006064535",
+          "ventana_id": "VEN-103",
+          "pedido_id": "103",
+          "valor_oferta": "23000",
+          "domiciliarios_notificados": "573204081631,573006064535,573053256193,573219453816",
           "phone_number_id_domiciliarios": "768517399686178",
           "version_whatsapp_api": "v22.0",
           "tiempo_procesar_ofertas": "60"
@@ -960,6 +963,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-11T20:17:09.000Z",
-  "versionId": "8fe43ae1-956b-4ed7-aca1-6d57ae5d2252"
+  "updatedAt": "2025-10-12T19:27:30.000Z",
+  "versionId": "aa34002b-db84-48a9-873b-f0f3b342f84b"
 }
