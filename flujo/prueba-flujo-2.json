@@ -1,0 +1,130 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-17T18:23:50.575Z",
+  "id": "tjJY8BnzvSlQSTrQ",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Prueba flujo 2",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "9fd6c2bc-0f32-43c9-99a0-a39175c76864",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        64,
+        144
+      ],
+      "id": "cbc42385-26d0-4fc3-af29-2f8a2a2c156e",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "573006064535",
+        "contextWindowLength": 1000
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        432,
+        208
+      ],
+      "id": "eb849f7d-4cee-4989-a1b4-850acb818abf",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        176,
+        0
+      ],
+      "id": "8444cefa-4be1-4003-8b60-1fc4fc9236b2",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-17T18:23:50.577Z",
+      "updatedAt": "2025-10-17T18:23:50.577Z",
+      "role": "workflow:owner",
+      "workflowId": "tjJY8BnzvSlQSTrQ",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-17T20:24:37.000Z",
+  "versionId": "67aa517c-deb6-40f7-8652-326a1cd310a7"
+}
