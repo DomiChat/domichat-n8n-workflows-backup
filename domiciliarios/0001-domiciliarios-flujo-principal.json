@@ -257,7 +257,13 @@
     },
     "Enviar Respuesta": {
       "main": [
-        []
+        [
+          {
+            "node": "Guardar Fecha Último Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Variables del Flujo Domiciliario": {
@@ -673,7 +679,7 @@
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1440,
+        1472,
         -496
       ],
       "id": "23c4c82f-5524-48a0-9156-df3cbeb3e5d1",
@@ -1359,6 +1365,44 @@
       ],
       "id": "0dd7ed36-55e9-45b3-960a-4b885e44a77d",
       "name": "No hacer nada"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "domiciliarios",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "numero_domiciliario",
+              "condition": "eq",
+              "keyValue": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "fecha_ultimo_mensaje",
+              "fieldValue": "={{ $now}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -496
+      ],
+      "id": "2022669d-69b1-4470-a563-3bc4ee3db283",
+      "name": "Guardar Fecha Último Mensaje",
+      "retryOnFail": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      }
     }
   ],
   "pinData": {
@@ -1400,18 +1444,23 @@
             "display_phone_number": "573138116378",
             "phone_number_id": "768517399686178"
           },
-          "statuses": [
+          "contacts": [
             {
-              "id": "wamid.HBgMNTczMDUzMjU2MTkzFQIAERgSMTkyMjBCNTYxNjZFM0I0RTBCAA==",
-              "status": "read",
-              "timestamp": "1760290310",
-              "recipient_id": "573053256193",
-              "pricing": {
-                "billable": false,
-                "pricing_model": "PMP",
-                "category": "service",
-                "type": "free_customer_service"
-              }
+              "profile": {
+                "name": "Manuel Torres"
+              },
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "from": "573006064535",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0E4MEZCMTI4RTIzNjExNEU2NjcA",
+              "timestamp": "1760731787",
+              "text": {
+                "body": "Hola"
+              },
+              "type": "text"
             }
           ],
           "field": "messages"
@@ -1438,6 +1487,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-12T17:41:37.000Z",
-  "versionId": "369ada3d-8e48-4501-a400-58451581a917"
+  "updatedAt": "2025-10-17T20:16:01.000Z",
+  "versionId": "80613393-a3df-4a47-925f-102fd63eaebd"
 }
