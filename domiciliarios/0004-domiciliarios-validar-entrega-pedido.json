@@ -74,8 +74,30 @@
       "main": [
         [
           {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Memory Manager": {
+      "main": [
+        [
+          {
             "node": "Return Exitoso",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -300,7 +322,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -672,
+        -352,
         96
       ],
       "id": "d08c8ff6-d9e6-498a-aec9-45b37b9b1fea",
@@ -329,15 +351,49 @@
           "name": "WhatsApp Clientes QA - Sender"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        -688,
+        96
+      ],
+      "id": "fbd6d847-317a-4049-9d0a-6f0e9c76a512",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Obtener Pedido').first().json.numero_usuario + '_cliente'}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -688,
+        304
+      ],
+      "id": "12db1ed7-1acb-4afe-8e91-74fa1fea96f2",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
     }
   ],
   "pinData": {
     "Start": [
       {
         "json": {
-          "pedido_id": "70",
-          "numero_domiciliario": "573204081631",
-          "codigo_verificacion": "2840"
+          "pedido_id": "109",
+          "numero_domiciliario": "573208668467",
+          "codigo_verificacion": "9779"
         }
       }
     ]
@@ -359,6 +415,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-09T23:52:39.000Z",
-  "versionId": "276c0ca9-7203-46fb-9278-265ad03c8954"
+  "updatedAt": "2025-10-17T19:43:28.000Z",
+  "versionId": "ab221b14-d51f-49c5-804f-8b1e0ec55f72"
 }
