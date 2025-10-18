@@ -46,23 +46,7 @@
     },
     "Simple Memory": {
       "ai_memory": [
-        [
-          {
-            "node": "Agente Principal",
-            "type": "ai_memory",
-            "index": 0
-          },
-          {
-            "node": "Guardar Respuesta Contraoferta",
-            "type": "ai_memory",
-            "index": 0
-          },
-          {
-            "node": "Guardar Respuesta Time out",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Preparar Mensaje": {
@@ -465,6 +449,27 @@
           }
         ]
       ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente Principal",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Guardar Respuesta Contraoferta",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Guardar Respuesta Time out",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-27T17:28:56.527Z",
@@ -592,14 +597,14 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario.split('@')[0] + '211212'}}4",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario.split('@')[0]}}",
         "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        4160,
-        688
+        3776,
+        912
       ],
       "id": "a197c828-86a8-40cb-8a3a-2c320f0774fa",
       "name": "Simple Memory"
@@ -2223,100 +2228,31 @@
       ],
       "id": "1f70add7-7964-4b89-8121-c57a075ccbff",
       "name": "No hacer nada"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario + '_cliente'}}",
+        "sessionTTL": 86400000,
+        "contextWindowLength": 6
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        3792,
+        736
+      ],
+      "id": "d509b512-ba17-4f09-b59b-f40b9ed9f21c",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
     }
   ],
   "pinData": {
-    "Preparar Mensaje": [
-      {
-        "json": {
-          "mensaje": {
-            "contenido": "1"
-          }
-        }
-      }
-    ],
-    "Detectar Confirmación": [
-      {
-        "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 76\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*",
-          "is_pedido_confirmado": true,
-          "order_data": {
-            "pedido_id": "76",
-            "ventana_id": "VEN-76",
-            "nombre_completo": "Manuel Torres",
-            "ciudad": "La Vega",
-            "lista_compras": "1 salchipapa salchimacarena de Donde Ramón del parque",
-            "zona_domicilio": "Rural",
-            "direccion": "Vereda San Juan, finca Santa Cecilia, lote dos Las Flores, después del muro de piedra.",
-            "valor_oferta": "18000"
-          }
-        }
-      }
-    ],
-    "¿Pedido Confirmado?": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "contacts": [
-            {
-              "input": "573006064535",
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSNUJFRDVBNkRFNzU5MDg1QjA5AA=="
-            }
-          ]
-        }
-      }
-    ],
-    "Validar Usuario": [
-      {
-        "json": {
-          "id": "d8b57235-04d6-42dc-9704-568e4645fbb3",
-          "nombre": "Manuel",
-          "apellido": "Torres",
-          "numero_telefono": "573006064535",
-          "direccion": null,
-          "fecha_registro": "2025-10-11T00:47:37.596412+00:00",
-          "ciudad": "La Vega",
-          "email": "Jdjd@ckxk.con"
-        }
-      }
-    ],
-    "¿Está Registrado?": [
-      {
-        "json": {
-          "id": "d8b57235-04d6-42dc-9704-568e4645fbb3",
-          "nombre": "Manuel",
-          "apellido": "Torres",
-          "numero_telefono": "573006064535",
-          "direccion": null,
-          "fecha_registro": "2025-10-11T00:47:37.596412+00:00",
-          "ciudad": "La Vega",
-          "email": "Jdjd@ckxk.con"
-        }
-      }
-    ],
-    "Enviar Respuesta": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "contacts": [
-            {
-              "input": "573006064535",
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAERgSNUJFRDVBNkRFNzU5MDg1QjA5AA=="
-            }
-          ]
-        }
-      }
-    ],
     "Broadcast Domiciliarios": [
       {
         "json": {
@@ -2351,13 +2287,6 @@
         }
       }
     ],
-    "Agente Principal": [
-      {
-        "json": {
-          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* 76\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"76\",\n  \"ventana_id\": \"VEN-76\",\n  \"nombre_completo\": \"Manuel Torres\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 salchipapa salchimacarena de Donde Ramón del parque\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda San Juan, finca Santa Cecilia, lote dos Las Flores, después del muro de piedra.\",\n  \"valor_oferta\": \"18000\"\n}\n```"
-        }
-      }
-    ],
     "WhatsApp Trigger": [
       {
         "json": {
@@ -2366,18 +2295,23 @@
             "display_phone_number": "573138106191",
             "phone_number_id": "837613199430783"
           },
-          "statuses": [
+          "contacts": [
             {
-              "id": "wamid.HBgMNTczMDUzMjU2MTkzFQIAERgSQzgxOUQxOTg4NDhBODAxNEMzAA==",
-              "status": "read",
-              "timestamp": "1760289865",
-              "recipient_id": "573053256193",
-              "pricing": {
-                "billable": false,
-                "pricing_model": "PMP",
-                "category": "service",
-                "type": "free_customer_service"
-              }
+              "profile": {
+                "name": "Manuel Torres"
+              },
+              "wa_id": "573006064535"
+            }
+          ],
+          "messages": [
+            {
+              "from": "573006064535",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0E1QkM4MUY5ODgzNTE0MDZGNzQA",
+              "timestamp": "1760729354",
+              "text": {
+                "body": "Agrega una porción de papas"
+              },
+              "type": "text"
             }
           ],
           "field": "messages"
@@ -2404,6 +2338,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-12T17:34:00.000Z",
-  "versionId": "432257c8-5ef6-4250-9d8a-c7480fe522c2"
+  "updatedAt": "2025-10-17T21:48:13.000Z",
+  "versionId": "7ad6d816-a55b-428b-a718-3c154378c72b"
 }
