@@ -1,0 +1,97 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-10-18T17:32:55.543Z",
+  "id": "P7iiTj0aLvzV0hxT",
+  "isArchived": false,
+  "meta": null,
+  "name": "Prueba Variables de Ambiente",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "495eb215-7ece-43fe-8eee-5518222bf3f8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "rPo5VuEUkIowVQ7L",
+          "mode": "list",
+          "cachedResultName": "Variables de Ambiente",
+          "cachedResultUrl": "/projects/0IzhKVOc0T9TvoCy/datatables/rPo5VuEUkIowVQ7L"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c3460f84-917c-4c60-9385-d4054a37f721",
+      "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener todos los items de entrada\nconst items = $input.all();\n\n// Crear el objeto resultado iterando sobre los items\nconst resultado = items.reduce((acc, item) => {\n  const clave = item.json.Clave;\n  const valor = item.json.Valor;\n  acc[clave] = valor;\n  return acc;\n}, {});\n\n// Retornar como un array con un solo objeto (formato n8n)\nreturn [resultado];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "544e6a91-f2f1-4ff3-b422-395a01f3f7dd",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-10-18T17:32:55.551Z",
+      "updatedAt": "2025-10-18T17:32:55.551Z",
+      "role": "workflow:owner",
+      "workflowId": "P7iiTj0aLvzV0hxT",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-18T18:14:42.000Z",
+  "versionId": "8e8a8f02-066f-4efc-a559-267fb3ff39d3"
+}
