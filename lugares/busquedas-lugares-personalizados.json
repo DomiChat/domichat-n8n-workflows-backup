@@ -190,7 +190,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Script para n8n - Extrae URLs de videos de TikTok con patrón específico\n// Solo acepta URLs con formato: tiktok.com/@usuario/video/id\n}}}\n// Obtener el array de resultados\nconst results = $input.first().json.web.results;\n\n// Patrón regex para URLs de TikTok con formato específico\nconst tiktokPattern = /^https:\\/\\/(?:www\\.)?tiktok\\.com\\/@[^\\/]+\\/video\\/\\d+/;\n\n// Filtrar y extraer solo las URLs que coincidan con el patrón\nconst validTikTokUrls = results\n  .map(result => result.url)\n  .filter(url => tiktokPattern.test(url));\n\n// Retornar solo las URLs válidas\nreturn validTikTokUrls.map(url => ({\n  json: { url: url }\n}));"
+        "jsCode": "// Script para n8n - Extrae URLs de videos de TikTok con patrón específico\n// Solo acepta URLs con formato: tiktok.com/@usuario/video/id\n\n// Obtener el array de resultados\nconst results = $input.first().json.web.results;\n\n// Patrón regex para URLs de TikTok con formato específico\nconst tiktokPattern = /^https:\\/\\/(?:www\\.)?tiktok\\.com\\/@[^\\/]+\\/video\\/\\d+/;\n\n// Filtrar y extraer solo las URLs que coincidan con el patrón\nconst validTikTokUrls = results\n  .map(result => result.url)\n  .filter(url => tiktokPattern.test(url));\n\n// Retornar solo las URLs válidas\nreturn validTikTokUrls.map(url => ({\n  json: { url: url }\n}));"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -407,6 +407,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-10-02T23:28:09.000Z",
-  "versionId": "3cce717c-84d5-4dcf-8e16-79195639da1e"
+  "updatedAt": "2025-10-18T18:03:14.000Z",
+  "versionId": "804e8bc0-70f4-449b-ac90-599891616f2f"
 }
