@@ -1252,6 +1252,14 @@
             {
               "fieldId": "cedula",
               "fieldValue": "={{ $json.whatsapp_flow_data.cedula }}"
+            },
+            {
+              "fieldId": "fecha_ultimo_mensaje",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "fecha_registro",
+              "fieldValue": "={{ $now }}"
             }
           ]
         }
@@ -1487,6 +1495,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-17T20:16:01.000Z",
-  "versionId": "80613393-a3df-4a47-925f-102fd63eaebd"
+  "updatedAt": "2025-10-20T02:29:36.000Z",
+  "versionId": "3ad3e3c6-8954-43e1-8533-381cc0ee4f64"
 }
