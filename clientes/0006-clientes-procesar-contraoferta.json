@@ -52,11 +52,6 @@
         ]
       ]
     },
-    "Notificar Domiciliario Rechazado": {
-      "main": [
-        []
-      ]
-    },
     "Notificar Domiciliario Asignado": {
       "main": [
         [
@@ -102,7 +97,7 @@
     },
     {
       "parameters": {
-        "amount": "={{ $json.tiempo_procesar_contraoferta }}"
+        "amount": "={{ $env.DOMICHAT_TIEMPO_PROCESAR_CONTRAOFERTA }}"
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -253,38 +248,15 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
-        "textBody": "=😔 Tu propuesta para el pedido No. *{{ $('Start').item.json.pedido_id }}* no fue aceptada por el cliente. \n\n🚀 Nuevos pedidos vienen en camino. ¡Estate atento!",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        -16,
-        -304
-      ],
-      "id": "fe057036-652b-4ee5-ba25-bb84d030d2f5",
-      "name": "Notificar Domiciliario Rechazado",
-      "webhookId": "de9e78ea-a5db-4bfb-bb6b-1b410c8d40af",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {}
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
           ]
         },
         "sendBody": true,
@@ -302,17 +274,22 @@
       "name": "Notificar Domiciliario Asignado",
       "retryOnFail": true,
       "alwaysOutputData": false,
-      "maxTries": 2,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "5zpQFh3GmNApfzDH",
-          "name": "Credenciales WhatsApp Domiciliarios QA"
-        }
-      }
+      "maxTries": 2
     }
   ],
   "pinData": {
     "Start": [
+      {
+        "json": {
+          "pedido_id": "59",
+          "oferta_id": "OFE-33",
+          "phone_number_id_domiciliarios": "768517399686178",
+          "version_whatsapp_api": "v22.0",
+          "tiempo_procesar_contraoferta": "60"
+        }
+      }
+    ],
+    "Timer Respuesta Cliente (2min)": [
       {
         "json": {
           "pedido_id": "59",
@@ -339,6 +316,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-11T00:42:19.000Z",
-  "versionId": "a14473de-3793-4ca3-ba5a-0192329bc602"
+  "updatedAt": "2025-10-20T03:30:53.000Z",
+  "versionId": "33cd045f-c113-4f3e-ae09-56bb5984c454"
 }
