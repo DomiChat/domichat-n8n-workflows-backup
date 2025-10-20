@@ -93,17 +93,6 @@
         []
       ]
     },
-    "Notificar Domiciliario Con Plantilla": {
-      "main": [
-        [
-          {
-            "node": "Chat Memory Manager",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "¿Es Plantilla?": {
       "main": [
         [
@@ -116,6 +105,17 @@
         [
           {
             "node": "Notificar Domiciliario Con Botones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Domiciliario Con Plantilla": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
             "type": "main",
             "index": 0
           }
@@ -241,12 +241,6 @@
             {
               "name": "ciudad",
               "type": "any"
-            },
-            {
-              "name": "phone_number_id_domiciliarios"
-            },
-            {
-              "name": "version_whatsapp_api"
             }
           ]
         }
@@ -357,13 +351,14 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {}
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
           ]
         },
         "sendBody": true,
@@ -381,60 +376,7 @@
       "name": "Notificar Domiciliario Con Botones",
       "retryOnFail": true,
       "alwaysOutputData": false,
-      "maxTries": 2,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "5zpQFh3GmNApfzDH",
-          "name": "Credenciales WhatsApp Domiciliarios QA"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
-        "template": "notificar_pedido|es",
-        "components": {
-          "component": [
-            {
-              "bodyParameters": {
-                "parameter": [
-                  {
-                    "text": "={{ $('Start').first().json.pedido_id }}"
-                  },
-                  {
-                    "text": "={{ $('Start').first().json.lista_compras }}"
-                  },
-                  {
-                    "text": "={{ $('Start').first().json.direccion }}"
-                  },
-                  {
-                    "text": "={{ $('Start').first().json.zona_domicilio }}"
-                  },
-                  {
-                    "text": "={{ $('Start').first().json.valor_oferta }}"
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        624,
-        16
-      ],
-      "id": "191d98c8-42b8-4b1e-807d-5cabb5e7e21b",
-      "name": "Notificar Domiciliario Con Plantilla",
-      "webhookId": "3de5de67-d209-45e3-96ed-5e3e7c124919",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
+      "maxTries": 2
     },
     {
       "parameters": {
@@ -469,6 +411,40 @@
       ],
       "id": "456356f7-0c08-439d-8241-4de0780f5e64",
       "name": "¿Es Plantilla?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.lista_compras }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.direccion }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        624,
+        16
+      ],
+      "id": "9ae46bb9-0ae7-41b5-8240-efc8d26810da",
+      "name": "Notificar Domiciliario Con Plantilla",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
     }
   ],
   "pinData": {
@@ -502,6 +478,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-17T20:59:42.000Z",
-  "versionId": "ecfbba51-5b79-4df8-a88a-9f76bd3c1077"
+  "updatedAt": "2025-10-20T02:36:03.000Z",
+  "versionId": "1ca99637-c343-4536-be6f-0d150d00744b"
 }
