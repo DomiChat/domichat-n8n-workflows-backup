@@ -203,6 +203,17 @@
         ]
       ]
     },
+    "Notificar Domiciliario Asignado": {
+      "main": [
+        [
+          {
+            "node": "Return Aceptado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Notificar Domiciliario Rechazado": {
       "main": [
         [
@@ -224,17 +235,6 @@
           }
         ]
       ]
-    },
-    "Notificar Domiciliario Asignado": {
-      "main": [
-        [
-          {
-            "node": "Return Aceptado",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "createdAt": "2025-09-10T02:35:56.502Z",
@@ -247,7 +247,7 @@
   "nodes": [
     {
       "parameters": {
-        "amount": "={{ $json.tiempo_procesar_ofertas }}"
+        "amount": "={{ $env.DOMICHAT_TIEMPO_PROCESAR_OFERTAS }}"
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -374,15 +374,6 @@
             },
             {
               "name": "domiciliarios_notificados"
-            },
-            {
-              "name": "phone_number_id_domiciliarios"
-            },
-            {
-              "name": "version_whatsapp_api"
-            },
-            {
-              "name": "tiempo_procesar_ofertas"
             }
           ]
         }
@@ -850,62 +841,15 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
-        "textBody": "=👀 RESULTADO PROPUESTA\n\n❌ Tu propuesta no fue seleccionada\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\n\n🚚 Próximos pedidos en camino",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        256,
-        0
-      ],
-      "id": "6e0bdda6-c505-4868-bd4c-534b14cc7aae",
-      "name": "Notificar Domiciliario Rechazado",
-      "webhookId": "7cd4d732-fcb9-4c57-8434-fc35c85b2cfd",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $json.numero_domiciliario }}",
-        "textBody": "=⏰ VENTANA DE OFERTAS CERRADA\n\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\n\n⚡ Mantente listo para ofertar ",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        256,
-        176
-      ],
-      "id": "64f26791-b034-4c8c-be0b-af9f2115ba3e",
-      "name": "Notificar No Participaron",
-      "webhookId": "7cd4d732-fcb9-4c57-8434-fc35c85b2cfd",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $('Start').first().json.version_whatsapp_api }}/{{ $('Start').first().json.phone_number_id_domiciliarios }}/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {}
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
           ]
         },
         "sendBody": true,
@@ -924,13 +868,119 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2,
-      "executeOnce": true,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "5zpQFh3GmNApfzDH",
-          "name": "Credenciales WhatsApp Domiciliarios QA"
-        }
-      }
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={ body: '👀 RESULTADO PROPUESTA\\n\\n❌ Tu propuesta no fue seleccionada\\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\\n\\n🚚 Próximos pedidos en camino' }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        256,
+        0
+      ],
+      "id": "5582aeca-5ea6-41fc-b04a-524576e9d180",
+      "name": "Notificar Domiciliario Rechazado",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={ body: '⏰ VENTANA DE OFERTAS CERRADA\\n\\n🆔 Pedido: {{ $('Algoritmo Selección').item.json.pedido_id }}\\n\\n⚡ Mantente listo para ofertar ' }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        256,
+        176
+      ],
+      "id": "005f8541-6fb6-4ceb-ad00-9e1f2d71489e",
+      "name": "Notificar No Participaron",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
     }
   ],
   "pinData": {
@@ -963,6 +1013,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-12T19:27:30.000Z",
-  "versionId": "aa34002b-db84-48a9-873b-f0f3b342f84b"
+  "updatedAt": "2025-10-20T03:22:04.000Z",
+  "versionId": "efd5ff9c-1cea-453f-87c8-51d90cb52cb7"
 }
