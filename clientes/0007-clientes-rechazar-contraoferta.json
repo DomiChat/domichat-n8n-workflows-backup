@@ -112,7 +112,7 @@
             },
             {
               "fieldId": "fecha_confirmacion",
-              "fieldValue": "={{ new Date(new Date().toLocaleString('sv-SE', { timeZone: 'America/Bogota' }) + 'Z').toISOString() }}"
+              "fieldValue": "={{ $now }}"
             },
             {
               "fieldId": "motivo_cancelacion",
@@ -139,30 +139,70 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $json.domiciliario_asignado }}",
-        "textBody": "=👀 RESULTADO PROPUESTA\n\n❌ El cliente ha rechazado tu contraoferta\n🆔 Pedido: {{ $json.pedido_id }}\n\n🚚 Próximos pedidos en camino ",
-        "additionalFields": {}
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.domiciliario_asignado }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={ body: '👀 RESULTADO PROPUESTA\\n\\n❌ El cliente ha rechazado tu contraoferta\\n🆔 Pedido: {{ $json.pedido_id }}\\n\\n🚚 Próximos pedidos en camino ' }"
+            }
+          ]
+        },
+        "options": {}
       },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        448,
+        464,
         -176
       ],
-      "id": "9b7ab11b-9605-4078-97e0-78ba28739f2d",
+      "id": "5c7fd2b1-160d-4511-aa8d-a4547594cea1",
       "name": "Notificar Domiciliario Asignado",
-      "webhookId": "84f7640f-c449-421d-9ef9-6c37b572530c",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "pedido_id": "79"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1"
   },
@@ -178,6 +218,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-11T01:23:24.000Z",
-  "versionId": "70c8e465-ef2f-4763-956e-343685dc9837"
+  "updatedAt": "2025-10-20T03:36:20.000Z",
+  "versionId": "850fe024-6f81-4942-8687-9398df3eb929"
 }
