@@ -339,22 +339,11 @@
         ]
       ]
     },
-    "Variables del Flujo": {
-      "main": [
-        [
-          {
-            "node": "Datos Mensaje",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "¿Es mensaje del Sistema?": {
       "main": [
         [
           {
-            "node": "Variables del Flujo",
+            "node": "Datos Mensaje",
             "type": "main",
             "index": 0
           }
@@ -383,6 +372,16 @@
           },
           {
             "node": "Guardar Respuesta Time out",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Guardar Respuesta Aceptación",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Guardar Respuesta Sin Ofertas",
             "type": "ai_memory",
             "index": 0
           }
@@ -438,6 +437,28 @@
         [
           {
             "node": "Guardar Respuesta Time out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Respuesta Pedido Aceptado": {
+      "main": [
+        [
+          {
+            "node": "Guardar Respuesta Aceptación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Cliente Sin Ofertas": {
+      "main": [
+        [
+          {
+            "node": "Guardar Respuesta Sin Ofertas",
             "type": "main",
             "index": 0
           }
@@ -570,14 +591,14 @@
     {
       "parameters": {
         "content": "## PROCESAR MENSAJES DE ENTRADA",
-        "height": 848,
-        "width": 1808,
+        "height": 768,
+        "width": 1824,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -208,
-        0
+        0,
+        144
       ],
       "typeVersion": 1,
       "id": "0eabe4e0-d544-43b7-b8bc-73d57dfb834f",
@@ -586,14 +607,14 @@
     {
       "parameters": {
         "content": "## SOLICITAR Y CREAR PEDIDO O REGISTRAR CLIENTE\n",
-        "height": 848,
-        "width": 1024,
+        "height": 832,
+        "width": 880,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2128,
-        0
+        2256,
+        80
       ],
       "typeVersion": 1,
       "id": "48805c5c-7732-4cab-a0e2-a54bbaeccc3c",
@@ -870,13 +891,13 @@
     {
       "parameters": {
         "content": "## PROCESAR PEDIDO",
-        "height": 848,
+        "height": 912,
         "width": 1712,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3152,
+        3136,
         0
       ],
       "typeVersion": 1,
@@ -886,13 +907,13 @@
     {
       "parameters": {
         "content": "## PROCESAR CONTRAOFERTA",
-        "height": 848,
-        "width": 1296,
+        "height": 912,
+        "width": 1504,
         "color": 2
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        4864,
+        4848,
         0
       ],
       "typeVersion": 1,
@@ -1023,7 +1044,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1184,
+        1168,
         240
       ],
       "id": "a4d593de-7205-4634-aa26-033be1f13f73",
@@ -1059,15 +1080,15 @@
     },
     {
       "parameters": {
-        "content": "## Validar Usuario",
-        "height": 848,
-        "width": 528
+        "content": "## VALIDAR USUARIO",
+        "height": 768,
+        "width": 432
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1600,
-        0
+        1824,
+        144
       ],
       "id": "c4b94a1e-f038-4819-8739-9481884d3ec4",
       "name": "Sticky Note3"
@@ -1086,7 +1107,7 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        -112,
+        80,
         400
       ],
       "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
@@ -1659,7 +1680,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{$('Variables del Flujo').first().json.version_whatsapp_api}}/{{$('Variables del Flujo').first().json.phone_number_id_clientes}}/messages",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -1671,7 +1692,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Para comenzar necesitamos registrarte\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_cliente\",\n                \"flow_id\": \"{{$('Variables del Flujo').first().json.flow_id_registro_cliente}}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Para comenzar necesitamos registrarte\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_cliente\",\n                \"flow_id\": \"{{ $env.WHATSAPP_CLIENT_FLOW_ID_REGISTRO }}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -1703,7 +1724,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        976,
+        944,
         496
       ],
       "id": "692c11be-aaf7-4e39-a7d2-ff756fcc034f",
@@ -1740,7 +1761,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        1152,
+        1120,
         496
       ],
       "id": "4d2565a9-67ee-415f-91fb-ba18dd31be7a",
@@ -1771,64 +1792,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1520,
+        1488,
         480
       ],
       "id": "f67540f8-dba9-402a-9d52-a133ee2c37ea",
       "name": "Mensaje Inicial"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
-              "name": "phone_number_id_clientes",
-              "value": "837613199430783",
-              "type": "string"
-            },
-            {
-              "id": "a2e10b32-e21d-4b09-8571-24820ed6a50e",
-              "name": "phone_number_id_domiciliarios",
-              "value": "768517399686178",
-              "type": "string"
-            },
-            {
-              "id": "a91dd0d2-cc97-4ff4-80b7-e800c0afa575",
-              "name": "flow_id_registro_cliente",
-              "value": "770371012434062",
-              "type": "string"
-            },
-            {
-              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
-              "name": "version_whatsapp_api",
-              "value": "v22.0",
-              "type": "string"
-            },
-            {
-              "id": "6d45927a-9fb5-43f4-96e0-f65178d6b569",
-              "name": "tiempo_procesar_ofertas",
-              "value": "60",
-              "type": "string"
-            },
-            {
-              "id": "1b0ae788-b62d-49f8-a3de-faee06a69426",
-              "name": "tiempo_procesar_contraoferta",
-              "value": "60",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        320,
-        384
-      ],
-      "id": "1732e48f-6033-43c3-8958-c2f37d900e3d",
-      "name": "Variables del Flujo"
     },
     {
       "parameters": {
@@ -1858,7 +1826,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        96,
+        288,
         400
       ],
       "id": "84b05961-a493-43af-a187-70b01e58c6aa",
@@ -1869,8 +1837,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        320,
-        528
+        544,
+        560
       ],
       "id": "1f70add7-7964-4b89-8121-c57a075ccbff",
       "name": "No hacer nada"
@@ -1918,7 +1886,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        976,
+        944,
         688
       ],
       "id": "4306f8d1-469c-4c44-9ec0-abc09ab17913",
@@ -1948,7 +1916,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1344,
+        1312,
         672
       ],
       "id": "2ff5ff39-9502-47f8-a35d-84c0756da5b1",
@@ -1978,7 +1946,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1344,
+        1312,
         480
       ],
       "id": "7b7767dc-880f-4486-894a-fc080a5dd4a1",
@@ -2004,7 +1972,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        992,
+        944,
         240
       ],
       "id": "bdaa56b8-28b9-431b-8a73-545e5bf1c0e6",
@@ -2292,6 +2260,48 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "ai",
+              "message": "=🎉 ¡PEDIDO CONFIRMADO!\n\n🚚 Domiciliario: {{ $('Procesar Ventana Ofertas').first().json.Algoritmo_Seleccion.nombre_domiciliario }}\n💰 Precio: {{ $('Procesar Ventana Ofertas').first().json.Algoritmo_Seleccion.valor_final }}\n⏱️ Tiempo: 25-35 min\n\n🔐 CÓDIGO: {{ $('Procesar Ventana Ofertas').first().json.codigo_verificacion }}\n📋 Entrégalo al domiciliario para finalizar\n\n✨ ¡Tu pedido va en camino!\n\n⏰ *2 minutos para responder*"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        4896,
+        64
+      ],
+      "id": "aad0edfc-997e-4c4a-baca-c6454128358d",
+      "name": "Guardar Respuesta Aceptación"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "ai",
+              "message": "=❌ Sin domiciliarios disponibles\n\nPor favor, intenta más tarde con un nuevo pedido"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        4896,
+        432
+      ],
+      "id": "77344c08-bc85-4a7a-b383-a65f1780a6e1",
+      "name": "Guardar Respuesta Sin Ofertas"
     }
   ],
   "pinData": {
@@ -2450,18 +2460,6 @@
         }
       }
     ],
-    "Variables del Flujo": [
-      {
-        "json": {
-          "phone_number_id_clientes": "837613199430783",
-          "phone_number_id_domiciliarios": "768517399686178",
-          "flow_id_registro_cliente": "770371012434062",
-          "version_whatsapp_api": "v22.0",
-          "tiempo_procesar_ofertas": "60",
-          "tiempo_procesar_contraoferta": "60"
-        }
-      }
-    ],
     "¿Es mensaje del Sistema?": [
       {
         "json": {
@@ -2531,6 +2529,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-20T03:48:00.000Z",
-  "versionId": "724f4ea8-d5db-4bb9-8480-982fc4175011"
+  "updatedAt": "2025-10-20T17:37:21.000Z",
+  "versionId": "31420bb9-da01-4be8-8510-6fcf005e09cd"
 }
