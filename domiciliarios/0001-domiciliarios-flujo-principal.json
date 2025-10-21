@@ -34,7 +34,7 @@
         ],
         [
           {
-            "node": "Variables del Flujo Domiciliario",
+            "node": "Enviar Formulario Registro Domiciliario",
             "type": "main",
             "index": 0
           }
@@ -105,7 +105,7 @@
       "main": [
         [
           {
-            "node": "Enviar Respuesta Entrada No Soportada",
+            "node": "Notificar Mensaje Invalido",
             "type": "main",
             "index": 0
           }
@@ -133,7 +133,7 @@
         ],
         [
           {
-            "node": "Enviar Respuesta Entrada No Soportada",
+            "node": "Notificar Mensaje Invalido",
             "type": "main",
             "index": 0
           }
@@ -200,17 +200,6 @@
         ]
       ]
     },
-    "Postgres Chat Memory2": {
-      "ai_memory": [
-        [
-          {
-            "node": "OPS agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OPS agent": {
       "main": [
         [
@@ -250,28 +239,6 @@
           {
             "node": "OPS agent",
             "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Enviar Respuesta": {
-      "main": [
-        [
-          {
-            "node": "Guardar Fecha Último Mensaje",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Variables del Flujo Domiciliario": {
-      "main": [
-        [
-          {
-            "node": "Enviar Formulario Registro Domiciliario",
-            "type": "main",
             "index": 0
           }
         ]
@@ -319,6 +286,97 @@
           {
             "node": "No hacer nada",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Respuesta": {
+      "main": [
+        [
+          {
+            "node": "Guardar Fecha Último Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "OPS agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Command Processor Agent": {
+      "main": [
+        [
+          {
+            "node": "Route Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Command Processor Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Command": {
+      "main": [
+        [
+          {
+            "node": "Format Aceptar Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Contraofertar Output",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Cambiar Estado Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Command Processor Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Response Tool3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Command Processor Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -423,6 +481,7 @@
           "__rl": true,
           "value": "ZlGuD4CfbuDS4EMR",
           "mode": "list",
+          "cachedResultUrl": "/workflow/ZlGuD4CfbuDS4EMR",
           "cachedResultName": "0002 Domiciliarios Aceptar Pedido"
         },
         "workflowInputs": {
@@ -492,6 +551,7 @@
           "__rl": true,
           "value": "HzK6mbnjJfsRlNyW",
           "mode": "list",
+          "cachedResultUrl": "/workflow/HzK6mbnjJfsRlNyW",
           "cachedResultName": "0003 Domiciliarios Contraofertar Pedido"
         },
         "workflowInputs": {
@@ -571,6 +631,7 @@
           "__rl": true,
           "value": "qERWYLB6k0hZ7k4s",
           "mode": "list",
+          "cachedResultUrl": "/workflow/qERWYLB6k0hZ7k4s",
           "cachedResultName": "0004 Domiciliarios Validar Entrega Pedido"
         },
         "workflowInputs": {
@@ -655,7 +716,7 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        -1248,
+        -1264,
         -80
       ],
       "id": "b95f0e79-9128-4e50-b2ee-9573f090eec8",
@@ -665,30 +726,6 @@
         "whatsAppTriggerApi": {
           "id": "EtkMucNT6N2mPk2O",
           "name": "WhatsApp Domiciliarios QA - Trigger"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
-        "textBody": "={{ $json.text }}",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        1472,
-        -496
-      ],
-      "id": "23c4c82f-5524-48a0-9156-df3cbeb3e5d1",
-      "name": "Enviar Respuesta",
-      "webhookId": "b6d3d3c1-f4c3-475d-8eae-82a089005dde",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
         }
       }
     },
@@ -843,30 +880,6 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
-        "textBody": "📵 Este tipo de mensaje no puede ser procesado.  Por favor, escríbenos por texto 📝",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        -304,
-        208
-      ],
-      "id": "cce62f24-ad26-49cd-98c9-1142b27f7989",
-      "name": "Enviar Respuesta Entrada No Soportada",
-      "webhookId": "b6d3d3c1-f4c3-475d-8eae-82a089005dde",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
         "descriptionType": "manual",
         "toolDescription": "Registra un nuevo domiciliario en el sistema con todos sus datos",
         "tableId": "domiciliarios",
@@ -974,6 +987,7 @@
           "__rl": true,
           "value": "3qKyLhg7cDGi1Ijs",
           "mode": "list",
+          "cachedResultUrl": "/workflow/3qKyLhg7cDGi1Ijs",
           "cachedResultName": "0006 Domiciliarios Cambiar Estado"
         },
         "workflowInputs": {
@@ -1034,27 +1048,6 @@
         "googlePalmApi": {
           "id": "IsH1W1e4HDyYBz55",
           "name": "Google AI Studio QA"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}1234567890",
-        "contextWindowLength": 2
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
-      "typeVersion": 1.3,
-      "position": [
-        464,
-        -240
-      ],
-      "id": "3172880f-da1b-42b9-93ee-9ffe56bfa8b4",
-      "name": "Postgres Chat Memory2",
-      "credentials": {
-        "postgres": {
-          "id": "JRAtD5GxfvOjQyf0",
-          "name": "Postgres account 3"
         }
       }
     },
@@ -1133,73 +1126,33 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0181305c-4b23-45df-ab88-bd1f38b58399",
-              "name": "phone_number_id",
-              "value": "768517399686178",
-              "type": "string"
-            },
-            {
-              "id": "f67f015a-7615-4c4d-86bd-4b41ddeb03d9",
-              "name": "version_whatsapp_api",
-              "value": "v22.0",
-              "type": "string"
-            },
-            {
-              "id": "7da3e6e6-be9d-4eae-a0f3-53b8ea8e8534",
-              "name": "flow_id_registro_domiciliario",
-              "value": "2638793699801465",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        640,
-        64
-      ],
-      "id": "f1792311-f4e5-4207-aab3-70c1eb30d9e4",
-      "name": "Variables del Flujo Domiciliario"
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{$('Variables del Flujo Domiciliario').first().json.version_whatsapp_api}}/{{$('Variables del Flujo Domiciliario').first().json.phone_number_id}}/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {}
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Regístrate ahora y comienza a recibir pedidos\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_domiciliario\",\n                \"flow_id\": \"{{$('Variables del Flujo Domiciliario').first().json.flow_id_registro_domiciliario}}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Regístrate ahora y comienza a recibir pedidos\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_domiciliario\",\n                \"flow_id\": \"{{ $env.WHATSAPP_DELIVERY_FLOW_ID_REGISTRO}}\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        848,
-        64
+        560,
+        16
       ],
       "id": "5023f3cc-d6d4-43bd-9d4a-00e9f49e0ffb",
       "name": "Enviar Formulario Registro Domiciliario",
       "retryOnFail": true,
       "alwaysOutputData": false,
-      "maxTries": 3,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "5zpQFh3GmNApfzDH",
-          "name": "Credenciales WhatsApp Domiciliarios QA"
-        }
-      }
+      "maxTries": 3
     },
     {
       "parameters": {
@@ -1283,54 +1236,6 @@
     },
     {
       "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}",
-        "textBody": "=✅ ¡Registro completado exitosamente!\n\nYa haces parte de nuestra red de domiciliarios 🚀\n\n💼 Desde ahora podrás recibir pedidos directamente por WhatsApp.\n\n💰 Acepta los que quieras, entrega a tiempo y gana por cada servicio.\n\n📲 Mantente pendiente de los mensajes, ¡los pedidos llegan rápido!",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        80,
-        -32
-      ],
-      "id": "723b57a0-aded-4113-828f-66c54ca50f2f",
-      "name": "Notificar Registro Exitoso",
-      "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "send",
-        "phoneNumberId": "768517399686178",
-        "recipientPhoneNumber": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}",
-        "textBody": "=❌ Registro fallido\n\n😔 No pudimos completar tu registro\nOcurrió un error al intentar crear tu cuenta. Por favor intenta más tarde.",
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.whatsApp",
-      "typeVersion": 1,
-      "position": [
-        80,
-        160
-      ],
-      "id": "b4813c24-1c29-47e5-813b-3f3e2a9b447d",
-      "name": "Notificar Registro Fallido",
-      "webhookId": "9d905320-4e6d-4ccc-a3e7-6d121c65f61e",
-      "credentials": {
-        "whatsAppApi": {
-          "id": "YM1CDPaqIynCqebo",
-          "name": "WhatsApp Domiciliarios QA - Sender"
-        }
-      }
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -1411,6 +1316,492 @@
           "name": "Supabase QA"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}\",\n    \"type\": \"text\",\n    \"text\": {\n        \"body\": \"📵 Este tipo de mensaje no puede ser procesado. Por favor, escríbenos por texto o audio 📝\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        208
+      ],
+      "id": "3bc6c191-db47-4739-afac-fa62d797258f",
+      "name": "Notificar Mensaje Invalido",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Datos Mensaje').item.json.mensaje.telefono_usuario }}\",\n    \"type\": \"text\",\n    \"text\": {\n        \"body\": \"❌ Registro fallido\\n\\n😔 No pudimos completar tu registro\\nOcurrió un error al intentar crear tu cuenta. Por favor intenta más tarde.\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        160
+      ],
+      "id": "228dce31-f81c-45eb-884c-434f18cc97a1",
+      "name": "Notificar Registro Fallido",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={ body: '✅ ¡Registro completado exitosamente!\\n\\nYa haces parte de nuestra red de domiciliarios 🚀\\n\\n💼 Desde ahora podrás recibir pedidos directamente por WhatsApp.\\n\\n💰 Acepta los que quieras, entrega a tiempo y gana por cada servicio.\\n\\n📲 Mantente pendiente de los mensajes, ¡los pedidos llegan rápido!' }"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        -48
+      ],
+      "id": "94e4cbc7-ee37-4593-af45-88d00aab555c",
+      "name": "Notificar Registro Exitoso",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario }}"
+            },
+            {
+              "name": "type",
+              "value": "text"
+            },
+            {
+              "name": "text",
+              "value": "={{ { \"body\": $json.text } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1488,
+        -496
+      ],
+      "id": "b972498a-c878-45e3-aa73-2df73e1f795f",
+      "name": "Enviar Respuesta",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario + '_delivery'}}",
+        "sessionTTL": 86400000,
+        "contextWindowLength": 6
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        480,
+        -224
+      ],
+      "id": "9b364272-9485-4dba-b5d3-a2f7914772ef",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.contacts[0].wa_id }}",
+        "options": {
+          "systemMessage": "Eres un asistente para domiciliarios. Tu trabajo es procesar comandos de WhatsApp y extraer información estructurada.\n\nTool: \n\nSIEMPRE DE LOS SIEMPRE en cada ejecución ejecuta LA TOOL DE \"WhatsApp Response Tool\" para responder al usuario\n\nCOMANDOS VÁLIDOS:\n\n1. ACEPTAR: Usuario escribe \"aceptar [pedido_id]\". Si falta el ID, pregunta específicamente por el ID del pedido. Cuando tengas el ID completo, responde EXACTAMENTE en este formato JSON:\n{\"comando\": \"aceptar\", \"pedido_id\": \"ID_AQUI\", \"telefono\": \"TELEFONO_DEL_USUARIO\"}\n\n2. CONTRAOFERTAR: Usuario escribe \"contraofertar [pedido_id] [valor]\". Si falta pedido_id, pregunta por el ID. Si falta valor, pregunta por el valor de la contraoferta. Cuando tengas ambos datos, responde EXACTAMENTE en este formato JSON:\n{\"comando\": \"contraofertar\", \"pedido_id\": \"ID_AQUI\", \"valor_contraoferta\": VALOR_NUMERICO, \"telefono\": \"TELEFONO_DEL_USUARIO\"}\n\n3. CAMBIAR ESTADO: Usuario escribe \"cambiar estado\". Primero consulta el estado actual (activo/inactivo) del sistema. Luego muestra \"Estado actual: [ESTADO]. ¿Deseas cambiarlo a [ESTADO_OPUESTO]?\". Espera confirmación explícita (sí, confirmo, ok, etc). Solo cuando confirme, responde EXACTAMENTE en este formato JSON:\n{\"comando\": \"cambiar_estado\", \"nuevo_estado\": \"activo\" o \"inactivo\", \"telefono\": \"TELEFONO_DEL_USUARIO\"}\n\n4. SALUDO: Si detectas \"hola\", \"buenos días\", \"buenas tardes\", \"buenas noches\", responde: \"Bienvenido, pronto llegarán pedidos, mantente atento\"\n\nREGLAS IMPORTANTES:\n- Extrae el teléfono del usuario del mensaje de WhatsApp recibido\n- NO inventes datos. Si falta información, pregunta específicamente por ella\n- Para cambiar estado, SIEMPRE requiere confirmación explícita antes de generar el JSON\n- Cuando tengas todos los datos necesarios, responde SOLO con el JSON exacto (sin texto adicional)\n- Mantén conversación natural en español hasta tener todos los datos"
+        }
+      },
+      "id": "164d7a79-daec-4388-a393-ace6510bde54",
+      "name": "Command Processor Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -592,
+        944
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.contacts[0].wa_id }}"
+      },
+      "id": "105ed561-ba3f-4aa3-a79e-e42e675d9b8e",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -512,
+        1168
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "aceptar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "74f1eaa6-dd11-4c3a-9fb5-c6906a66ef98"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "aceptar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "contraofertar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "b1df95f6-ddfe-4bc7-9216-1592cf855fbb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "contraofertar"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "cambiar_estado",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "f2f78a97-6e6a-4a36-a9e0-e873df6bc672"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cambiar_estado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f0dcf541-40c9-42ac-9af4-cb19d65b01de",
+      "name": "Route Command",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -176,
+        928
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "comando",
+              "value": "aceptar",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "pedido_id",
+              "value": "={{ $json.output.match(/\"pedido_id\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "telefono",
+              "value": "={{ $json.output.match(/\"telefono\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0b7c5a22-baad-49b6-9ef8-79561066d46f",
+      "name": "Format Aceptar Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        752
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "comando",
+              "value": "contraofertar",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "pedido_id",
+              "value": "={{ $json.output.match(/\"pedido_id\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "valor_contraoferta",
+              "value": "={{ parseFloat($json.output.match(/\"valor_contraoferta\":\\s*([0-9.]+)/)?.[1]) }}",
+              "type": "number"
+            },
+            {
+              "id": "id-4",
+              "name": "telefono",
+              "value": "={{ $json.output.match(/\"telefono\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1574695b-66ec-48c5-a1a5-2a26b19702bd",
+      "name": "Format Contraofertar Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        944
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "comando",
+              "value": "cambiar_estado",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "nuevo_estado",
+              "value": "={{ $json.output.match(/\"nuevo_estado\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "telefono",
+              "value": "={{ $json.output.match(/\"telefono\":\\s*\"([^\"]+)\"/)?.[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0089a182-d8cc-48de-ae32-6cf6bf3bfb55",
+      "name": "Format Cambiar Estado Output",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        1136
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        1168
+      ],
+      "id": "33db52e2-0316-471c-b86b-c812ac532d1d",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IsH1W1e4HDyYBz55",
+          "name": "Google AI Studio QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Send message in WhatsApp Business Cloud",
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Authorization",
+              "valueProvider": "fieldValue",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $json.contacts[0].wa_id }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"{message_text}\"\n  }\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "message_text",
+              "description": "Message to send to the user",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "4c9019f6-224e-410d-91c8-1dcd45c2cc5b",
+      "name": "WhatsApp Response Tool3",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        1168
+      ]
     }
   ],
   "pinData": {
@@ -1463,8 +1854,8 @@
           "messages": [
             {
               "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0E4MEZCMTI4RTIzNjExNEU2NjcA",
-              "timestamp": "1760731787",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0E2MzgyRTEyRUQ5MDc1OTY4QzIA",
+              "timestamp": "1760997629",
               "text": {
                 "body": "Hola"
               },
@@ -1495,6 +1886,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-20T02:29:36.000Z",
-  "versionId": "3ad3e3c6-8954-43e1-8533-381cc0ee4f64"
+  "updatedAt": "2025-10-20T22:14:10.000Z",
+  "versionId": "110f1a47-0a09-4fd8-b018-df419d536826"
 }
