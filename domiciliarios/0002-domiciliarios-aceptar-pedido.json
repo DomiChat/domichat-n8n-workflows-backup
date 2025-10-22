@@ -92,8 +92,16 @@
   "nodes": [
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"not_found\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {},\n  \"error_code\": \"NOT_FOUND_OR_NOT_AVAILABLE\",\n  \"message\": \"El pedido no existe o ya no está disponible para aceptar.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "91f40597-4d6f-473d-9fbb-8daab83a6c04",
+              "name": "resultado",
+              "value": "no_existe_no_disponible",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -173,8 +181,16 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"window_closed\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"ventana_id\": \"{{$('Obtener Ventana').first().json.ventana_id}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    },\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }}\n  },\n  \"error_code\": \"WINDOW_CLOSED\",\n  \"message\": \"La ventana de ofertas está cerrada para este pedido.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n\n",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c2c9a484-5851-4b91-9832-548dd00fc145",
+              "name": "resultado",
+              "value": "ventana_cerrada",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -333,9 +349,9 @@
         "assignments": {
           "assignments": [
             {
-              "id": "6f342f78-3f6a-4ef4-aa9f-eeafcbf5fc1f",
-              "name": "={\n  \"accion\": \"aceptar_pedido\",\n  \"status\": \"ok\",\n  \"pedido_id\": {{ $json.pedido_id || $('Obtener Ventana').first().json.pedido_id }},\n  \"domiciliario\": \"{{$json.numero_domiciliario}}\",\n  \"data\": {\n    \"oferta_id\": \"{{$('Registrar Oferta').first().json.oferta_id}}\",\n    \"ventana_id\": \"{{$('Registrar Oferta').first().json.ventana_id}}\",\n    \"tipo_oferta\": \"{{$('Registrar Oferta').first().json.tipo_oferta}}\",\n    \"valor_cliente\": {{ $('Obtener Pedido').first().json.valor_oferta }},\n    \"valor_oferta\": {{ $('Registrar Oferta').first().json.valor_oferta }},\n    \"calificacion_domiciliario\": {{ $('Registrar Oferta').first().json.calificacion_domiciliario }},\n    \"fecha_oferta\": \"{{$('Registrar Oferta').first().json.fecha_oferta}}\",\n    \"direccion\": \"{{$('Obtener Pedido').first().json.direccion}}\",\n    \"ciudad\": \"{{$('Obtener Pedido').first().json.ciudad}}\",\n    \"codigo_verificacion\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\",\n    \"ventana\": {\n      \"inicio\": \"{{$('Obtener Ventana').first().json.tiempo_inicio}}\",\n      \"fin\": \"{{$('Obtener Ventana').first().json.tiempo_fin}}\",\n      \"estado\": \"{{$('Obtener Ventana').first().json.estado_ventana}}\"\n    }\n  },\n  \"error_code\": null,\n  \"message\": \"Oferta de aceptación registrada.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
-              "value": "La propuesta de aceptación ha sido registrada exitosamente",
+              "id": "a607cfd1-087c-4425-b2c1-c0110bce6b45",
+              "name": "resultado",
+              "value": "exitoso",
               "type": "string"
             }
           ]
@@ -381,6 +397,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-05T05:15:50.000Z",
-  "versionId": "bafaaa37-0740-46f2-a2c9-e031895f2d83"
+  "updatedAt": "2025-10-22T00:28:00.000Z",
+  "versionId": "6d744f84-d293-4a4c-b152-6e5aade55512"
 }
