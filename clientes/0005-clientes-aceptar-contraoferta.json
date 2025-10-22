@@ -149,13 +149,14 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $('Start').item.json.version_whatsapp_api }}/{{ $('Start').item.json.phone_number_id_domiciliarios }}/messages",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "httpBearerAuth",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            {}
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
           ]
         },
         "sendBody": true,
@@ -173,13 +174,7 @@
       "name": "Notificar Domiciliario Asignado",
       "retryOnFail": true,
       "alwaysOutputData": false,
-      "maxTries": 3,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "5zpQFh3GmNApfzDH",
-          "name": "Credenciales WhatsApp Domiciliarios QA"
-        }
-      }
+      "maxTries": 3
     }
   ],
   "pinData": {
@@ -210,6 +205,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-10T23:34:10.000Z",
-  "versionId": "25198f62-60e4-483e-9a5f-ba0e7e17ea1c"
+  "updatedAt": "2025-10-22T03:55:11.000Z",
+  "versionId": "9dbba317-341d-43b7-b10e-bc1ff78ef142"
 }
