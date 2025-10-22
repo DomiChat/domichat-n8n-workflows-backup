@@ -210,8 +210,16 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"not_found\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {},\n  \"error_code\": \"NOT_FOUND\",\n  \"message\": \"El pedido no existe en el sistema.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9669022a-c0b0-4cf3-a8ba-e1500d04b9eb",
+              "name": "resultado",
+              "value": "no_existe_no_disponible",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -300,8 +308,16 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"invalid_code\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"codigo_ingresado\": \"{{ $('Start').item.json.codigo_verificacion }}\",\n    \"codigo_esperado\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\"\n  },\n  \"error_code\": \"INVALID_CODE\",\n  \"message\": \"El código de verificación no coincide con el pedido.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "541eccfb-e0ce-4b13-bc3c-eb5550636839",
+              "name": "resultado",
+              "value": "codigo_erroneo",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -315,8 +331,16 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"accion\": \"validar_entrega\",\n  \"status\": \"ok\",\n  \"pedido_id\": {{ $('Start').item.json.pedido_id }},\n  \"domiciliario\": \"{{ $('Start').item.json.numero_domiciliario }}\",\n  \"data\": {\n    \"codigo_ingresado\": \"{{ $('Start').item.json.codigo_verificacion }}\",\n    \"codigo_registrado\": \"{{$('Obtener Pedido').first().json.codigo_verificacion}}\",\n    \"fecha_entrega\": \"{{$('Entregar Pedido').first().json.fecha_entrega}}\",\n    \"direccion\": \"{{$('Entregar Pedido').first().json.direccion}}\",\n    \"ciudad\": \"{{$('Entregar Pedido').first().json.ciudad}}\",\n    \"valor_cliente\": {{ $('Entregar Pedido').first().json.valor_oferta }},\n    \"valor_final\": {{ $('Entregar Pedido').first().json.valor_final }}\n  },\n  \"error_code\": null,\n  \"message\": \"Entrega validada y registrada.\",\n  \"request_id\": \"{{$executionId}}\",\n  \"ts\": \"{{ new Date().toISOString() }}\"\n}\n",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3346d703-5d09-4c41-986c-702d888a42a3",
+              "name": "resultado",
+              "value": "exitoso",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -423,9 +447,9 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "109",
-          "numero_domiciliario": "573208668467",
-          "codigo_verificacion": "9779"
+          "pedido_id": "1",
+          "numero_domiciliario": "573006064535",
+          "codigo_verificacion": "2121"
         }
       }
     ]
@@ -447,6 +471,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-20T03:54:28.000Z",
-  "versionId": "ad9af22e-6348-466a-afd0-1052fe5d7824"
+  "updatedAt": "2025-10-22T03:27:45.000Z",
+  "versionId": "0c984c6d-f74c-4237-b686-5133ee1d9ecc"
 }
