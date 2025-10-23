@@ -110,29 +110,6 @@
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2ad0b420-0c24-4863-be94-d85f5efc4f7d",
-              "name": "resultado",
-              "value": "no_existe_no_disponible",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -704,
-        416
-      ],
-      "id": "51b2e028-86e8-4920-98cf-b763027ee36b",
-      "name": "Return No Existe/No Disponible"
-    },
-    {
-      "parameters": {
         "operation": "get",
         "tableId": "pedidos",
         "filters": {
@@ -196,29 +173,6 @@
       ],
       "id": "159c99a3-9b53-4c7f-9cc0-ae571dd6c050",
       "name": "¿Existe o no está disponible?"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e1c5ce50-b1bd-43a9-a3d2-32dbb1898858",
-              "name": "resultado",
-              "value": "ventana_cerrada",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -16,
-        176
-      ],
-      "id": "b4f2c461-4083-44c0-94b6-007ae2c32fc9",
-      "name": "Return Ventana Cerrada"
     },
     {
       "parameters": {
@@ -321,7 +275,7 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        0,
+        -48,
         0
       ],
       "id": "d47cd7ef-68d0-4734-8953-dd921df5bb5d",
@@ -375,6 +329,18 @@
               "name": "resultado",
               "value": "exitoso",
               "type": "string"
+            },
+            {
+              "id": "aa093d68-3300-4ffb-9650-7708e80008c5",
+              "name": "mensaje_respuesta",
+              "value": "=✅ Tu contraoferta de {{ $('Start').first().json.valor_contraoferta }} para el pedido {{ $('Start').first().json.pedido_id }} fue registrada\n\n⏰ Te notificaremos si eres seleccionado",
+              "type": "string"
+            },
+            {
+              "id": "f7559df8-5c04-41ba-beb2-b51690b4e525",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -383,7 +349,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        208,
+        160,
         0
       ],
       "id": "467bb3df-3a2e-427c-971e-8614b4e2d6a9",
@@ -433,10 +399,16 @@
               "type": "string"
             },
             {
-              "id": "0051a5fb-284f-4fc7-a8f6-c257a05735fb",
-              "name": "valor_original",
-              "value": "={{ $('Obtener Pedido').first().json.valor_oferta }}",
+              "id": "8ad50382-8d31-47a7-803f-08c1155f9760",
+              "name": "mensaje_respuesta",
+              "value": "=❌ Tu contraoferta debe ser mayor a {{ $('Obtener Pedido').first().json.valor_oferta }}.\n\nIngresa un valor más alto.",
               "type": "string"
+            },
+            {
+              "id": "60932311-7b7c-4888-84f4-b298f470ef91",
+              "name": "guardar_en_memoria",
+              "value": true,
+              "type": "boolean"
             }
           ]
         },
@@ -450,14 +422,84 @@
       ],
       "id": "39ade8a2-be75-454a-b614-9fa7e83b6412",
       "name": "Return Valor Debe Ser Mayor"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "91f40597-4d6f-473d-9fbb-8daab83a6c04",
+              "name": "resultado",
+              "value": "no_existe_no_disponible",
+              "type": "string"
+            },
+            {
+              "id": "6f474874-3274-44fc-8fe2-3a8458817001",
+              "name": "mensaje_respuesta",
+              "value": "=⚠️ El pedido {{$('Start').first().json.pedido_id}} no existe o no está disponible.\n\nVerifica el No. del pedido.",
+              "type": "string"
+            },
+            {
+              "id": "ffed4ef7-da37-45b7-a5d6-06e43e12ea93",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -864,
+        384
+      ],
+      "id": "03cca358-3313-45b5-977f-3476800d02cc",
+      "name": "Return No Existe/No Disponible"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c2c9a484-5851-4b91-9832-548dd00fc145",
+              "name": "resultado",
+              "value": "ventana_cerrada",
+              "type": "string"
+            },
+            {
+              "id": "9bafe77b-c93a-445d-9ec8-791749f038fd",
+              "name": "mensaje_respuesta",
+              "value": "=⏰ La ventana del pedido {{$('Start').first().json.pedido_id}} ya cerró.\n\nYa no acepta más propuestas.",
+              "type": "string"
+            },
+            {
+              "id": "69fb2b2b-9662-40e9-bdc7-50b525cfd9d2",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        192
+      ],
+      "id": "21562f63-7a9d-4860-b8cf-22b83f57efa5",
+      "name": "Return Ventana Cerrada"
     }
   ],
   "pinData": {
     "Start": [
       {
         "json": {
-          "pedido_id": "1",
-          "valor_contraoferta": 0,
+          "pedido_id": "129",
+          "valor_contraoferta": 29000,
           "numero_domiciliario": "573006064535",
           "nombre_domiciliario": "Manuel",
           "calificacion_domiciliario": 4
@@ -482,6 +524,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T02:08:22.000Z",
-  "versionId": "3eafc916-c477-4a1e-a7b6-95c135a0aa21"
+  "updatedAt": "2025-10-22T18:17:56.000Z",
+  "versionId": "a43ce6f9-bea2-456b-8722-2d32058674e3"
 }
