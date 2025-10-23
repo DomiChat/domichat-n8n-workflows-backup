@@ -80,6 +80,11 @@
           }
         ]
       ]
+    },
+    "Return No Existe/No Disponible": {
+      "main": [
+        []
+      ]
     }
   },
   "createdAt": "2025-09-10T19:36:40.194Z",
@@ -99,6 +104,18 @@
               "name": "resultado",
               "value": "no_existe_no_disponible",
               "type": "string"
+            },
+            {
+              "id": "32324fa7-c35b-4e97-9772-7560a886f034",
+              "name": "mensaje_respuesta",
+              "value": "=⚠️ El pedido {{$('Start').first().json.pedido_id}} no existe o no está disponible.\n\nVerifica el No. del pedido.",
+              "type": "string"
+            },
+            {
+              "id": "7e450468-5889-4b0b-bf70-deb7a4c0f709",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -108,7 +125,7 @@
       "typeVersion": 3.4,
       "position": [
         -560,
-        272
+        304
       ],
       "id": "97a3ee48-a805-46b2-8783-359cdfbd042b",
       "name": "Return No Existe/No Disponible"
@@ -188,6 +205,18 @@
               "name": "resultado",
               "value": "ventana_cerrada",
               "type": "string"
+            },
+            {
+              "id": "8873ee66-71fd-4a63-b812-ab0d47f365f6",
+              "name": "mensaje_respuesta",
+              "value": "=⏰ La ventana del pedido {{$('Start').first().json.pedido_id}} ya cerró.\n\nYa no acepta más propuestas.",
+              "type": "string"
+            },
+            {
+              "id": "3b045dcb-86cb-41f0-8153-edfb81a75cb6",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -196,7 +225,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -16,
+        -64,
         176
       ],
       "id": "066ee497-5854-4bfa-909f-6c7a69d2948c",
@@ -303,8 +332,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -64,
+        -16
       ],
       "id": "420c0271-73d7-407e-b655-233ee7f354dc",
       "name": "Registrar Oferta",
@@ -353,6 +382,18 @@
               "name": "resultado",
               "value": "exitoso",
               "type": "string"
+            },
+            {
+              "id": "6225dfe7-108a-43a2-9873-7083583c36f1",
+              "name": "=mensaje_respuesta",
+              "value": "=✅ Aceptación registrada para pedido {{$('Start').first().json.pedido_id}}.\n\n⏰ Te notificaremos si eres seleccionado.",
+              "type": "string"
+            },
+            {
+              "id": "1c0dfbfc-6d5c-465d-ba55-941f9c92e7b1",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -362,7 +403,7 @@
       "typeVersion": 3.4,
       "position": [
         208,
-        0
+        -16
       ],
       "id": "52d0ea56-3a0a-4630-b2d8-c59e54da7839",
       "name": "Return Oferta Registrada"
@@ -372,10 +413,10 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "55",
+          "pedido_id": "1",
           "numero_domiciliario": "573006064535",
-          "nombre_domiciliario": "Manuel Torres",
-          "calificacion_domiciliario": 5
+          "nombre_domiciliario": "Manuel",
+          "calificacion_domiciliario": 4
         }
       }
     ]
@@ -397,6 +438,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T00:28:00.000Z",
-  "versionId": "6d744f84-d293-4a4c-b152-6e5aade55512"
+  "updatedAt": "2025-10-22T18:16:41.000Z",
+  "versionId": "dfc4a83a-b93b-46c8-a107-ee899c9e586e"
 }
