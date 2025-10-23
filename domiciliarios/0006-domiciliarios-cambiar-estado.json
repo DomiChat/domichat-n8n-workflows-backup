@@ -129,10 +129,16 @@
               "type": "string"
             },
             {
-              "id": "f0f7a313-a162-4902-9363-b16fc4714541",
-              "name": "estado_actual",
-              "value": "={{ $json.estado_domiciliario }}",
+              "id": "1c2f7ecf-5ff3-48d7-b9e5-47eac481478e",
+              "name": "mensaje_respuesta",
+              "value": "=✅ ¡Estado cambiado exitosamente!\n\n📊 *Nuevo estado:* {{ $json.estado_domiciliario }}\n{{ $json.estado_domiciliario === 'Activo' ? '🚚 Ahora recibirás pedidos' : '🚚 No recibirás pedidos temporalmente' }}\n\n📢 ¡Listo!",
               "type": "string"
+            },
+            {
+              "id": "cac4bd87-2dc5-4088-a446-3527a77bb4ba",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -156,6 +162,18 @@
               "name": "resultado",
               "value": "error_cambio_estado",
               "type": "string"
+            },
+            {
+              "id": "8f829e6f-6b05-45e2-841b-ea9896114e3e",
+              "name": "mensaje_respuesta",
+              "value": "=❌ El cambio de estado falló.\n\nIntenta más tarde.",
+              "type": "string"
+            },
+            {
+              "id": "1fefc0b6-990b-41ee-9d3a-a4668c4d23d4",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -230,6 +248,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T03:39:28.000Z",
-  "versionId": "8c4449ee-c690-4f01-ad40-b8e0c045a147"
+  "updatedAt": "2025-10-22T18:20:00.000Z",
+  "versionId": "b243a8f2-bd5a-4d7f-abbf-cb8964d1f0ea"
 }
