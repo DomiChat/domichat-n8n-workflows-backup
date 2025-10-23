@@ -34,7 +34,7 @@
         ],
         [
           {
-            "node": "Return Error",
+            "node": "Return No Existe/No Disponible",
             "type": "main",
             "index": 0
           }
@@ -210,29 +210,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "9669022a-c0b0-4cf3-a8ba-e1500d04b9eb",
-              "name": "resultado",
-              "value": "no_existe_no_disponible",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1328,
-        384
-      ],
-      "id": "a8f4b603-4d88-4f63-ab98-cf496a76e49d",
-      "name": "Return Error"
-    },
-    {
-      "parameters": {
         "operation": "update",
         "tableId": "pedidos",
         "filters": {
@@ -315,6 +292,18 @@
               "name": "resultado",
               "value": "codigo_erroneo",
               "type": "string"
+            },
+            {
+              "id": "ca9918ab-edc3-4463-8739-22a32a62d78f",
+              "name": "mensaje_respuesta",
+              "value": "=❌ Código incorrecto.\n\nEl código {{ $('Start').first().json.codigo_verificacion }} no coincide con el pedido {{ $('Start').first().json.pedido_id }}. \n\nIngresa el código correcto.",
+              "type": "string"
+            },
+            {
+              "id": "5c99eb5a-ddfd-44aa-aeec-0aa32243bc5b",
+              "name": "guardar_en_memoria",
+              "value": true,
+              "type": "boolean"
             }
           ]
         },
@@ -338,6 +327,18 @@
               "name": "resultado",
               "value": "exitoso",
               "type": "string"
+            },
+            {
+              "id": "ca2aedf3-7d8b-48ca-b1fd-1f19d310da09",
+              "name": "mensaje_respuesta",
+              "value": "=✅ Pedido {{ $('Start').first().json.pedido_id }} marcado como entregado\n\n🎉 ¡Gracias por tu servicio!",
+              "type": "string"
+            },
+            {
+              "id": "ca08eeca-ffaa-44d5-b9e8-c48815aee5f4",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
             }
           ]
         },
@@ -441,6 +442,41 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "91f40597-4d6f-473d-9fbb-8daab83a6c04",
+              "name": "resultado",
+              "value": "no_existe_no_disponible",
+              "type": "string"
+            },
+            {
+              "id": "32324fa7-c35b-4e97-9772-7560a886f034",
+              "name": "mensaje_respuesta",
+              "value": "=⚠️ El pedido {{$('Start').first().json.pedido_id}} no existe o ya fue entregado.\n\nVerifica el No. del pedido.",
+              "type": "string"
+            },
+            {
+              "id": "e1afa072-9756-4877-bf6f-3dd5417c701b",
+              "name": "guardar_en_memoria",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1408,
+        384
+      ],
+      "id": "08c2b182-2ef4-48e2-97c3-d984fc0d54e1",
+      "name": "Return No Existe/No Disponible"
     }
   ],
   "pinData": {
@@ -471,6 +507,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T03:27:45.000Z",
-  "versionId": "0c984c6d-f74c-4237-b686-5133ee1d9ecc"
+  "updatedAt": "2025-10-22T18:18:46.000Z",
+  "versionId": "1dfa6cb6-a16a-45c7-906b-a383b09e5f5a"
 }
