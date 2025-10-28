@@ -163,9 +163,9 @@
         ],
         [
           {
-            "node": "Switch Resultado Ventana",
+            "node": "Unir Flujos",
             "type": "main",
-            "index": 0
+            "index": 2
           }
         ]
       ]
@@ -218,7 +218,7 @@
       "main": [
         [
           {
-            "node": "Switch Resultado Ventana",
+            "node": "Unir Flujos",
             "type": "main",
             "index": 0
           }
@@ -226,6 +226,17 @@
       ]
     },
     "Notificar No Participaron": {
+      "main": [
+        [
+          {
+            "node": "Unir Flujos",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Unir Flujos": {
       "main": [
         [
           {
@@ -402,7 +413,7 @@
                 "conditions": [
                   {
                     "id": "91812db6-2968-4ade-b76c-a1b9e8d7a8b2",
-                    "leftValue": "={{ $('Algoritmo Selección').item.json.tipo_seleccion }}",
+                    "leftValue": "={{ $('Algoritmo Selección').first().json.tipo_seleccion }}",
                     "rightValue": "aceptacion",
                     "operator": {
                       "type": "string",
@@ -427,7 +438,7 @@
                 "conditions": [
                   {
                     "id": "2e9a93cb-0540-4951-88a2-9648cbc75f17",
-                    "leftValue": "={{ $('Algoritmo Selección').item.json.tipo_seleccion }}",
+                    "leftValue": "={{ $('Algoritmo Selección').first().json.tipo_seleccion }}",
                     "rightValue": "contraoferta",
                     "operator": {
                       "type": "string",
@@ -451,12 +462,12 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        528,
-        368
+        912,
+        352
       ],
       "id": "d92a5cd8-c237-4157-a20f-fa774ba7f3d6",
       "name": "Switch Resultado Ventana",
-      "executeOnce": true
+      "executeOnce": false
     },
     {
       "parameters": {
@@ -495,12 +506,13 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        960,
-        192
+        1344,
+        176
       ],
       "id": "4ea6427c-0b9a-4733-a1bf-7886ba033958",
       "name": "Confirmar Pedido Automático",
-      "executeOnce": true,
+      "executeOnce": false,
+      "retryOnFail": true,
       "credentials": {
         "supabaseApi": {
           "id": "4bpjJPK2fqZkspgx",
@@ -643,12 +655,12 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1440,
-        192
+        1824,
+        176
       ],
       "id": "2a6b490c-b667-4fda-bea0-0aeaa8b5fc91",
       "name": "Return Aceptado",
-      "executeOnce": true
+      "executeOnce": false
     },
     {
       "parameters": {
@@ -683,8 +695,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        960,
-        384
+        1344,
+        368
       ],
       "id": "9cb9c132-5062-4271-9dd2-8fb69de393fe",
       "name": "Actualizar Estado Contraoferta",
@@ -725,8 +737,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1200,
-        384
+        1584,
+        368
       ],
       "id": "d2daac3a-316b-48ca-9e4d-08085d5b085d",
       "name": "Return Contraofertado",
@@ -757,8 +769,8 @@
       "type": "n8n-nodes-base.supabase",
       "typeVersion": 1,
       "position": [
-        960,
-        592
+        1344,
+        576
       ],
       "id": "c2532e24-3c86-46b4-b8d8-6767a2d7f725",
       "name": "Actualizar Estado Sin Ofertas",
@@ -799,8 +811,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1184,
-        592
+        1568,
+        576
       ],
       "id": "40675f20-e93e-4af7-9874-0b7b14016c0a",
       "name": "Return Sin Ofertas",
@@ -860,15 +872,15 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1200,
-        192
+        1584,
+        176
       ],
       "id": "c83c6237-2331-4793-a577-a030c26c69b5",
       "name": "Notificar Domiciliario Asignado",
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2,
-      "executeOnce": true
+      "executeOnce": false
     },
     {
       "parameters": {
@@ -981,19 +993,237 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        688,
+        352
+      ],
+      "id": "d82dd777-0d17-4764-9a9e-9de17b56fe71",
+      "name": "Unir Flujos",
+      "alwaysOutputData": true
     }
   ],
   "pinData": {
+    "Set Rechazados": [
+      {
+        "json": {
+          "numero_domiciliario": "573053256193",
+          "oferta_id": "OFE-122"
+        }
+      }
+    ],
+    "Notificar Domiciliario Rechazado": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573053256193",
+              "wa_id": "573053256193"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDUzMjU2MTkzFQIAERgSODY2M0E2REQ2MzZDMDU5NjM5AA=="
+            }
+          ]
+        }
+      }
+    ],
     "Start": [
       {
         "json": {
-          "ventana_id": "VEN-103",
-          "pedido_id": "103",
-          "valor_oferta": "23000",
-          "domiciliarios_notificados": "573204081631,573006064535,573053256193,573219453816",
-          "phone_number_id_domiciliarios": "768517399686178",
-          "version_whatsapp_api": "v22.0",
-          "tiempo_procesar_ofertas": "60"
+          "ventana_id": "VEN-146",
+          "pedido_id": "146",
+          "valor_oferta": "18000",
+          "domiciliarios_notificados": "573243965443,573219453816,573053256193,573006064535"
+        }
+      }
+    ],
+    "Timer Ventana Ofertas (3min)": [
+      {
+        "json": {
+          "ventana_id": "VEN-146",
+          "pedido_id": "146",
+          "valor_oferta": "18000",
+          "domiciliarios_notificados": "573243965443,573219453816,573053256193,573006064535"
+        }
+      }
+    ],
+    "Buscar Ofertas Recibidas": [
+      {
+        "json": {
+          "ventana_id": "VEN-146",
+          "numero_domiciliario": "573006064535",
+          "nombre_domiciliario": "Manuel",
+          "tipo_oferta": "aceptacion",
+          "valor_oferta": 18000,
+          "calificacion_domiciliario": 4,
+          "fecha_oferta": "2025-10-27T17:58:59.172591+00:00",
+          "oferta_id": "OFE-123"
+        }
+      }
+    ],
+    "Procesar Ofertas Ventana": [
+      {
+        "json": {
+          "valor_oferta": "18000",
+          "ofertas_recibidas": [
+            {
+              "json": {
+                "ventana_id": "VEN-146",
+                "numero_domiciliario": "573006064535",
+                "nombre_domiciliario": "Manuel",
+                "tipo_oferta": "aceptacion",
+                "valor_oferta": 18000,
+                "calificacion_domiciliario": 4,
+                "fecha_oferta": "2025-10-27T17:58:59.172591+00:00",
+                "oferta_id": "OFE-123"
+              },
+              "pairedItem": {
+                "item": 0
+              }
+            }
+          ],
+          "pedido_id": "146",
+          "ventana_id": "VEN-146"
+        }
+      }
+    ],
+    "Algoritmo Selección": [
+      {
+        "json": {
+          "pedido_id": "146",
+          "ventana_id": "VEN-146",
+          "oferta_id": "OFE-123",
+          "tipo_seleccion": "aceptacion",
+          "valor_final": "18000",
+          "nombre_domiciliario": "Manuel",
+          "numero_domiciliario": "573006064535",
+          "calificacion_domiciliario": 4
+        }
+      }
+    ],
+    "Cerrar Ventana Ofertas": [
+      {
+        "json": {
+          "ventana_id": "VEN-146",
+          "pedido_id": 146,
+          "tiempo_inicio": "2025-10-27T12:58:43+00:00",
+          "tiempo_fin": "2025-10-27T13:01:43+00:00",
+          "estado_ventana": "cerrada"
+        }
+      }
+    ],
+    "Clasificar Domiciliarios": [
+      {
+        "json": {
+          "rechazados": [],
+          "no_participaron": [
+            "573243965443",
+            "573219453816",
+            "573053256193"
+          ]
+        }
+      }
+    ],
+    "¿Hay Domiciliarios No Participaron?": [
+      {
+        "json": {
+          "rechazados": [],
+          "no_participaron": [
+            "573243965443",
+            "573219453816",
+            "573053256193"
+          ]
+        }
+      }
+    ],
+    "Set No Participaron": [
+      {
+        "json": {
+          "numero_domiciliario": "573243965443"
+        }
+      },
+      {
+        "json": {
+          "numero_domiciliario": "573219453816"
+        }
+      },
+      {
+        "json": {
+          "numero_domiciliario": "573053256193"
+        }
+      }
+    ],
+    "Notificar Otros Domiciliarios": [
+      {
+        "json": {
+          "rechazados": [],
+          "no_participaron": [
+            "573243965443",
+            "573219453816",
+            "573053256193"
+          ]
+        }
+      }
+    ],
+    "Notificar No Participaron": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573243965443",
+              "wa_id": "573243965443"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMjQzOTY1NDQzFQIAERgSM0ZGODI1NUUwRDc0NjBGNTNGAA=="
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573219453816",
+              "wa_id": "573219453816"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMjE5NDUzODE2FQIAERgSMkVDNjdCM0IzOEY3Mjk0MEU2AA=="
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "contacts": [
+            {
+              "input": "573053256193",
+              "wa_id": "573053256193"
+            }
+          ],
+          "messages": [
+            {
+              "id": "wamid.HBgMNTczMDUzMjU2MTkzFQIAERgSN0ZCOUE3MzcwNDEyMzAwNkIyAA=="
+            }
+          ]
         }
       }
     ]
@@ -1013,6 +1243,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-20T03:22:04.000Z",
-  "versionId": "efd5ff9c-1cea-453f-87c8-51d90cb52cb7"
+  "updatedAt": "2025-10-27T18:19:09.000Z",
+  "versionId": "d835740d-e263-4ffe-b326-b4d4e31c4219"
 }
