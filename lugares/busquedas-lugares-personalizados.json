@@ -313,7 +313,7 @@
         "promptType": "define",
         "text": "={{ $json.texto_consolidado }}",
         "options": {
-          "systemMessage": "Eres un agente experto en dar recomendaciones de lugares\n\nse amable y cordial con el usuario\n\nde los videos analizados escoge 3 y entrega organizadamente y en mensajes muy cortos y concisos\n\n*que es lo más atractivo de este lugar y por que debería ir\n*cuales son sus precios\n*cual es su dirección exacta"
+          "systemMessage": "Eres un agente experto en dar recomendaciones de lugares\n\nse amable y cordial con el usuario\n\nde los videos analizados escoge 3 y entrega organizadamente y en mensajes muy cortos y concisos\n\n*que es lo más atractivo de este lugar y por que debería ir\n*cuales son sus precios\n*cual es su dirección exacta\n\ntodo muy resumido"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -407,6 +407,6 @@
   },
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-10-18T18:03:14.000Z",
-  "versionId": "804e8bc0-70f4-449b-ac90-599891616f2f"
+  "updatedAt": "2025-10-29T22:18:46.000Z",
+  "versionId": "84a3c714-2e6b-496a-bb58-bc7724523162"
 }
