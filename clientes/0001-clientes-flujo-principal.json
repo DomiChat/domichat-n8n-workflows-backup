@@ -59,7 +59,7 @@
       "main": [
         [
           {
-            "node": "Clasificar Tipo Mensaje",
+            "node": "Mostrar Typing Indicator",
             "type": "main",
             "index": 0
           }
@@ -464,6 +464,17 @@
           }
         ]
       ]
+    },
+    "Mostrar Typing Indicator": {
+      "main": [
+        [
+          {
+            "node": "Clasificar Tipo Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-27T17:28:56.527Z",
@@ -488,7 +499,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "audio",
                     "operator": {
                       "type": "string",
@@ -512,7 +523,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "text",
                     "operator": {
                       "type": "string",
@@ -537,7 +548,7 @@
                 "conditions": [
                   {
                     "id": "f46b3861-6efa-4ecb-b18b-c6f573f0c94b",
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "flow",
                     "operator": {
                       "type": "string",
@@ -592,12 +603,12 @@
       "parameters": {
         "content": "## PROCESAR MENSAJES DE ENTRADA",
         "height": 768,
-        "width": 1824,
+        "width": 2000,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
+        -176,
         144
       ],
       "typeVersion": 1,
@@ -659,6 +670,12 @@
               "name": "mensaje.telefono_usuario",
               "value": "={{ $('WhatsApp Trigger').first().json.contacts[0].wa_id }}",
               "type": "string"
+            },
+            {
+              "id": "c0cdb023-92cc-44cd-a2a7-c97d27295613",
+              "name": "mensaje.id",
+              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].id }}",
+              "type": "string"
             }
           ]
         },
@@ -667,7 +684,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        544,
+        352,
         384
       ],
       "id": "a257e180-aade-416a-bf00-97797f747c7b",
@@ -1105,7 +1122,7 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        80,
+        -112,
         400
       ],
       "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
@@ -1821,7 +1838,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        288,
+        96,
         400
       ],
       "id": "84b05961-a493-43af-a187-70b01e58c6aa",
@@ -1832,7 +1849,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        544,
+        352,
         560
       ],
       "id": "1f70add7-7964-4b89-8121-c57a075ccbff",
@@ -2297,9 +2314,80 @@
       ],
       "id": "77344c08-bc85-4a7a-b383-a65f1780a6e1",
       "name": "Guardar Respuesta Sin Ofertas"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_CLIENT_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"status\": \"read\",\n    \"message_id\": \"{{ $('Datos Mensaje').first().json.mensaje.id }}\",\n    \"typing_indicator\": {\n        \"type\": \"text\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        384
+      ],
+      "id": "f47ab1e4-ac47-48de-9dfb-13b1c73a0415",
+      "name": "Mostrar Typing Indicator",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 3
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "WhatsApp Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "573138106191",
+            "phone_number_id": "837613199430783"
+          },
+          "contacts": [
+            {
+              "profile": {
+                "name": "Nicol"
+              },
+              "wa_id": "573243965443"
+            }
+          ],
+          "messages": [
+            {
+              "context": {
+                "from": "573138106191",
+                "id": "wamid.HBgMNTczMjQzOTY1NDQzFQIAERgSRjVGRTBGNjM4RUVENjg2QTc3AA=="
+              },
+              "from": "573243965443",
+              "id": "wamid.HBgMNTczMjQzOTY1NDQzFQIAEhgUM0E3RUUzRERGQjA5MzJBNjFEM0YA",
+              "timestamp": "1761843497",
+              "type": "interactive",
+              "interactive": {
+                "type": "nfm_reply",
+                "nfm_reply": {
+                  "response_json": "{\"flow_token\":\"registro_cliente\",\"acepta_terminos\":true,\"email\":\"Thycgg\\u0040gmail.gom\",\"apellidos\":\"Vvhbhh\",\"nombres\":\"Njhhhh\",\"ciudad\":\"Villeta\"}",
+                  "body": "Sent",
+                  "name": "flow"
+                }
+              }
+            }
+          ],
+          "field": "messages"
+        }
+      }
+    ]
+  },
   "settings": {
     "executionOrder": "v1",
     "timezone": "America/Bogota",
@@ -2319,6 +2407,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-22T04:04:07.000Z",
-  "versionId": "e2912724-f3a7-4e19-ba45-5042211fbf45"
+  "updatedAt": "2025-10-30T16:59:40.000Z",
+  "versionId": "72c187a6-a747-4a2f-9cd0-ac8cfaed7c5e"
 }
