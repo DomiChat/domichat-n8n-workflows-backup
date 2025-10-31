@@ -45,7 +45,7 @@
       "main": [
         [
           {
-            "node": "Clasificar Tipo Mensaje",
+            "node": "Mostrar Typing Indicator",
             "type": "main",
             "index": 0
           }
@@ -359,6 +359,17 @@
           }
         ]
       ]
+    },
+    "Mostrar Typing Indicator": {
+      "main": [
+        [
+          {
+            "node": "Clasificar Tipo Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-10T19:35:15.731Z",
@@ -445,7 +456,7 @@
       "type": "n8n-nodes-base.whatsAppTrigger",
       "typeVersion": 1,
       "position": [
-        -1456,
+        -1632,
         -384
       ],
       "id": "b95f0e79-9128-4e50-b2ee-9573f090eec8",
@@ -473,6 +484,12 @@
               "name": "mensaje.telefono_usuario",
               "value": "={{ $json.contacts[0].wa_id }}",
               "type": "string"
+            },
+            {
+              "id": "5812c74d-1a6d-444e-851c-78efdd978674",
+              "name": "mensaje.id",
+              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].id }}",
+              "type": "string"
             }
           ]
         },
@@ -481,7 +498,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1008,
+        -1184,
         -480
       ],
       "id": "bd71a33b-0a64-4f99-9800-0f1375cbf049",
@@ -502,7 +519,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "audio",
                     "operator": {
                       "type": "string",
@@ -526,7 +543,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "text",
                     "operator": {
                       "type": "string",
@@ -551,7 +568,7 @@
                 "conditions": [
                   {
                     "id": "2ea750bf-1a44-4255-999a-2661048bc1f3",
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "button",
                     "operator": {
                       "type": "string",
@@ -576,7 +593,7 @@
                 "conditions": [
                   {
                     "id": "51958b5e-07be-44c3-a28a-3ebc900ce46a",
-                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "leftValue": "={{ $('Datos Mensaje').first().json.mensaje.tipo }}",
                     "rightValue": "flow",
                     "operator": {
                       "type": "string",
@@ -712,7 +729,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1232,
+        -1408,
         -384
       ],
       "id": "3fa8d205-0afc-4288-b6ba-25badd3e069d",
@@ -723,7 +740,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -1008,
+        -1184,
         -288
       ],
       "id": "0dd7ed36-55e9-45b3-960a-4b885e44a77d",
@@ -1644,13 +1661,13 @@
       "parameters": {
         "content": "## CATEGORIZAR MENSAJES DE ENTRADA\n",
         "height": 816,
-        "width": 960,
+        "width": 1168,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -1472,
+        -1680,
         -768
       ],
       "id": "4afcf39a-8a39-494d-a6fc-e43c06a6af63",
@@ -1719,6 +1736,36 @@
       ],
       "id": "fe3709e1-899b-402e-8a6f-9b96e65dc0f8",
       "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"status\": \"read\",\n    \"message_id\": \"{{ $('Datos Mensaje').first().json.mensaje.id }}\",\n    \"typing_indicator\": {\n        \"type\": \"text\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -992,
+        -480
+      ],
+      "id": "a1453a62-7685-4345-a71a-483e28762d14",
+      "name": "Mostrar Typing Indicator",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 3
     }
   ],
   "pinData": {
@@ -1734,6 +1781,21 @@
             "ciudad": "La Vega",
             "cedula": "4684"
           }
+        }
+      }
+    ],
+    "Registrar Domiciliario": [
+      {
+        "json": {
+          "cedula": "4684",
+          "numero_domiciliario": "573006064535",
+          "nombre_domiciliario": "Manu",
+          "apellido_domiciliario": "Tow",
+          "ciudad_domiciliario": "La Vega",
+          "estado_domiciliario": "Activo",
+          "calificacion_domiciliario": 4,
+          "fecha_registro": "2025-10-10",
+          "email": "Jddj@com.com"
         }
       }
     ],
@@ -1756,30 +1818,15 @@
           "messages": [
             {
               "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FCQzE1OURBQkM4MjEwQTg3OTUA",
-              "timestamp": "1761157691",
+              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0EzRkI2MzVBODEzNEM1RUVBMDgA",
+              "timestamp": "1761843799",
               "text": {
-                "body": "1"
+                "body": "Holaaa"
               },
               "type": "text"
             }
           ],
           "field": "messages"
-        }
-      }
-    ],
-    "Registrar Domiciliario": [
-      {
-        "json": {
-          "cedula": "4684",
-          "numero_domiciliario": "573006064535",
-          "nombre_domiciliario": "Manu",
-          "apellido_domiciliario": "Tow",
-          "ciudad_domiciliario": "La Vega",
-          "estado_domiciliario": "Activo",
-          "calificacion_domiciliario": 4,
-          "fecha_registro": "2025-10-10",
-          "email": "Jddj@com.com"
         }
       }
     ]
@@ -1803,6 +1850,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-22T22:34:27.000Z",
-  "versionId": "66c3917c-3428-4f70-8204-488843fd722f"
+  "updatedAt": "2025-10-30T17:04:06.000Z",
+  "versionId": "14ad9898-63c4-4a35-9d67-6828a64cb484"
 }
