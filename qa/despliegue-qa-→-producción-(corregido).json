@@ -1,0 +1,741 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook GET - Cargar Formulario": {
+      "main": [
+        [
+          {
+            "node": "Obtener Workflows QA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar HTML del Formulario": {
+      "main": [
+        [
+          {
+            "node": "Responder con HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Workflows QA1": {
+      "main": [
+        [
+          {
+            "node": "Generar HTML del Formulario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook POST - Recibir Seleccion": {
+      "main": [
+        [
+          {
+            "node": "Hay Workflows?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hay Workflows?": {
+      "main": [
+        [
+          {
+            "node": "Obtener Workflows QA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sin Workflows Seleccionados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar Workflows": {
+      "main": [
+        [
+          {
+            "node": "Preparar Workflow Individual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Workflow Individual": {
+      "main": [
+        [
+          {
+            "node": "Verificar Workflows Existentes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Workflows Existentes": {
+      "main": [
+        [
+          {
+            "node": "Preparar Operacion Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Operacion Workflow": {
+      "main": [
+        [
+          {
+            "node": "Workflow Existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Existe?": {
+      "main": [
+        [
+          {
+            "node": "Limpiar Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crear Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limpiar Metadata": {
+      "main": [
+        [
+          {
+            "node": "Actualizar Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualizar Workflow": {
+      "main": [
+        [
+          {
+            "node": "Marcar como Actualizado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Resultados",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Crear Workflow": {
+      "main": [
+        [
+          {
+            "node": "Marcar como Creado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge Resultados",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Sin Workflows Seleccionados": {
+      "main": [
+        [
+          {
+            "node": "Merge Resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Resultados": {
+      "main": [
+        [
+          {
+            "node": "Generar Reporte Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Reporte Final": {
+      "main": [
+        [
+          {
+            "node": "Generar HTML Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar HTML Resultado": {
+      "main": [
+        [
+          {
+            "node": "Responder HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Workflows QA": {
+      "main": [
+        [
+          {
+            "node": "Filtrar Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como Actualizado": {
+      "main": [
+        [
+          {
+            "node": "Merge Resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como Creado": {
+      "main": [
+        [
+          {
+            "node": "Merge Resultados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-02T00:41:45.151Z",
+  "id": "i7db2GZXRNj702MG",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Despliegue QA → Producción (Corregido)",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "deployment-form",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "1281d36f-9a40-4041-934f-13328d7347a2",
+      "name": "Webhook GET - Cargar Formulario",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        -48
+      ],
+      "webhookId": "deployment-form-get"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener workflows del input\nconst input = $input.all()[0].json;\nlet workflows = [];\n\nif (input.data && Array.isArray(input.data)) {\n  workflows = input.data;\n}\n\n// Ordenar workflows alfabéticamente por nombre\nworkflows.sort((a, b) => {\n  const nameA = (a.name || '').toLowerCase();\n  const nameB = (b.name || '').toLowerCase();\n  return nameA.localeCompare(nameB);\n});\n\n// Construir la URL del POST\nconst webhookUrl = $execution.resumeUrl || '';\nlet baseUrl = '';\nlet postUrl = '';\n\nif (webhookUrl) {\n  const urlMatch = webhookUrl.match(/(https?:\\/\\/[^\\/]+)/);\n  if (urlMatch) {\n    baseUrl = urlMatch[1];\n    postUrl = baseUrl + '/webhook/deployment-submit';\n  }\n}\n\nif (!postUrl) {\n  postUrl = '/webhook/deployment-submit';\n}\n\nconsole.log('Base URL:', baseUrl);\nconsole.log('POST URL final:', postUrl);\n\n// Generar HTML\nconst html = `\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Despliegue QA a Produccion</title>\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            padding: 20px;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n        .container {\n            background: white;\n            border-radius: 20px;\n            box-shadow: 0 20px 60px rgba(0,0,0,0.3);\n            max-width: 900px;\n            width: 100%;\n            padding: 40px;\n            animation: slideIn 0.5s ease-out;\n        }\n        @keyframes slideIn {\n            from { opacity: 0; transform: translateY(-30px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n        h1 { color: #2d3748; margin-bottom: 10px; font-size: 2em; }\n        .subtitle { color: #718096; margin-bottom: 30px; font-size: 1.1em; }\n        .warning {\n            background: #fff3cd;\n            border-left: 4px solid #ffc107;\n            padding: 15px;\n            margin-bottom: 30px;\n            border-radius: 5px;\n        }\n        .warning p { color: #856404; margin: 0; }\n        .section { margin-bottom: 30px; }\n        .section-title {\n            font-size: 1.3em;\n            color: #2d3748;\n            margin-bottom: 15px;\n            display: flex;\n            align-items: center;\n            gap: 10px;\n        }\n        .badge {\n            background: #667eea;\n            color: white;\n            padding: 3px 10px;\n            border-radius: 12px;\n            font-size: 0.8em;\n            font-weight: 600;\n        }\n        .items-grid {\n            display: grid;\n            gap: 10px;\n            max-height: 400px;\n            overflow-y: auto;\n            padding: 10px;\n            background: #f7fafc;\n            border-radius: 10px;\n        }\n        .item-card {\n            background: white;\n            padding: 15px;\n            border-radius: 8px;\n            border: 2px solid #e2e8f0;\n            cursor: pointer;\n            transition: all 0.2s;\n            display: flex;\n            align-items: flex-start;\n            gap: 12px;\n        }\n        .item-card:hover {\n            border-color: #667eea;\n            transform: translateX(5px);\n            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);\n        }\n        .item-card input[type=\"checkbox\"] {\n            width: 20px;\n            height: 20px;\n            cursor: pointer;\n            margin-top: 2px;\n        }\n        .item-info { flex: 1; }\n        .item-name {\n            font-weight: 600;\n            color: #2d3748;\n            margin-bottom: 5px;\n        }\n        .item-meta { font-size: 0.85em; color: #718096; }\n        .item-id {\n            font-family: 'Courier New', monospace;\n            background: #edf2f7;\n            padding: 2px 6px;\n            border-radius: 3px;\n        }\n        .actions { display: flex; gap: 15px; margin-top: 30px; }\n        button {\n            padding: 15px 30px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s;\n            display: flex;\n            align-items: center;\n            gap: 8px;\n        }\n        .btn-primary {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            flex: 1;\n        }\n        .btn-primary:hover:not(:disabled) {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);\n        }\n        .btn-primary:disabled {\n            opacity: 0.6;\n            cursor: not-allowed;\n        }\n        .btn-secondary {\n            background: #e2e8f0;\n            color: #4a5568;\n        }\n        .btn-secondary:hover {\n            background: #cbd5e0;\n        }\n        .select-all {\n            margin-bottom: 10px;\n            padding: 10px;\n            background: white;\n            border-radius: 8px;\n            display: flex;\n            align-items: center;\n            gap: 10px;\n            cursor: pointer;\n        }\n        .select-all input[type=\"checkbox\"] {\n            width: 18px;\n            height: 18px;\n            cursor: pointer;\n        }\n        .select-all label {\n            cursor: pointer;\n            font-weight: 600;\n            color: #4a5568;\n        }\n        .empty-state {\n            text-align: center;\n            padding: 40px;\n            color: #a0aec0;\n        }\n        .empty-state-icon {\n            font-size: 3em;\n            margin-bottom: 10px;\n        }\n        .loading {\n            display: none;\n            position: fixed;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: rgba(0,0,0,0.7);\n            justify-content: center;\n            align-items: center;\n            z-index: 9999;\n        }\n        .loading.active { display: flex; }\n        .loading-content {\n            background: white;\n            padding: 30px;\n            border-radius: 15px;\n            text-align: center;\n        }\n        .spinner {\n            border: 4px solid #f3f3f3;\n            border-top: 4px solid #667eea;\n            border-radius: 50%;\n            width: 50px;\n            height: 50px;\n            animation: spin 1s linear infinite;\n            margin: 0 auto 20px;\n        }\n        @keyframes spin {\n            0% { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n        }\n        ::-webkit-scrollbar { width: 8px; }\n        ::-webkit-scrollbar-track {\n            background: #edf2f7;\n            border-radius: 10px;\n        }\n        ::-webkit-scrollbar-thumb {\n            background: #cbd5e0;\n            border-radius: 10px;\n        }\n        ::-webkit-scrollbar-thumb:hover {\n            background: #a0aec0;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"loading\" id=\"loading\">\n        <div class=\"loading-content\">\n            <div class=\"spinner\"></div>\n            <h3>Desplegando...</h3>\n            <p>Por favor espera mientras se despliegan los workflows a Produccion</p>\n        </div>\n    </div>\n\n    <div class=\"container\">\n        <h1>Despliegue QA a Produccion</h1>\n        <p class=\"subtitle\">Sistema de Despliegue Automatizado de Workflows</p>\n        \n        <div class=\"warning\">\n            <p><strong>Importante:</strong> Los workflows seran creados en estado INACTIVO en el ambiente de produccion.</p>\n        </div>\n        \n        <form id=\"deploymentForm\">\n            <div class=\"section\">\n                <div class=\"section-title\">\n                    <span>Workflows Disponibles</span>\n                    <span class=\"badge\">${workflows.length}</span>\n                </div>\n                \n                ${workflows.length > 0 ? `\n                    <div class=\"select-all\">\n                        <input type=\"checkbox\" id=\"selectAllWorkflows\" onchange=\"toggleAllWorkflows(this)\">\n                        <label for=\"selectAllWorkflows\">Seleccionar todos los workflows</label>\n                    </div>\n                    <div class=\"items-grid\">\n                        ${workflows.map(wf => `\n                            <label class=\"item-card\">\n                                <input type=\"checkbox\" name=\"workflows\" value=\"${wf.id}\" class=\"workflow-checkbox\">\n                                <div class=\"item-info\">\n                                    <div class=\"item-name\">${wf.name}</div>\n                                    <div class=\"item-meta\">\n                                        ID: <span class=\"item-id\">${wf.id}</span>\n                                        ${wf.active ? ' • <span style=\"color: #48bb78;\">Activo</span>' : ' • <span style=\"color: #a0aec0;\">Inactivo</span>'}\n                                    </div>\n                                </div>\n                            </label>\n                        `).join('')}\n                    </div>\n                ` : `\n                    <div class=\"empty-state\">\n                        <div class=\"empty-state-icon\">-</div>\n                        <p>No se encontraron workflows en QA</p>\n                    </div>\n                `}\n            </div>\n            \n            <div class=\"actions\">\n                <button type=\"button\" class=\"btn-secondary\" onclick=\"window.location.reload()\">\n                    Recargar\n                </button>\n                <button type=\"submit\" class=\"btn-primary\" id=\"submitBtn\">\n                    Desplegar a Produccion\n                </button>\n            </div>\n        </form>\n    </div>\n    \n    <script>\n        const POST_URL = '${postUrl}';\n        console.log('POST URL configurada:', POST_URL);\n        \n        function toggleAllWorkflows(checkbox) {\n            const workflowCheckboxes = document.querySelectorAll('.workflow-checkbox');\n            workflowCheckboxes.forEach(cb => cb.checked = checkbox.checked);\n        }\n        \n        document.getElementById('deploymentForm').addEventListener('submit', async function(e) {\n            e.preventDefault();\n            \n            const formData = new FormData(this);\n            const workflows = formData.getAll('workflows');\n            \n            if (workflows.length === 0) {\n                alert('Por favor selecciona al menos un workflow para desplegar.');\n                return;\n            }\n            \n            if (!confirm(\\`Estas seguro de desplegar \\${workflows.length} workflow(s) a Produccion?\\`)) {\n                return;\n            }\n            \n            document.getElementById('loading').classList.add('active');\n            document.getElementById('submitBtn').disabled = true;\n            \n            const payload = {\n                workflows: workflows\n            };\n            \n            console.log('Enviando payload:', payload);\n            console.log('A la URL:', POST_URL);\n            \n            try {\n                const response = await fetch(POST_URL, {\n                    method: 'POST',\n                    headers: {\n                        'Content-Type': 'application/json'\n                    },\n                    body: JSON.stringify(payload)\n                });\n                \n                console.log('Response status:', response.status);\n                \n                if (!response.ok) {\n                    throw new Error(\\`HTTP error! status: \\${response.status}\\`);\n                }\n                \n                const html = await response.text();\n                document.open();\n                document.write(html);\n                document.close();\n            } catch (error) {\n                console.error('Error completo:', error);\n                document.getElementById('loading').classList.remove('active');\n                document.getElementById('submitBtn').disabled = false;\n                alert(\\`Error al realizar el despliegue: \\${error.message}\\\\n\\\\nURL intentada: \\${POST_URL}\\\\n\\\\nVerifica que el workflow de despliegue este activo.\\`);\n            }\n        });\n    </script>\n</body>\n</html>\n`;\n\nreturn [{ json: { html } }];"
+      },
+      "id": "a9182c0a-8734-4bdf-bfc8-e60ab355b57a",
+      "name": "Generar HTML del Formulario",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "id": "f262ea25-df25-472e-8e03-e7103f75ef38",
+      "name": "Responder con HTML",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        80,
+        -48
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $env.N8N_QA_URL }}/api/v1/workflows",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "={{ $env.N8N_QA_API_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6966440b-2004-4500-85a4-f660aa458434",
+      "name": "Obtener Workflows QA1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -368,
+        -48
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "deployment-submit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "fd85b317-6963-4800-892c-d1791d533f82",
+      "name": "Webhook POST - Recibir Seleccion",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1552,
+        528
+      ],
+      "webhookId": "deployment-submit-post"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "has-workflows",
+              "leftValue": "={{ $json.body.workflows && $json.body.workflows.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a09a151c-740d-4c56-b358-473fa0fc54fd",
+      "name": "Hay Workflows?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1328,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $('Webhook POST - Recibir Seleccion').first().json;\nconst selectedWorkflows = webhookData.body.workflows || [];\n\nconst qaWorkflows = $input.all().map(item => item.json);\n\nif (!selectedWorkflows || selectedWorkflows.length === 0) {\n  return [];\n}\n\nconst workflowsToDeploy = qaWorkflows.filter(wf => \n  selectedWorkflows.includes(wf.id)\n);\n\nconsole.log(`Workflows seleccionados para desplegar: ${workflowsToDeploy.length}`);\n\nreturn workflowsToDeploy.map(wf => ({ json: wf }));"
+      },
+      "id": "89917400-b364-444f-ba7b-cb1d91c7eaa0",
+      "name": "Filtrar Workflows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtener todos los workflows que llegan al nodo\nconst inputWorkflows = $input.all().map(item => JSON.parse(JSON.stringify(item.json)));\n\nfunction removeEmojis(str) {\n  return str\n    .replace(/[\\u{1F000}-\\u{1FFFF}]/gu, '')\n    .replace(/[\\u{2600}-\\u{26FF}]/gu, '')\n    .replace(/[\\u{2700}-\\u{27BF}]/gu, '')\n    .replace(/[\\u{FE00}-\\u{FE0F}]/gu, '')\n    .replace(/[\\u{1F900}-\\u{1F9FF}]/gu, '')\n    .replace(/[\\u{1F300}-\\u{1F5FF}]/gu, '')\n    .replace(/[\\u{1F680}-\\u{1F6FF}]/gu, '')\n    .replace(/[\\u{1F1E0}-\\u{1F1FF}]/gu, '')\n    .trim()\n    .replace(/\\s+/g, ' ');\n}\n\n// Procesar cada workflow y devolver un item por cada uno\nconst processed = inputWorkflows.map(workflow => {\n  const originalName = workflow.name;\n  const originalQaId = workflow.id;\n\n  // Eliminar campos problemáticos\n  delete workflow.id;\n  delete workflow.createdAt;\n  delete workflow.updatedAt;\n  delete workflow.versionId;\n  delete workflow.error;\n  delete workflow.shared;\n  delete workflow.triggerCount;\n  delete workflow.isArchived;\n\n  workflow.name = removeEmojis(workflow.name);\n  workflow._originalQaId = originalQaId;\n  workflow.active = false;\n\n  console.log(`Preparado: ${originalName} → ${workflow.name}`);\n\n  return { json: workflow };\n});\n\nreturn processed;"
+      },
+      "id": "93b3406f-760f-47b6-946a-230c6dcc4062",
+      "name": "Preparar Workflow Individual",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -656,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "1bada548-3bba-47e6-abd8-27736af8d916",
+      "name": "Verificar Workflows Existentes",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        432
+      ],
+      "notesInFlow": true,
+      "executeOnce": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      },
+      "notes": "Usa credencial n8n API apuntando a Produccion"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Tomar todos los workflows preparados desde el nodo \"Preparar Workflow Individual\"\nconst qaWorkflows = $('Preparar Workflow Individual').all().map(it => {\n  // clonar para no mutar el original\n  return JSON.parse(JSON.stringify(it.json));\n});\n\n// Tomar todos los workflows existentes en Prod que devolvió \"Verificar Workflows Existentes\"\nconst prodWorkflows = $input.all().map(it => it.json || {});\n\n// Normalize helper para comparar nombres (sin emojis, trim y case-insensitive)\nfunction normalizeName(name) {\n  if (!name) return '';\n  return String(name)\n    .normalize('NFKD')\n    .replace(/[\\u0300-\\u036f]/g, '') // quitar tildes combinantes\n    .replace(/[\\u{1F000}-\\u{1FFFF}]/gu, '') // emojis\n    .replace(/[\\u{2600}-\\u{26FF}]/gu, '')\n    .replace(/[\\u{2700}-\\u{27BF}]/gu, '')\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .toLowerCase();\n}\n\n// Mapear cada QA workflow y decidir operación comparando por nombre (y opcionalmente por otros criterios)\nconst output = qaWorkflows.map(qawf => {\n  const targetName = qawf.name || '';\n  const norm = normalizeName(targetName);\n\n  // Buscar coincidencia en prod por nombre normalizado\n  const existing = prodWorkflows.find(pw => {\n    const pwName = pw.name || '';\n    return normalizeName(pwName) === norm;\n  });\n\n  // Preparar el metadata que usarán nodos siguientes\n  qawf._metadata = {\n    existingWfId: existing ? existing.id : null,\n    shouldUpdate: !!existing,\n    workflowName: targetName,\n    // opcionales: incluir info adicional de prod para depuración\n    prodMatch: existing ? { id: existing.id, name: existing.name } : null\n  };\n\n  // También dejar una propiedad 'operation' útil para IF/Switch\n  qawf.operation = existing ? 'update' : 'create';\n\n  // Retornar item para que n8n procese uno por uno\n  return { json: qawf };\n});\n\nreturn output;"
+      },
+      "id": "b095b8e7-0c02-4107-b168-ac054a0ca7f2",
+      "name": "Preparar Operacion Workflow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "should-update",
+              "leftValue": "={{ $json.operation }}",
+              "rightValue": "update",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2daa2096-f40a-4b83-987f-5aeb9db382e7",
+      "name": "Workflow Existe?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        16,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Campos permitidos en el workflow limpio\nconst allowedFields = [\n  'name',\n  'nodes',\n  'connections',\n  'active',\n  'settings',\n  'tags',\n  'pinData',\n  'staticData',\n  'meta'\n];\n\n// Obtener todos los workflows de entrada\nconst items = $input.all();\n\n// Procesar cada uno\nconst cleanedItems = items.map(item => {\n  const dirtyWorkflow = item.json;\n  const cleanWorkflow = {};\n\n  allowedFields.forEach(field => {\n    if (dirtyWorkflow[field] !== undefined) {\n      cleanWorkflow[field] = dirtyWorkflow[field];\n    }\n  });\n\n  // Mantener metadatos importantes si existen\n  if (dirtyWorkflow._metadata) {\n    cleanWorkflow._metadata = dirtyWorkflow._metadata;\n  }\n\n  // Log opcional (solo visible en la ejecución)\n  console.log(`Workflow \"${dirtyWorkflow.name}\" limpiado. Campos originales: ${Object.keys(dirtyWorkflow).length}. Campos finales: ${Object.keys(cleanWorkflow).length}`);\n\n  return { json: cleanWorkflow };\n});\n\n// Devolver todos los items limpios\nreturn cleanedItems;"
+      },
+      "id": "849d06d6-60b8-4967-97a3-d9c34000a425",
+      "name": "Limpiar Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $('Preparar Operacion Workflow').item.json._metadata.existingWfId }}",
+          "mode": "id"
+        },
+        "workflowObject": "={{ JSON.stringify($json) }}",
+        "requestOptions": {}
+      },
+      "id": "0bcf6071-68e4-40fd-b7a1-4a68804ec9f4",
+      "name": "Actualizar Workflow",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        464,
+        304
+      ],
+      "notesInFlow": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      },
+      "onError": "continueErrorOutput",
+      "notes": "Necesitas crear una credencial n8n API apuntando a Produccion"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={{ JSON.stringify($json) }}",
+        "requestOptions": {}
+      },
+      "id": "34838242-6512-4a9a-a623-507b87a346cf",
+      "name": "Crear Workflow",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        464,
+        544
+      ],
+      "notesInFlow": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      },
+      "onError": "continueErrorOutput",
+      "notes": "Necesitas crear una credencial n8n API apuntando a Produccion"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [];"
+      },
+      "id": "7f04004c-e41e-4e5a-95b9-12c9705f48c8",
+      "name": "Sin Workflows Seleccionados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        816
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "0008cb7b-7e03-47eb-81ba-2dc42b7c79a8",
+      "name": "Merge Resultados",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        912,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $('Webhook POST - Recibir Seleccion').first().json;\nconst selectedWorkflowsIds = webhookData.body.workflows || [];\n\n// Obtener todos los workflows originales de QA con sus IDs\nconst qaWorkflows = $('Filtrar Workflows').all().map(item => ({\n  qaId: item.json.id,\n  name: item.json.name\n}));\n\n// Obtener todos los resultados de las operaciones (crear/actualizar)\nconst allResults = $input.all();\n\nconsole.log('=== INICIO ANALISIS DE RESULTADOS ===');\nconsole.log('Workflows seleccionados:', selectedWorkflowsIds.length);\nconsole.log('Workflows QA originales:', qaWorkflows.length);\nconsole.log('Resultados recibidos:', allResults.length);\n\n// Crear un mapa de workflows desplegados exitosamente (por ID de producción)\nconst successfulDeployments = new Map();\n\nallResults.forEach(item => {\n  const json = item.json;\n  \n  // Si tiene ID de producción y no tiene error, es exitoso\n  if (json.id && !json.error && !(json.statusCode >= 400)) {\n    const qaId = json._originalQaId || null;\n    const prodId = json.id;\n    const wasUpdate = json.updatedAt && json.createdAt && json.updatedAt !== json.createdAt;\n    \n    successfulDeployments.set(prodId, {\n      prodId: prodId,\n      qaId: qaId,\n      name: json.name,\n      action: wasUpdate ? 'Actualizado' : 'Creado',\n      status: 'success'\n    });\n    \n    console.log(`✓ Exitoso: ${json.name} (Prod ID: ${prodId}, Accion: ${wasUpdate ? 'Actualizado' : 'Creado'})`);\n  }\n});\n\n// Ahora crear el reporte completo\nconst workflowResults = qaWorkflows.map(qaWf => {\n  // Buscar si este workflow fue desplegado exitosamente\n  const deployment = Array.from(successfulDeployments.values()).find(d => \n    d.name === qaWf.name || d.qaId === qaWf.qaId\n  );\n  \n  if (deployment) {\n    return {\n      name: deployment.name,\n      id: deployment.prodId,\n      status: 'success',\n      error: null,\n      action: deployment.action\n    };\n  } else {\n    // No fue desplegado exitosamente, buscar el error\n    const errorResult = allResults.find(item => {\n      const json = item.json;\n      return (json.error || json.statusCode >= 400) && \n             (json.name === qaWf.name || json._originalQaId === qaWf.qaId);\n    });\n    \n    const errorMsg = errorResult ? \n      (errorResult.json.error?.message || errorResult.json.message || 'Error desconocido') :\n      'No se pudo desplegar';\n    \n    console.log(`✗ Fallido: ${qaWf.name} - ${errorMsg}`);\n    \n    return {\n      name: qaWf.name,\n      id: null,\n      status: 'error',\n      error: errorMsg,\n      action: 'Error'\n    };\n  }\n});\n\nconst successfulWorkflows = workflowResults.filter(w => w.status === 'success').length;\nconst failedWorkflows = workflowResults.filter(w => w.status === 'error').length;\nconst createdWorkflows = workflowResults.filter(w => w.action === 'Creado').length;\nconst updatedWorkflows = workflowResults.filter(w => w.action === 'Actualizado').length;\n\nconst report = {\n  timestamp: new Date().toISOString(),\n  summary: {\n    workflows: {\n      selected: selectedWorkflowsIds.length,\n      total: workflowResults.length,\n      successful: successfulWorkflows,\n      failed: failedWorkflows,\n      created: createdWorkflows,\n      updated: updatedWorkflows,\n      successRate: workflowResults.length > 0 \n        ? ((successfulWorkflows / workflowResults.length) * 100).toFixed(1)\n        : '0'\n    }\n  },\n  details: {\n    workflows: workflowResults\n  }\n};\n\nconsole.log('\\n' + '='.repeat(60));\nconsole.log('REPORTE FINAL');\nconsole.log('='.repeat(60));\nconsole.log(`Workflows Seleccionados: ${selectedWorkflowsIds.length}`);\nconsole.log(`Workflows Procesados: ${workflowResults.length}`);\nconsole.log(`Workflows Exitosos: ${successfulWorkflows}`);\nconsole.log(`Workflows Fallidos: ${failedWorkflows}`);\nconsole.log(`Workflows Creados: ${createdWorkflows}`);\nconsole.log(`Workflows Actualizados: ${updatedWorkflows}`);\nconsole.log('='.repeat(60));\n\nreturn [{ json: report }];"
+      },
+      "id": "ec1a35a8-e062-4fde-a865-c6d47232641a",
+      "name": "Generar Reporte Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const report = $json;\n\nconst html = `\n<!DOCTYPE html>\n<html lang=\"es\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Reporte de Despliegue</title>\n    <style>\n        * { margin: 0; padding: 0; box-sizing: border-box; }\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            padding: 20px;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n        }\n        .container {\n            background: white;\n            border-radius: 20px;\n            box-shadow: 0 20px 60px rgba(0,0,0,0.3);\n            max-width: 1000px;\n            width: 100%;\n            padding: 40px;\n            animation: slideIn 0.5s ease-out;\n        }\n        @keyframes slideIn {\n            from { opacity: 0; transform: translateY(-30px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n        h1 { color: #2d3748; margin-bottom: 10px; font-size: 2em; }\n        .subtitle { color: #718096; margin-bottom: 30px; }\n        .summary-cards {\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n            gap: 15px;\n            margin-bottom: 30px;\n        }\n        .card {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            padding: 20px;\n            border-radius: 15px;\n            color: white;\n        }\n        .card.success-card { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); }\n        .card.error-card { background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%); }\n        .card.created-card { background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); }\n        .card.updated-card { background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); }\n        .card-title { font-size: 0.85em; opacity: 0.9; margin-bottom: 8px; }\n        .card-value { font-size: 2.2em; font-weight: 700; margin-bottom: 3px; }\n        .card-subtitle { font-size: 0.8em; opacity: 0.8; }\n        .details-section { margin-bottom: 30px; }\n        .section-title {\n            font-size: 1.3em;\n            color: #2d3748;\n            margin-bottom: 15px;\n            display: flex;\n            align-items: center;\n            gap: 10px;\n        }\n        .items-list { background: #f7fafc; border-radius: 10px; padding: 15px; }\n        .item {\n            background: white;\n            padding: 15px;\n            margin-bottom: 10px;\n            border-radius: 8px;\n            border-left: 4px solid #e2e8f0;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n        }\n        .item.success { border-left-color: #48bb78; }\n        .item.error { border-left-color: #f56565; }\n        .item-info { flex: 1; }\n        .item-name { font-weight: 600; color: #2d3748; margin-bottom: 5px; }\n        .item-meta { font-size: 0.85em; color: #718096; }\n        .item-id {\n            font-family: 'Courier New', monospace;\n            background: #edf2f7;\n            padding: 2px 6px;\n            border-radius: 3px;\n        }\n        .status-badge {\n            padding: 6px 12px;\n            border-radius: 20px;\n            font-size: 0.85em;\n            font-weight: 600;\n        }\n        .status-badge.success { background: #c6f6d5; color: #22543d; }\n        .status-badge.error { background: #fed7d7; color: #742a2a; }\n        .action-badge {\n            padding: 4px 8px;\n            border-radius: 12px;\n            font-size: 0.75em;\n            font-weight: 600;\n            margin-left: 8px;\n        }\n        .action-badge.created { background: #bee3f8; color: #2c5282; }\n        .action-badge.updated { background: #fbd38d; color: #7c2d12; }\n        .error-message {\n            margin-top: 8px;\n            padding: 8px;\n            background: #fff5f5;\n            border-left: 3px solid #fc8181;\n            font-size: 0.85em;\n            color: #c53030;\n            border-radius: 4px;\n            font-family: monospace;\n        }\n        .actions { display: flex; gap: 15px; margin-top: 30px; }\n        button, a.button {\n            padding: 15px 30px;\n            border: none;\n            border-radius: 10px;\n            font-size: 1.1em;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.3s;\n            text-decoration: none;\n            display: inline-block;\n            text-align: center;\n        }\n        .btn-primary {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            color: white;\n            flex: 1;\n        }\n        .btn-primary:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);\n        }\n        .empty-state { text-align: center; padding: 30px; color: #a0aec0; }\n        .info-box {\n            background: #ebf8ff;\n            border-left: 4px solid #3182ce;\n            padding: 15px;\n            margin-bottom: 20px;\n            border-radius: 5px;\n        }\n        .info-box p { color: #2c5282; margin: 0; }\n        .success-box {\n            background: #f0fff4;\n            border-left: 4px solid #48bb78;\n            padding: 15px;\n            margin-bottom: 20px;\n            border-radius: 5px;\n        }\n        .success-box p { color: #22543d; margin: 0; }\n        .error-box {\n            background: #fff5f5;\n            border-left: 4px solid #f56565;\n            padding: 15px;\n            margin-bottom: 20px;\n            border-radius: 5px;\n        }\n        .error-box p { color: #742a2a; margin: 0; }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <h1>Despliegue Completado</h1>\n        <p class=\"subtitle\">Reporte generado el ${new Date(report.timestamp).toLocaleString('es-ES')}</p>\n        \n        ${report.summary.workflows.failed === 0 && report.summary.workflows.successful > 0 ? `\n        <div class=\"success-box\">\n            <p><strong>Exito:</strong> Todos los workflows fueron desplegados correctamente.</p>\n        </div>\n        <div class=\"info-box\">\n            <p><strong>Nota:</strong> Los workflows fueron desplegados en estado <strong>INACTIVO</strong>. Activalos manualmente en Produccion despues de verificarlos.</p>\n        </div>\n        ` : report.summary.workflows.failed > 0 ? `\n        <div class=\"error-box\">\n            <p><strong>Error:</strong> ${report.summary.workflows.failed} de ${report.summary.workflows.total} workflow(s) fallaron durante el despliegue. Revisa los detalles abajo para identificar los problemas.</p>\n        </div>\n        ` : ''}\n        \n        <div class=\"summary-cards\">\n            <div class=\"card\">\n                <div class=\"card-title\">TOTAL WORKFLOWS</div>\n                <div class=\"card-value\">${report.summary.workflows.total}</div>\n                <div class=\"card-subtitle\">${report.summary.workflows.selected} seleccionados</div>\n            </div>\n            \n            <div class=\"card success-card\">\n                <div class=\"card-title\">EXITOSOS</div>\n                <div class=\"card-value\">${report.summary.workflows.successful}</div>\n                <div class=\"card-subtitle\">${report.summary.workflows.successRate}% exito</div>\n            </div>\n            \n            ${report.summary.workflows.failed > 0 ? `\n            <div class=\"card error-card\">\n                <div class=\"card-title\">FALLIDOS</div>\n                <div class=\"card-value\">${report.summary.workflows.failed}</div>\n                <div class=\"card-subtitle\">Requieren atencion</div>\n            </div>\n            ` : ''}\n            \n            ${report.summary.workflows.created > 0 ? `\n            <div class=\"card created-card\">\n                <div class=\"card-title\">CREADOS</div>\n                <div class=\"card-value\">${report.summary.workflows.created}</div>\n                <div class=\"card-subtitle\">Nuevos workflows</div>\n            </div>\n            ` : ''}\n            \n            ${report.summary.workflows.updated > 0 ? `\n            <div class=\"card updated-card\">\n                <div class=\"card-title\">ACTUALIZADOS</div>\n                <div class=\"card-value\">${report.summary.workflows.updated}</div>\n                <div class=\"card-subtitle\">Workflows existentes</div>\n            </div>\n            ` : ''}\n        </div>\n        \n        ${report.summary.workflows.failed > 0 && report.details.workflows.filter(w => w.status === 'error').length > 0 ? `\n            <div class=\"details-section\">\n                <div class=\"section-title\">Workflows Fallidos</div>\n                <div class=\"items-list\">\n                    ${report.details.workflows.filter(w => w.status === 'error').map(wf => `\n                        <div class=\"item error\">\n                            <div class=\"item-info\">\n                                <div class=\"item-name\">\n                                    ${wf.name}\n                                </div>\n                                <div class=\"item-meta\">\n                                    ${wf.id ? `ID: <span class=\"item-id\">${wf.id}</span>` : 'ID no disponible'}\n                                </div>\n                                ${wf.error ? `<div class=\"error-message\">${wf.error}</div>` : ''}\n                            </div>\n                            <span class=\"status-badge error\">\n                                Fallo\n                            </span>\n                        </div>\n                    `).join('')}\n                </div>\n            </div>\n        ` : ''}\n        \n        ${report.details.workflows.filter(w => w.status === 'success').length > 0 ? `\n            <div class=\"details-section\">\n                <div class=\"section-title\">Workflows Exitosos</div>\n                <div class=\"items-list\">\n                    ${report.details.workflows.filter(w => w.status === 'success').map(wf => `\n                        <div class=\"item success\">\n                            <div class=\"item-info\">\n                                <div class=\"item-name\">\n                                    ${wf.name}\n                                    ${wf.action !== 'Error' && wf.action !== 'Desconocido' ? `<span class=\"action-badge ${wf.action === 'Actualizado' ? 'updated' : 'created'}\">${wf.action}</span>` : ''}\n                                </div>\n                                <div class=\"item-meta\">\n                                    ${wf.id ? `ID: <span class=\"item-id\">${wf.id}</span>` : 'ID no disponible'}\n                                </div>\n                            </div>\n                            <span class=\"status-badge success\">\n                                Exitoso\n                            </span>\n                        </div>\n                    `).join('')}\n                </div>\n            </div>\n        ` : ''}\n        \n        ${report.details.workflows.length === 0 ? `\n            <div class=\"empty-state\">\n                <h3>No se desplegaron workflows</h3>\n                <p>No se seleccionaron workflows para desplegar.</p>\n            </div>\n        ` : ''}\n        \n        <div class=\"actions\">\n            <button class=\"button btn-primary\" onclick=\"window.location.reload()\">\n                Realizar Otro Despliegue\n            </button>\n        </div>\n    </div>\n</body>\n</html>\n`;\n\nreturn [{ json: { html } }];"
+      },
+      "id": "ba85859b-2193-43d3-b232-f4ea7934761f",
+      "name": "Generar HTML Resultado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "id": "1cccb194-863a-4970-a06d-c14ca5d391ce",
+      "name": "Responder HTML",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "id": "fe899da8-f5c0-4c73-b7ba-9192d364ee6b",
+      "name": "Obtener Workflows QA",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1104,
+        432
+      ],
+      "notesInFlow": true,
+      "credentials": {
+        "n8nApi": {
+          "id": "9XAgYrtgGFjHHgP6",
+          "name": "n8n account"
+        }
+      },
+      "notes": "Usa credencial n8n API apuntando a QA"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Marcar explicitamente que este workflow fue actualizado\nconst result = $json;\nresult._deployAction = 'Actualizado';\nreturn [{ json: result }];"
+      },
+      "id": "49c81cff-e1b4-4b79-81bb-877ba079c2a9",
+      "name": "Marcar como Actualizado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Marcar explicitamente que este workflow fue creado\nconst result = $json;\nresult._deployAction = 'Creado';\nreturn [{ json: result }];"
+      },
+      "id": "310ae341-a28e-44e9-a6b8-6a07830aabd8",
+      "name": "Marcar como Creado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        624
+      ]
+    }
+  ],
+  "pinData": {
+    "Webhook POST - Recibir Seleccion": [
+      {
+        "json": {
+          "headers": {
+            "host": "qa-n8n.domichat.com.co",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+            "content-length": "72",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "accept-language": "es-419,es;q=0.9",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "2803:9810:5195:c10:6929:3d7c:f4bc:e258",
+            "cf-ipcountry": "CO",
+            "cf-ray": "9988ed855e5c0c83-MIA",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "origin": "null",
+            "priority": "u=1, i",
+            "sec-ch-ua": "\"Google Chrome\";v=\"141\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "2803:9810:5195:c10:6929:3d7c:f4bc:e258, 104.23.248.233",
+            "x-forwarded-host": "qa-n8n.domichat.com.co",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "9af48e7b3cbc",
+            "x-real-ip": "104.23.248.233"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "workflows": [
+              "jrQpYxaUtJDbf9ty",
+              "OUFyHMgG5P9zA8WH",
+              "6LImQUfhE3uBxifM"
+            ]
+          },
+          "webhookUrl": "https://qa-n8n.domichat.com.co/webhook/deployment-submit",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-02T00:41:45.159Z",
+      "updatedAt": "2025-11-02T00:41:45.159Z",
+      "role": "workflow:owner",
+      "workflowId": "i7db2GZXRNj702MG",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2025-11-03T04:01:04.000Z",
+  "versionId": "1c98afd3-333d-42de-915c-4e50dba010da"
+}
