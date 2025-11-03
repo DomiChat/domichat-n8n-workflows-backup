@@ -186,10 +186,12 @@
       "webhookId": "53edf6f1-546d-4a0f-825a-f85ed16771c8"
     },
     {
-      "parameters": {},
+      "parameters": {
+        "width": 800
+      },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1552,
+        992,
         1088
       ],
       "typeVersion": 1,
@@ -223,6 +225,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-26T23:16:10.000Z",
-  "versionId": "92c0fd69-5c25-4c86-9c90-702d146f88b0"
+  "updatedAt": "2025-11-03T00:08:28.000Z",
+  "versionId": "6f53c475-2487-4474-8233-11ebc7b74f3f"
 }
