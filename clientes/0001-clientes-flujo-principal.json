@@ -172,17 +172,6 @@
         ]
       ]
     },
-    "WhatsApp Trigger": {
-      "main": [
-        [
-          {
-            "node": "¿Es mensaje del Sistema?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Broadcast Domiciliarios": {
       "main": [
         [
@@ -475,6 +464,17 @@
           }
         ]
       ]
+    },
+    "WhatsApp Clientes Trigger": {
+      "main": [
+        [
+          {
+            "node": "¿Es mensaje del Sistema?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-27T17:28:56.527Z",
@@ -637,7 +637,7 @@
           "assignments": [
             {
               "name": "mensaje.contenido",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0]?.text?.body || $json.content?.parts[0]?.text }}",
+              "value": "={{ $('WhatsApp Clientes Trigger').first().json.messages[0]?.text?.body || $json.content?.parts[0]?.text }}",
               "type": "string",
               "id": "01601fc3-a7ae-4879-948c-34d97659e2e0"
             }
@@ -661,20 +661,20 @@
           "assignments": [
             {
               "name": "mensaje.tipo",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Trigger').first().json.messages[0].type }}",
+              "value": "={{ $('WhatsApp Clientes Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Clientes Trigger').first().json.messages[0].type }}",
               "type": "string",
               "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
             },
             {
               "id": "877d8ebb-7655-41b9-a40f-8862b45a43ec",
               "name": "mensaje.telefono_usuario",
-              "value": "={{ $('WhatsApp Trigger').first().json.contacts[0].wa_id }}",
+              "value": "={{ $('WhatsApp Clientes Trigger').first().json.contacts[0].wa_id }}",
               "type": "string"
             },
             {
               "id": "c0cdb023-92cc-44cd-a2a7-c97d27295613",
               "name": "mensaje.id",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].id }}",
+              "value": "={{ $('WhatsApp Clientes Trigger').first().json.messages[0].id }}",
               "type": "string"
             }
           ]
@@ -868,26 +868,6 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
-            },
-            {
-              "id": "phone_number_id_domiciliarios",
-              "displayName": "phone_number_id_domiciliarios",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": true
-            },
-            {
-              "id": "version_whatsapp_api",
-              "displayName": "version_whatsapp_api",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -1107,33 +1087,6 @@
       ],
       "id": "c4b94a1e-f038-4819-8739-9481884d3ec4",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "updates": [
-          "messages"
-        ],
-        "options": {
-          "messageStatusUpdates": [
-            "read"
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.whatsAppTrigger",
-      "typeVersion": 1,
-      "position": [
-        -112,
-        400
-      ],
-      "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
-      "name": "WhatsApp Trigger",
-      "webhookId": "09a7abab-e9f1-4dff-be1a-8e2cea28359f",
-      "credentials": {
-        "whatsAppTriggerApi": {
-          "id": "cspqIaSswtdpcHIY",
-          "name": "WhatsApp Clientes QA - Trigger"
-        }
-      }
     },
     {
       "parameters": {
@@ -1726,7 +1679,7 @@
             {
               "id": "95c07715-9e8e-4fb7-8a98-8492bb97fad2",
               "name": "whatsapp_flow_data",
-              "value": "={{ $('WhatsApp Trigger').item.json.messages[0].interactive.nfm_reply.response_json.parseJson() }}",
+              "value": "={{ $('WhatsApp Clientes Trigger').item.json.messages[0].interactive.nfm_reply.response_json.parseJson() }}",
               "type": "object"
             }
           ]
@@ -1969,7 +1922,7 @@
     },
     {
       "parameters": {
-        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $('WhatsApp Trigger').item.json.messages[0].audio.id }}",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $('WhatsApp Clientes Trigger').item.json.messages[0].audio.id }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -2344,10 +2297,37 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 3
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "read"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        400
+      ],
+      "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
+      "name": "WhatsApp Clientes Trigger",
+      "webhookId": "09a7abab-e9f1-4dff-be1a-8e2cea28359f",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "cspqIaSswtdpcHIY",
+          "name": "WhatsApp Clientes - Trigger"
+        }
+      }
     }
   ],
   "pinData": {
-    "WhatsApp Trigger": [
+    "WhatsApp Clientes Trigger": [
       {
         "json": {
           "messaging_product": "whatsapp",
@@ -2407,6 +2387,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-30T16:59:40.000Z",
-  "versionId": "72c187a6-a747-4a2f-9cd0-ac8cfaed7c5e"
+  "updatedAt": "2025-11-05T02:14:43.000Z",
+  "versionId": "09c70c53-932c-4ec9-827e-0bc953cd2096"
 }
