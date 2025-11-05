@@ -127,12 +127,6 @@
           "values": [
             {
               "name": "pedido_id"
-            },
-            {
-              "name": "phone_number_id_domiciliarios"
-            },
-            {
-              "name": "version_whatsapp_api"
             }
           ]
         }
@@ -205,6 +199,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T03:55:11.000Z",
-  "versionId": "9dbba317-341d-43b7-b10e-bc1ff78ef142"
+  "updatedAt": "2025-11-05T00:45:55.000Z",
+  "versionId": "1b331361-eada-4453-9de8-b196d13c6c4e"
 }
