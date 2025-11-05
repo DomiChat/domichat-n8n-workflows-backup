@@ -30,17 +30,6 @@
         ]
       ]
     },
-    "WhatsApp Trigger": {
-      "main": [
-        [
-          {
-            "node": "¿Es mensaje del Sistema?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Datos Mensaje": {
       "main": [
         [
@@ -370,6 +359,17 @@
           }
         ]
       ]
+    },
+    "WhatsApp Domiciliarios Trigger": {
+      "main": [
+        [
+          {
+            "node": "¿Es mensaje del Sistema?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "createdAt": "2025-09-10T19:35:15.731Z",
@@ -444,38 +444,11 @@
     },
     {
       "parameters": {
-        "updates": [
-          "messages"
-        ],
-        "options": {
-          "messageStatusUpdates": [
-            "read"
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.whatsAppTrigger",
-      "typeVersion": 1,
-      "position": [
-        -1632,
-        -384
-      ],
-      "id": "b95f0e79-9128-4e50-b2ee-9573f090eec8",
-      "name": "WhatsApp Trigger",
-      "webhookId": "4deaffec-ec4b-44de-8f14-07e0a482c1af",
-      "credentials": {
-        "whatsAppTriggerApi": {
-          "id": "EtkMucNT6N2mPk2O",
-          "name": "WhatsApp Domiciliarios QA - Trigger"
-        }
-      }
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
               "name": "mensaje.tipo",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].type === 'button' || $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'button_reply' ? 'button' : $('WhatsApp Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Trigger').first().json.messages[0].type }}",
+              "value": "={{ $('WhatsApp Domiciliarios Trigger').first().json.messages[0].type === 'button' || $('WhatsApp Domiciliarios Trigger').first().json.messages[0].interactive?.type === 'button_reply' ? 'button' : $('WhatsApp Domiciliarios Trigger').first().json.messages[0].interactive?.type === 'nfm_reply' ? 'flow' : $('WhatsApp Domiciliarios Trigger').first().json.messages[0].type }}",
               "type": "string",
               "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
             },
@@ -488,7 +461,7 @@
             {
               "id": "5812c74d-1a6d-444e-851c-78efdd978674",
               "name": "mensaje.id",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0].id }}",
+              "value": "={{ $('WhatsApp Domiciliarios Trigger').first().json.messages[0].id }}",
               "type": "string"
             }
           ]
@@ -630,7 +603,7 @@
           "assignments": [
             {
               "name": "mensaje.contenido",
-              "value": "={{ $('WhatsApp Trigger').first().json.messages[0]?.text?.body || $('WhatsApp Trigger').first().json.messages[0]?.button?.text || $('WhatsApp Trigger').first().json.messages[0]?.interactive?.button_reply?.id.replace('-', ' ') }}",
+              "value": "={{ $('WhatsApp Domiciliarios Trigger').first().json.messages[0]?.text?.body || $('WhatsApp Domiciliarios Trigger').first().json.messages[0]?.button?.text || $('WhatsApp Domiciliarios Trigger').first().json.messages[0]?.interactive?.button_reply?.id.replace('-', ' ') }}",
               "type": "string",
               "id": "01601fc3-a7ae-4879-948c-34d97659e2e0"
             }
@@ -685,7 +658,7 @@
             {
               "id": "95c07715-9e8e-4fb7-8a98-8492bb97fad2",
               "name": "whatsapp_flow_data",
-              "value": "={{ $('WhatsApp Trigger').item.json.messages[0].interactive.nfm_reply.response_json.parseJson() }}",
+              "value": "={{ $('WhatsApp Domiciliarios Trigger').item.json.messages[0].interactive.nfm_reply.response_json.parseJson() }}",
               "type": "object"
             }
           ]
@@ -1766,6 +1739,33 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 3
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "read"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1632,
+        -384
+      ],
+      "id": "b95f0e79-9128-4e50-b2ee-9573f090eec8",
+      "name": "WhatsApp Domiciliarios Trigger",
+      "webhookId": "4deaffec-ec4b-44de-8f14-07e0a482c1af",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "EtkMucNT6N2mPk2O",
+          "name": "WhatsApp Domiciliarios - Trigger"
+        }
+      }
     }
   ],
   "pinData": {
@@ -1798,37 +1798,6 @@
           "email": "Jddj@com.com"
         }
       }
-    ],
-    "WhatsApp Trigger": [
-      {
-        "json": {
-          "messaging_product": "whatsapp",
-          "metadata": {
-            "display_phone_number": "573138116378",
-            "phone_number_id": "768517399686178"
-          },
-          "contacts": [
-            {
-              "profile": {
-                "name": "Manuel Torres"
-              },
-              "wa_id": "573006064535"
-            }
-          ],
-          "messages": [
-            {
-              "from": "573006064535",
-              "id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0EzRkI2MzVBODEzNEM1RUVBMDgA",
-              "timestamp": "1761843799",
-              "text": {
-                "body": "Holaaa"
-              },
-              "type": "text"
-            }
-          ],
-          "field": "messages"
-        }
-      }
     ]
   },
   "settings": {
@@ -1850,6 +1819,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-10-30T17:04:06.000Z",
-  "versionId": "14ad9898-63c4-4a35-9d67-6828a64cb484"
+  "updatedAt": "2025-11-05T01:37:24.000Z",
+  "versionId": "7e8ac946-ee96-4f78-9bd3-ee9077381b34"
 }
