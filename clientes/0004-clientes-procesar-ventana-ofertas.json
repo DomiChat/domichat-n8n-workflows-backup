@@ -866,7 +866,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.domiciliario_asignado }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🎉 ¡PEDIDO ASIGNADO!\"\n        },\n        \"body\": {\n            \"text\": \"✅ Se aceptó tu propuesta\\n\\n🆔 Pedido: {{ $json.pedido_id }}\\n💰 Valor: ${{ $json.valor_final }}\\n📍 Dirección: {{ $json.direccion }}\\n🛒 Productos: {{ $json.lista_compras }}\\n📱 Cliente: {{ $json.nombre_usuario }}\\n📞 Teléfono: {{ $json.numero_usuario.replace(/^57/, '') }}\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón\"\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ENTREGAR-{{ $json.pedido_id }}\",\n                        \"title\": \"Entregar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.domiciliario_asignado }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🎉 ¡PEDIDO ASIGNADO!\"\n        },\n        \"body\": {\n            \"text\": {{ JSON.stringify(\"✅ Se aceptó tu propuesta\\n\\n🆔 Pedido: \" + $json.pedido_id + \"\\n💰 Valor: $\" + $json.valor_final + \"\\n📍 Dirección: \" + $json.direccion + \"\\n🛒 Productos: \" + $json.lista_compras + \"\\n📱 Cliente: \" + $json.nombre_usuario + \"\\n📞 Teléfono: \" + $json.numero_usuario.replace(/^57/, '') + \"\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón\") }}\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ENTREGAR-{{ $json.pedido_id }}\",\n                        \"title\": \"Entregar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -1243,6 +1243,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-27T18:19:09.000Z",
-  "versionId": "d835740d-e263-4ffe-b326-b4d4e31c4219"
+  "updatedAt": "2025-11-06T16:53:47.000Z",
+  "versionId": "3b23070d-bb43-491c-a83c-9d66a6be16f4"
 }
