@@ -16,14 +16,14 @@
       "main": [
         [
           {
-            "node": "Notificar Domiciliario Asignado",
+            "node": "Notificar Domiciliario Rechazado",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Notificar Domiciliario Asignado": {
+    "Notificar Domiciliario Rechazado": {
       "main": [
         [
           {
@@ -188,7 +188,7 @@
         -176
       ],
       "id": "5c7fd2b1-160d-4511-aa8d-a4547594cea1",
-      "name": "Notificar Domiciliario Asignado",
+      "name": "Notificar Domiciliario Rechazado",
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
@@ -204,7 +204,10 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -218,6 +221,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-20T03:36:20.000Z",
-  "versionId": "850fe024-6f81-4942-8687-9398df3eb929"
+  "updatedAt": "2025-11-06T17:49:28.000Z",
+  "versionId": "46e12a3b-e10b-42bb-8d9b-31b77a33851f"
 }
