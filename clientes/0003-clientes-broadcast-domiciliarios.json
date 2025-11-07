@@ -343,7 +343,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.numero_domiciliario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🚚 Pedido disponible\"\n        },\n        \"body\": {\n            \"text\": \"📋 No. {{ $('Start').item.json.pedido_id }}\\n📦 {{ $('Start').item.json.lista_compras }}\\n📍 {{ $('Start').item.json.direccion }} ({{ $('Start').item.json.zona_domicilio }})\\n💰 Valor: ${{ $('Start').item.json.valor_oferta }}\\n\\n⏰ Responder en 3 minutos\"\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ACEPTAR-{{ $('Start').item.json.pedido_id }}\",\n                        \"title\": \"Aceptar\"\n                    }\n                },\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"CONTRAOFERTAR-{{ $('Start').item.json.pedido_id }}\", \n                        \"title\": \"Contraofertar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.numero_domiciliario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🚚 Pedido disponible\"\n        },\n        \"body\": {\n            \"text\": {{ JSON.stringify(\"📋 No. \" + $('Start').item.json.pedido_id + \"\\n📦 \" + $('Start').item.json.lista_compras + \"\\n📍 \" + $('Start').item.json.direccion + \" (\" + $('Start').item.json.zona_domicilio + \")\\n💰 Valor: $\" + $('Start').item.json.valor_oferta + \"\\n\\n⏰ Responder en 3 minutos\") }}\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ACEPTAR-{{ $('Start').item.json.pedido_id }}\",\n                        \"title\": \"Aceptar\"\n                    }\n                },\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"CONTRAOFERTAR-{{ $('Start').item.json.pedido_id }}\", \n                        \"title\": \"Contraofertar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -411,7 +411,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.lista_compras }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.direccion }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.lista_compras) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.direccion) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -453,11 +453,11 @@
     "Start": [
       {
         "json": {
-          "lista_compras": "1 hamburguesa de El Paso",
-          "valor_oferta": "12000",
+          "lista_compras": "una bolsa de leche y unas zanahorias de donde el negro",
+          "valor_oferta": "15000",
           "zona_domicilio": "Rural",
-          "pedido_id": "119",
-          "direccion": "Vereda de San Joaquín en Santa Cecilia en después del muro de piedra",
+          "pedido_id": "155",
+          "direccion": "Vereda la huerta Vereda la huerta bajas al puente y luego subes los carriles y hay una \"y\" ahí unos 300 metros a la izquierda dos portadas de madera por favor timbrar",
           "ciudad": "La Vega"
         }
       }
@@ -478,6 +478,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-20T16:36:02.000Z",
-  "versionId": "49eecf39-d82e-45bd-a0d7-4cf411948a15"
+  "updatedAt": "2025-11-06T16:48:15.000Z",
+  "versionId": "e050b507-b63f-4755-a44c-556e647b6287"
 }
