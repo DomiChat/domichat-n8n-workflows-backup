@@ -1,0 +1,114 @@
+{
+  "active": false,
+  "connections": {
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-10T01:41:06.317Z",
+  "id": "CY132083QPsn1AYm",
+  "isArchived": false,
+  "meta": null,
+  "name": "0004 Utilidades Borrar Memoria de Agente",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        192,
+        48
+      ],
+      "id": "1d475bc8-a9e8-46b0-b047-c83ee96fe73e",
+      "name": "Chat Memory Manager"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "573243965443_cliente",
+        "contextWindowLength": 1000
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        192,
+        256
+      ],
+      "id": "5b04a7f0-ee08-48b9-bba5-894d7a7896e1",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        64
+      ],
+      "id": "5cb69cfe-3143-43e0-87a7-a0254a666eff",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## ELIMINAR MENSAJES EN MEMORIA\n",
+        "height": 432,
+        "width": 688,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -48
+      ],
+      "id": "8ff6982b-254d-4fc0-9535-26ad65dfc9fd",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-10T01:41:06.322Z",
+      "updatedAt": "2025-11-10T01:41:06.322Z",
+      "role": "workflow:owner",
+      "workflowId": "CY132083QPsn1AYm",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-10T01:43:01.000Z",
+  "versionId": "10f94ac8-3167-4166-902f-0ad6e97934a5"
+}
