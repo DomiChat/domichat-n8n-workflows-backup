@@ -1,0 +1,142 @@
+{
+  "active": false,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Exportar Credenciales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Exportar Credenciales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear Credenciales": {
+      "main": [
+        [
+          {
+            "node": "Unir Credenciales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Exportar Credenciales": {
+      "main": [
+        [
+          {
+            "node": "Parsear Credenciales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-10T21:15:29.437Z",
+  "id": "txbu5tXSsbm0OFqL",
+  "isArchived": false,
+  "meta": null,
+  "name": "0005 Utilidades Extraer credenciales",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const input = $input.all()[0].json;\nconst jsonString = input.stdout.match(/\\[{.*}\\]/s);\n\nif (!jsonString) {\n  return [{ json: { error: \"No se encontraron credenciales\" } }];\n}\n\ntry {\n  const credentials = JSON.parse(jsonString[0]);\n  return credentials.map(cred => ({ json: cred }));\n} catch (error) {\n  return [{ json: { error: `Error parseando credenciales: ${error.message}` } }];\n}"
+      },
+      "id": "342f3467-7706-42ad-bf4f-fca3ddc7a0aa",
+      "name": "Parsear Credenciales",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "path": "44b35638-5938-44df-bda5-de81b7bad37f",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        160
+      ],
+      "id": "d5ffb890-a8fd-46f4-b1d4-b0dbea1432d0",
+      "name": "Webhook",
+      "webhookId": "44b35638-5938-44df-bda5-de81b7bad37f"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "11808813-8bab-4ceb-8568-6f1492da4d76",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "npx n8n export:credentials --all --decrypted"
+      },
+      "id": "7d237806-344b-42fe-82bb-71c6cc4b1200",
+      "name": "Exportar Credenciales",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        240,
+        64
+      ],
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combina todos los items en uno solo\nreturn [{\n  json: {\n    credenciales: items.map(item => item.json)\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        64
+      ],
+      "id": "a7999027-c548-43ad-a876-0b7ba1050e21",
+      "name": "Unir Credenciales"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-10T21:15:29.442Z",
+      "updatedAt": "2025-11-10T21:15:29.442Z",
+      "role": "workflow:owner",
+      "workflowId": "txbu5tXSsbm0OFqL",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-10T21:15:40.000Z",
+  "versionId": "101d8e7a-f1a5-4bbd-923f-0c35451ab087"
+}
