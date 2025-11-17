@@ -1706,3 +1706,4 @@ Ninguno (es punto de entrada principal)
 **Documentado por**: Claude (Anthropic)
 **Fecha**: 2025-11-17
 **Versión del Flujo**: 7e8ac946-ee96-4f78-9bd3-ee9077381b34
+**Parte de**: Sistema DomiChat (18 workflows totales)

@@ -368,7 +368,7 @@ graph TB
 ---
 
 **Última actualización**: 2025-11-17
-**Total de flujos analizados**: 16 de 18
-**Flujos pendientes de análisis completo**:
-- `0001 Clientes Flujo Principal` (archivo muy grande)
-- `0006 Utilidades Dashboard DomiChat` (archivo muy grande)
+**Total de flujos analizados**: 18 de 18 (100%)
+**Flujos con análisis parcial** (archivos muy grandes):
+- `0001 Clientes Flujo Principal` (vZz3KSWmbZa2xPyx)
+- `0006 Utilidades Dashboard DomiChat`

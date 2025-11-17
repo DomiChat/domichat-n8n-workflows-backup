@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DomiChat - Documentación Técnica n8n Workflows</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .nav-tab:hover {
+            background: #f5f7fa;
+        }
+
+        .nav-tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .workflow-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #e0e0e0;
+        }
+
+        .workflow-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .workflow-card.active {
+            border-left-color: #4caf50;
+        }
+
+        .workflow-card.inactive {
+            border-left-color: #9e9e9e;
+        }
+
+        .workflow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-id {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #666;
+            background: #f5f5f5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .status-badge.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-badge.inactive {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        .workflow-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            line-height: 1.5;
+        }
+
+        .workflow-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .meta-tag {
+            padding: 0.25rem 0.75rem;
+            background: #f5f7fa;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .dependency-graph {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-item {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .tech-item strong {
+            display: block;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f5f7fa;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            color: #1565c0;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 DomiChat - Documentación Técnica</h1>
+        <p>Sistema completo de workflows n8n para plataforma de delivery vía WhatsApp</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <span class="stat-number">18</span>
+            <span class="stat-label">Total Workflows</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Workflows Activos</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">~300+</span>
+            <span class="stat-label">Nodos Totales</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">8</span>
+            <span class="stat-label">Integraciones</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar workflows, tecnologías, funcionalidades...">
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="overview">📊 Resumen</button>
+            <button class="nav-tab" data-tab="clientes">🛍️ Clientes (7)</button>
+            <button class="nav-tab" data-tab="domiciliarios">🚚 Domiciliarios (5)</button>
+            <button class="nav-tab" data-tab="utilidades">🛠️ Utilidades (6)</button>
+            <button class="nav-tab" data-tab="architecture">🏗️ Arquitectura</button>
+            <button class="nav-tab" data-tab="tech">💻 Stack Técnico</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overview">
+            <div class="section">
+                <h2 class="section-title">Resumen del Sistema</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                    DomiChat es un <strong>marketplace bilateral de delivery</strong> que opera completamente vía <strong>WhatsApp</strong> en Colombia (La Vega y Villeta).
+                    Conecta clientes que necesitan productos con domiciliarios disponibles para entregarlos, utilizando <strong>n8n</strong> como motor de automatización
+                    y <strong>agentes AI conversacionales</strong> con Google Gemini.
+                </p>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #667eea;">🎯 Flujo Completo de un Pedido</h3>
+                <ol style="font-size: 1.05rem; line-height: 2; color: #555;">
+                    <li>Cliente envía WhatsApp → "quiero 1 hamburguesa de El Corral"</li>
+                    <li>Agente AI solicita: dirección, valor ofrecido</li>
+                    <li>Sistema crea pedido y abre ventana de 3-5 minutos</li>
+                    <li>Domiciliarios envían aceptaciones/contraofertas</li>
+                    <li>Sistema selecciona mejor oferta (rating + tiempo)</li>
+                    <li>Cliente confirma → Pedido asignado</li>
+                    <li>Domiciliario entrega y valida con código de verificación</li>
+                    <li>Sistema marca como entregado y notifica cliente</li>
+                </ol>
+
+                <div class="alert alert-info" style="margin-top: 2rem;">
+                    <strong>📖 Documentación Completa Disponible:</strong><br>
+                    • README.md - Índice general<br>
+                    • DEPENDENCIES.md - Mapa de dependencias<br>
+                    • TECHNICAL_SUMMARY.md - Análisis técnico consolidado<br>
+                    • docs/flows/ - Documentación individual de cada flujo
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Workflows Principales</h2>
+                <div class="workflow-grid">
+                    <div class="workflow-card active">
+                        <div class="workflow-header">
+                            <div>
+                                <div class="workflow-title">🛍️ Clientes - Flujo Principal</div>
+                                <div class="workflow-id">vZz3KSWmbZa2xPyx</div>
+                            </div>
+                            <span class="status-badge active">✅ Activo</span>
+                        </div>
+                        <div class="workflow-description">
+                            Agente AI conversacional que gestiona la creación completa de pedidos vía WhatsApp. Incluye registro de clientes, recopilación de datos (productos, dirección, valor), y confirmación de pedidos. Usa Google Gemini con ~3000 líneas de prompt.
+                        </div>
+                        <div class="workflow-meta">
+                            <span class="meta-tag">49 nodos</span>
+                            <span class="meta-tag">WhatsApp</span>
+                            <span class="meta-tag">Google Gemini</span>
+                            <span class="meta-tag">Redis</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-card active">
+                        <div class="workflow-header">
+                            <div>
+                                <div class="workflow-title">🚚 Domiciliarios - Flujo Principal</div>
+                                <div class="workflow-id">MKNuC0q1F3Sh6K6Q</div>
+                            </div>
+                            <span class="status-badge active">✅ Activo</span>
+                        </div>
+                        <div class="workflow-description">
+                            Agente AI para domiciliarios que procesa comandos en lenguaje natural (aceptar, contraofertar, entregar, cambiar estado). Orquesta 4 sub-workflows especializados. Incluye registro mediante WhatsApp Flow.
+                        </div>
+                        <div class="workflow-meta">
+                            <span class="meta-tag">38 nodos</span>
+                            <span class="meta-tag">WhatsApp</span>
+                            <span class="meta-tag">Google Gemini</span>
+                            <span class="meta-tag">Sub-workflows</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-card active">
+                        <div class="workflow-header">
+                            <div>
+                                <div class="workflow-title">🛠️ Control de Errores</div>
+                                <div class="workflow-id">tCJVhMSfqtz6Lsv2</div>
+                            </div>
+                            <span class="status-badge active">✅ Activo</span>
+                        </div>
+                        <div class="workflow-description">
+                            Error Workflow global que captura todos los errores del sistema. Registra en Google Sheets para tracking y envía notificaciones en tiempo real vía Telegram. Handler centralizado de excepciones.
+                        </div>
+                        <div class="workflow-meta">
+                            <span class="meta-tag">6 nodos</span>
+                            <span class="meta-tag">Google Sheets</span>
+                            <span class="meta-tag">Telegram</span>
+                            <span class="meta-tag">Error Handler</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes Tab -->
+        <div class="tab-content" id="clientes">
+            <div class="section">
+                <h2 class="section-title">Workflows de Clientes</h2>
+                <p style="margin-bottom: 2rem; color: #666;">
+                    7 workflows que gestionan todo el ciclo de vida del pedido desde la perspectiva del cliente,
+                    desde la creación hasta la confirmación o rechazo de contraofertas.
+                </p>
+
+                <div class="workflow-grid" id="clientes-grid">
+                    <!-- Los workflows se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Domiciliarios Tab -->
+        <div class="tab-content" id="domiciliarios">
+            <div class="section">
+                <h2 class="section-title">Workflows de Domiciliarios</h2>
+                <p style="margin-bottom: 2rem; color: #666;">
+                    5 workflows que permiten a los domiciliarios gestionar ofertas, entregas y su estado de disponibilidad.
+                    Patrón de 1 flujo principal + 4 sub-workflows especializados.
+                </p>
+
+                <div class="workflow-grid" id="domiciliarios-grid">
+                    <!-- Los workflows se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Utilidades Tab -->
+        <div class="tab-content" id="utilidades">
+            <div class="section">
+                <h2 class="section-title">Workflows de Utilidades</h2>
+                <p style="margin-bottom: 2rem; color: #666;">
+                    6 workflows para mantenimiento, monitoreo, deployment y administración del sistema n8n.
+                </p>
+
+                <div class="workflow-grid" id="utilidades-grid">
+                    <!-- Los workflows se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Tab -->
+        <div class="tab-content" id="architecture">
+            <div class="section">
+                <h2 class="section-title">Arquitectura del Sistema</h2>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #667eea;">🔄 Patrón Principal: Orquestador + Sub-Workflows</h3>
+                <div class="code-block">
+Main Workflow (Orquestador)
+  ├─ AI Agent (Google Gemini)
+  │    └─ Redis Memory (TTL 24h, ventana 6 mensajes)
+  ├─ Sub-Workflows (Execute Workflow)
+  │    ├─ Validaciones
+  │    ├─ Operaciones BD
+  │    └─ Notificaciones
+  └─ Error Handler (Global)</div>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #667eea;">📊 Diagrama de Dependencias</h3>
+                <div class="dependency-graph">
+                    <pre style="margin: 0; line-height: 1.8; color: #555;">
+<strong>Domiciliarios Flujo Principal</strong> ejecuta:
+  ├─ 0002 Aceptar Pedido
+  ├─ 0003 Contraofertar Pedido
+  ├─ 0004 Validar Entrega
+  └─ 0005 Cambiar Estado
+
+<strong>Clientes Flujo Principal</strong> ejecuta:
+  ├─ 0002 Crear Pedido
+  │    └─ 0003 Broadcast Domiciliarios
+  │         └─ 0004 Procesar Ventana Ofertas
+  │              ├─ 0006 Procesar Contraoferta
+  │              ├─ 0005 Aceptar Contraoferta
+  │              └─ 0007 Rechazar Contraoferta
+
+<strong>Todos los flujos críticos</strong> usan:
+  └─ 0002 Utilidades Control de Errores (error handler)</pre>
+                </div>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #667eea;">🗄️ Tablas Principales de Supabase</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tabla</th>
+                            <th>Propósito</th>
+                            <th>Campos Clave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>clientes</strong></td>
+                            <td>Usuarios que solicitan pedidos</td>
+                            <td>numero_telefono (PK), nombre, apellido, ciudad</td>
+                        </tr>
+                        <tr>
+                            <td><strong>domiciliarios</strong></td>
+                            <td>Repartidores disponibles</td>
+                            <td>numero_domiciliario (PK), calificacion, estado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pedidos</strong></td>
+                            <td>Órdenes de delivery</td>
+                            <td>pedido_id (PK), estado, valor_oferta, codigo_verificacion</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ventanas_ofertas</strong></td>
+                            <td>Períodos de aceptación (3-5 min)</td>
+                            <td>ventana_id (PK), pedido_id (FK), estado_ventana</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ofertas_recibidas</strong></td>
+                            <td>Propuestas de domiciliarios</td>
+                            <td>oferta_id (PK), tipo_oferta, valor_oferta, calificacion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tech Tab -->
+        <div class="tab-content" id="tech">
+            <div class="section">
+                <h2 class="section-title">Stack Tecnológico</h2>
+
+                <div class="tech-stack-grid">
+                    <div class="tech-item">
+                        <strong>⚙️ Orquestación</strong>
+                        <p>n8n (self-hosted)</p>
+                        <p style="font-size: 0.85rem; color: #666;">Motor de workflows y automatización</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>🗄️ Base de Datos</strong>
+                        <p>Supabase (PostgreSQL)</p>
+                        <p style="font-size: 0.85rem; color: #666;">Almacenamiento de pedidos, usuarios, ofertas</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>💾 Cache/Memoria</strong>
+                        <p>Redis</p>
+                        <p style="font-size: 0.85rem; color: #666;">Sesiones conversacionales (TTL 24h)</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>🤖 AI/LLM</strong>
+                        <p>Google Gemini (Vertex AI)</p>
+                        <p style="font-size: 0.85rem; color: #666;">Agentes conversacionales</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>💬 Mensajería</strong>
+                        <p>WhatsApp Business API</p>
+                        <p style="font-size: 0.85rem; color: #666;">Canal principal de comunicación</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>📊 Logging</strong>
+                        <p>Google Sheets</p>
+                        <p style="font-size: 0.85rem; color: #666;">Registro de errores</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>🔔 Alertas</strong>
+                        <p>Telegram Bot</p>
+                        <p style="font-size: 0.85rem; color: #666;">Notificaciones al equipo</p>
+                    </div>
+                    <div class="tech-item">
+                        <strong>🔄 Versionado</strong>
+                        <p>GitHub</p>
+                        <p style="font-size: 0.85rem; color: #666;">Backup automático diario</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: #667eea;">⚡ Variables de Entorno</h3>
+                <div class="code-block">
+# WhatsApp Business API
+WHATSAPP_API_VERSION=v21.0
+WHATSAPP_CLIENT_PHONE_NUMBER_ID=xxxxx
+WHATSAPP_DELIVERY_PHONE_NUMBER_ID=xxxxx
+WHATSAPP_CLIENT_SENDER_ACCESS_TOKEN=xxxxx
+WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN=xxxxx
+
+# Timezone
+TZ=America/Bogota</div>
+
+                <div class="alert alert-warning" style="margin-top: 2rem;">
+                    <strong>⚠️ Seguridad:</strong> Todas las credenciales se almacenan en variables de entorno y en el sistema de credenciales encriptado de n8n. El flujo "0005 Utilidades Extraer Credenciales" debe usarse SOLO en desarrollo.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>DomiChat</strong> - Sistema de Delivery vía WhatsApp</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">Documentación generada el 2025-11-17 | 18 workflows analizados</p>
+    </div>
+
+    <script>
+        // Datos de workflows
+        const workflows = {
+            clientes: [
+                {
+                    title: "0001 Flujo Principal",
+                    id: "vZz3KSWmbZa2xPyx",
+                    active: true,
+                    description: "Agente AI conversacional que gestiona creación completa de pedidos. Registro de clientes, recopilación de datos (productos, dirección, valor), confirmación. Incluye transcripción de audio y WhatsApp Flows.",
+                    nodes: "49 nodos",
+                    tags: ["WhatsApp", "Google Gemini", "Redis", "Supabase", "Audio", "Tools AI"]
+                },
+                {
+                    title: "0002 Crear Pedido",
+                    id: "Mdl3DHroFQwCDQKf",
+                    active: false,
+                    description: "Tool AI que crea pedido en Supabase, genera código de verificación, abre ventana de ofertas y ejecuta broadcast a domiciliarios. Sub-workflow invocado por agente principal.",
+                    nodes: "~15 nodos",
+                    tags: ["Tool AI", "Supabase", "Sub-workflow"]
+                },
+                {
+                    title: "0003 Broadcast Domiciliarios",
+                    id: "Qt35dLh0xdcGB6jT",
+                    active: false,
+                    description: "Notifica a domiciliarios disponibles sobre nuevo pedido. Filtra por ciudad y estado activo, envía mensajes vía WhatsApp con detalles del pedido.",
+                    nodes: "~10 nodos",
+                    tags: ["WhatsApp", "Supabase", "Notificaciones"]
+                },
+                {
+                    title: "0004 Procesar Ventana Ofertas",
+                    id: "J7IDbKTkclpin309",
+                    active: false,
+                    description: "Cierra ventana de ofertas, evalúa propuestas recibidas con algoritmo de selección (tipo oferta, rating, tiempo). Retorna mejor oferta o indica sin ofertas.",
+                    nodes: "~20 nodos",
+                    tags: ["Supabase", "Algoritmo", "Lógica de negocio"]
+                },
+                {
+                    title: "0005 Aceptar Contraoferta",
+                    id: "zmw8Cn9ZXgya8m1g",
+                    active: false,
+                    description: "Tool AI que procesa aceptación de contraoferta por cliente. Actualiza pedido a Confirmado, asigna domiciliario, envía notificaciones y genera código de verificación.",
+                    nodes: "~12 nodos",
+                    tags: ["Tool AI", "Supabase", "WhatsApp"]
+                },
+                {
+                    title: "0006 Procesar Contraoferta",
+                    id: "9b32I1Ehoz1UhyEA",
+                    active: false,
+                    description: "Envía contraoferta al cliente con timer de 2 minutos. Espera aceptación/rechazo y procesa respuesta. Incluye timeout automático.",
+                    nodes: "~15 nodos",
+                    tags: ["WhatsApp", "Timer", "Supabase"]
+                },
+                {
+                    title: "0007 Rechazar Contraoferta",
+                    id: "Dz6rZbVpMY2fGNI5",
+                    active: false,
+                    description: "Tool AI que procesa rechazo de contraoferta. Actualiza estado del pedido, notifica domiciliario, cierra transacción.",
+                    nodes: "~8 nodos",
+                    tags: ["Tool AI", "Supabase", "WhatsApp"]
+                }
+            ],
+            domiciliarios: [
+                {
+                    title: "0001 Flujo Principal",
+                    id: "MKNuC0q1F3Sh6K6Q",
+                    active: true,
+                    description: "Agente AI que procesa comandos (aceptar, contraofertar, entregar, cambiar estado). Orquesta 4 sub-workflows. Incluye registro vía WhatsApp Flow con formulario interactivo.",
+                    nodes: "38 nodos",
+                    tags: ["WhatsApp", "Google Gemini", "Redis", "Sub-workflows", "Forms"]
+                },
+                {
+                    title: "0002 Aceptar Pedido",
+                    id: "ZlGuD4CfbuDS4EMR",
+                    active: false,
+                    description: "Valida pedido y ventana, registra oferta tipo 'aceptacion' con valor original. Patrón de validación en cascada con early return.",
+                    nodes: "9 nodos",
+                    tags: ["Supabase", "Validación", "Sub-workflow"]
+                },
+                {
+                    title: "0003 Contraofertar Pedido",
+                    id: "HzK6mbnjJfsRlNyW",
+                    active: false,
+                    description: "Valida pedido, ventana, y que contraoferta sea mayor al valor original. Registra oferta tipo 'contraoferta'. Permite reintentar si valor muy bajo.",
+                    nodes: "11 nodos",
+                    tags: ["Supabase", "Validación", "Lógica de negocio"]
+                },
+                {
+                    title: "0004 Validar Entrega",
+                    id: "qERWYLB6k0hZ7k4s",
+                    active: false,
+                    description: "Valida código de verificación, actualiza pedido a Entregado, envía notificación al cliente, limpia memoria Redis del cliente. Permite reintentar si código incorrecto.",
+                    nodes: "11 nodos",
+                    tags: ["Supabase", "WhatsApp", "Redis", "Validación"]
+                },
+                {
+                    title: "0005 Cambiar Estado",
+                    id: "3qKyLhg7cDGi1Ijs",
+                    active: false,
+                    description: "Alterna estado del domiciliario entre Activo/Inactivo. Actualiza en Supabase y retorna mensaje de confirmación. Control de disponibilidad.",
+                    nodes: "5 nodos",
+                    tags: ["Supabase", "Estado", "Simple"]
+                }
+            ],
+            utilidades: [
+                {
+                    title: "0001 Backup Workflows",
+                    id: "(TBD)",
+                    active: true,
+                    description: "Backup automático diario (3 AM) de todos los workflows a GitHub. Compara versiones, detecta cambios, crea commits automáticos. Mantiene historial completo.",
+                    nodes: "~20 nodos",
+                    tags: ["GitHub", "Schedule", "Backup", "Automation"]
+                },
+                {
+                    title: "0002 Control de Errores",
+                    id: "tCJVhMSfqtz6Lsv2",
+                    active: true,
+                    description: "Error Workflow global. Captura errores, registra en Google Sheets (fecha, hora, workflow, mensaje, URL), notifica vía Telegram. Handler centralizado.",
+                    nodes: "6 nodos",
+                    tags: ["Error Handler", "Google Sheets", "Telegram", "Monitoring"]
+                },
+                {
+                    title: "0003 Deploy QA → Prod",
+                    id: "(TBD)",
+                    active: false,
+                    description: "Migra workflows de ambiente QA a Producción. Incluye interfaz HTML, mapeo de credenciales, comparación de cambios, confirmación de deployment.",
+                    nodes: "~30 nodos",
+                    tags: ["Deployment", "HTML", "Credentials", "DevOps"]
+                },
+                {
+                    title: "0004 Borrar Memoria",
+                    id: "CY132083QPsn1AYm",
+                    active: false,
+                    description: "Herramienta manual para limpiar sesiones Redis de agentes AI. Útil para debugging y reset de conversaciones. Trigger manual.",
+                    nodes: "3 nodos",
+                    tags: ["Redis", "Debug", "Manual", "Memory"]
+                },
+                {
+                    title: "0005 Extraer Credenciales",
+                    id: "txbu5tXSsbm0OFqL",
+                    active: false,
+                    description: "Exporta todas las credenciales de n8n desencriptadas vía comando npx. Parsea output y retorna JSON. ⚠️ SOLO para desarrollo.",
+                    nodes: "4 nodos",
+                    tags: ["Security", "Export", "Development", "npx"]
+                },
+                {
+                    title: "0006 Dashboard DomiChat",
+                    id: "(TBD)",
+                    active: false,
+                    description: "Dashboard de métricas y monitoreo del sistema. Visualización de estadísticas, pedidos, domiciliarios. (Archivo muy grande, análisis parcial)",
+                    nodes: "~50+ nodos",
+                    tags: ["Dashboard", "Metrics", "HTML", "Visualization"]
+                }
+            ]
+        };
+
+        // Renderizar workflows
+        function renderWorkflows(category, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = workflows[category].map(wf => `
+                <div class="workflow-card ${wf.active ? 'active' : 'inactive'}">
+                    <div class="workflow-header">
+                        <div>
+                            <div class="workflow-title">${wf.title}</div>
+                            <div class="workflow-id">${wf.id}</div>
+                        </div>
+                        <span class="status-badge ${wf.active ? 'active' : 'inactive'}">
+                            ${wf.active ? '✅ Activo' : '⚪ Inactivo'}
+                        </span>
+                    </div>
+                    <div class="workflow-description">${wf.description}</div>
+                    <div class="workflow-meta">
+                        <span class="meta-tag">${wf.nodes}</span>
+                        ${wf.tags.map(tag => `<span class="meta-tag">${tag}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Inicializar
+        renderWorkflows('clientes', 'clientes-grid');
+        renderWorkflows('domiciliarios', 'domiciliarios-grid');
+        renderWorkflows('utilidades', 'utilidades-grid');
+
+        // Navegación de tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetTab = tab.dataset.tab;
+
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Búsqueda
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.workflow-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
