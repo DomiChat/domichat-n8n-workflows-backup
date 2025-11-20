@@ -933,7 +933,7 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario + '_delivery'}}",
-        "sessionTTL": 86400000,
+        "sessionTTL": 86400,
         "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
@@ -1360,6 +1360,7 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "573219453816_delivery",
+        "sessionTTL": 86400,
         "contextWindowLength": 1000
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
@@ -1465,7 +1466,7 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $('Datos Mensaje').item.json.mensaje.telefono_usuario + '_delivery'}}",
-        "sessionTTL": 86400000,
+        "sessionTTL": 86400,
         "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
@@ -1819,6 +1820,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-05T01:37:24.000Z",
-  "versionId": "7e8ac946-ee96-4f78-9bd3-ee9077381b34"
+  "updatedAt": "2025-11-20T04:20:12.000Z",
+  "versionId": "cd26ba37-2301-4329-9b93-00d3cdc0ae5f"
 }
