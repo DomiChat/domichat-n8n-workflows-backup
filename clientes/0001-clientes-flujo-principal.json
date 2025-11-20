@@ -1812,7 +1812,7 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario + '_cliente'}}",
-        "sessionTTL": 86400000,
+        "sessionTTL": 86400,
         "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
@@ -2378,6 +2378,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-13T02:42:14.000Z",
-  "versionId": "6ce97248-06a1-4b6e-bdbe-eac865b5edae"
+  "updatedAt": "2025-11-20T03:48:15.000Z",
+  "versionId": "baee7356-cd34-475f-a4a5-27d9628006c1"
 }
