@@ -1146,7 +1146,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1156,7 +1155,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1166,7 +1164,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1176,7 +1173,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "number",
               "removed": false
             }
           ],
@@ -1221,7 +1217,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1231,7 +1226,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "number",
               "removed": false
             },
             {
@@ -1241,7 +1235,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1251,7 +1244,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1261,7 +1253,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "number",
               "removed": false
             }
           ],
@@ -1304,7 +1295,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1314,7 +1304,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1324,7 +1313,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             }
           ],
@@ -1396,7 +1384,7 @@
           "value": "3qKyLhg7cDGi1Ijs",
           "mode": "list",
           "cachedResultUrl": "/workflow/3qKyLhg7cDGi1Ijs",
-          "cachedResultName": "0006 Domiciliarios Cambiar Estado"
+          "cachedResultName": "0005 Domiciliarios Cambiar Estado"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -1413,7 +1401,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             },
             {
@@ -1423,7 +1410,6 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             }
           ],
@@ -1799,6 +1785,60 @@
           "email": "Jddj@com.com"
         }
       }
+    ],
+    "WhatsApp Domiciliarios Trigger": [
+      {
+        "json": {
+          "messaging_product": "whatsapp",
+          "metadata": {
+            "display_phone_number": "573138116378",
+            "phone_number_id": "768517399686178"
+          },
+          "contacts": [
+            {
+              "profile": {
+                "name": "Luis Bilbao"
+              },
+              "wa_id": "573219453816"
+            }
+          ],
+          "messages": [
+            {
+              "from": "573219453816",
+              "id": "wamid.HBgMNTczMjE5NDUzODE2FQIAEhggQUNENUUyOTdDRjQ4QjcyOTQ2RjE4RUJEQzJBOTY3N0YA",
+              "timestamp": "1763660355",
+              "text": {
+                "body": "7500"
+              },
+              "type": "text"
+            }
+          ],
+          "field": "messages"
+        }
+      }
+    ],
+    "Command Processor Agent": [
+      {
+        "json": {
+          "output": "🔄 Procesando propuesta de contraoferta...\n\n```json\n{\n  \"comando\": \"contraofertar\",\n  \"pedido_id\": 182,\n  \"valor_contraoferta\": 7500\n}\n```"
+        }
+      }
+    ],
+    "Detectar Comando": [
+      {
+        "json": {
+          "output": "🔄 Procesando propuesta de contraoferta...",
+          "is_comando_aceptar": false,
+          "is_comando_contraofertar": true,
+          "is_comando_entregar": false,
+          "is_comando_cambiar_estado": false,
+          "command_data": {
+            "comando": "contraofertar",
+            "pedido_id": 182,
+            "valor_contraoferta": 7500
+          }
+        }
+      }
     ]
   },
   "settings": {
@@ -1820,6 +1860,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-20T04:20:12.000Z",
-  "versionId": "cd26ba37-2301-4329-9b93-00d3cdc0ae5f"
+  "updatedAt": "2025-11-20T18:55:02.000Z",
+  "versionId": "9a035914-2cf6-4a21-ae8d-f88ad08f2898"
 }
