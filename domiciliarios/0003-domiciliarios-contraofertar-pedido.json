@@ -292,21 +292,24 @@
         "workflowInputs": {
           "values": [
             {
-              "name": "pedido_id"
+              "name": "pedido_id",
+              "type": "any"
             },
             {
               "name": "valor_contraoferta",
-              "type": "number"
+              "type": "any"
             },
             {
-              "name": "numero_domiciliario"
+              "name": "numero_domiciliario",
+              "type": "any"
             },
             {
-              "name": "nombre_domiciliario"
+              "name": "nombre_domiciliario",
+              "type": "any"
             },
             {
               "name": "calificacion_domiciliario",
-              "type": "number"
+              "type": "any"
             }
           ]
         }
@@ -524,6 +527,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T18:17:56.000Z",
-  "versionId": "a43ce6f9-bea2-456b-8722-2d32058674e3"
+  "updatedAt": "2025-11-20T17:49:39.000Z",
+  "versionId": "25992ccb-712c-42ab-827e-0e56577a65a1"
 }
