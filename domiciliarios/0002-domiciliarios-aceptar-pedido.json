@@ -349,17 +349,20 @@
         "workflowInputs": {
           "values": [
             {
-              "name": "pedido_id"
+              "name": "pedido_id",
+              "type": "any"
             },
             {
-              "name": "numero_domiciliario"
+              "name": "numero_domiciliario",
+              "type": "any"
             },
             {
-              "name": "nombre_domiciliario"
+              "name": "nombre_domiciliario",
+              "type": "any"
             },
             {
               "name": "calificacion_domiciliario",
-              "type": "number"
+              "type": "any"
             }
           ]
         }
@@ -438,6 +441,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T18:16:41.000Z",
-  "versionId": "dfc4a83a-b93b-46c8-a107-ee899c9e586e"
+  "updatedAt": "2025-11-20T17:48:30.000Z",
+  "versionId": "8cc0be43-a853-4afd-ac09-8c1a6e159e87"
 }
