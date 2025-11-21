@@ -154,13 +154,16 @@
         "workflowInputs": {
           "values": [
             {
-              "name": "pedido_id"
+              "name": "pedido_id",
+              "type": "any"
             },
             {
-              "name": "numero_domiciliario"
+              "name": "numero_domiciliario",
+              "type": "any"
             },
             {
-              "name": "codigo_verificacion"
+              "name": "codigo_verificacion",
+              "type": "any"
             }
           ]
         }
@@ -507,6 +510,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-10-22T18:18:46.000Z",
-  "versionId": "1dfa6cb6-a16a-45c7-906b-a383b09e5f5a"
+  "updatedAt": "2025-11-20T17:51:06.000Z",
+  "versionId": "5644a9b0-d0ab-4b60-951e-e5f70ba734f2"
 }
