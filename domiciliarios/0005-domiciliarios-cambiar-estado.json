@@ -60,10 +60,12 @@
         "workflowInputs": {
           "values": [
             {
-              "name": "numero_domiciliario"
+              "name": "numero_domiciliario",
+              "type": "any"
             },
             {
-              "name": "nuevo_estado"
+              "name": "nuevo_estado",
+              "type": "any"
             }
           ]
         }
@@ -248,6 +250,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-10T21:31:31.000Z",
-  "versionId": "99fc4c26-a02d-4f1a-abaa-e24b58fa6ead"
+  "updatedAt": "2025-11-20T17:51:38.000Z",
+  "versionId": "20560eec-9054-4aff-97d3-e6cebd116c2d"
 }
