@@ -1,0 +1,133 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Obtener Estado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Estado": {
+      "main": [
+        [
+          {
+            "node": "Estado Actual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-24T04:01:36.445Z",
+  "id": "RmSfUKwNZbsdDXYD",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "0007 Domiciliarios Obtener Estado Actual",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "numero_domiciliario",
+              "type": "any"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8385f2fc-2113-4dd5-bb94-186c99f158d7",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "domiciliarios",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "numero_domiciliario",
+              "keyValue": "={{ $json.numero_domiciliario }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "eb8e832a-b6d8-4837-98bf-a0870a6f2e97",
+      "name": "Obtener Estado",
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3add6060-4fdd-4002-9933-481f8a0193db",
+              "name": "estado_domiciliario",
+              "value": "={{ $json.estado_domiciliario }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8e907196-1aa5-4981-b060-d514996ba851",
+      "name": "Estado Actual"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "numero_domiciliario": "573006064535"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-24T04:01:36.448Z",
+      "updatedAt": "2025-11-24T04:01:36.448Z",
+      "role": "workflow:owner",
+      "workflowId": "RmSfUKwNZbsdDXYD",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-11-24T04:02:09.000Z",
+  "versionId": "1b40fb37-4259-4ab8-9c67-614b3f5dfa6b"
+}
