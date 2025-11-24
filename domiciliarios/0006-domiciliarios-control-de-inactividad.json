@@ -1,0 +1,280 @@
+{
+  "active": true,
+  "connections": {
+    "Revisar Cada 6 Horas": {
+      "main": [
+        [
+          {
+            "node": "Obtener Todos los Domiciliarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Todos los Domiciliarios": {
+      "main": [
+        [
+          {
+            "node": "Filtrar Inactivos 3+ Días",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar Inactivos 3+ Días": {
+      "main": [
+        [
+          {
+            "node": "Enviar Advertencia Inactividad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Obtener Todos los Domiciliarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Advertencia Inactividad": {
+      "main": [
+        [
+          {
+            "node": "Marcar Como Inactivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-11-23T21:05:25.058Z",
+  "id": "hzSwDDj8khjZknpq",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "0006 Domiciliarios Control de Inactividad",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "d257a17d-01b9-41e5-b978-a945b5dd0f1d",
+      "name": "Revisar Cada 6 Horas",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "domiciliarios",
+        "returnAll": true,
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "estado_domiciliario",
+              "condition": "eq",
+              "keyValue": "Activo"
+            }
+          ]
+        }
+      },
+      "id": "f0e6f373-62c5-4419-99ea-dae3536c0d39",
+      "name": "Obtener Todos los Domiciliarios",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        224
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "condition-inactive",
+              "leftValue": "={{ DateTime.now().diff(DateTime.fromISO($json.fecha_ultimo_mensaje), 'days').days }}",
+              "rightValue": 3,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ac6837d5-27f6-4869-b680-9ad3e3f5b9e2",
+      "name": "Filtrar Inactivos 3+ Días",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        96,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "domiciliarios",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "numero_domiciliario",
+              "condition": "eq",
+              "keyValue": "={{ $('Filtrar Inactivos 3+ Días').item.json.numero_domiciliario }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "estado_domiciliario",
+              "fieldValue": "Inactivo"
+            }
+          ]
+        }
+      },
+      "id": "2f1e83a5-d611-44e8-808c-f2b466d51787",
+      "name": "Marcar Como Inactivo",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        544,
+        224
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "4bpjJPK2fqZkspgx",
+          "name": "Supabase QA"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        128
+      ],
+      "id": "af7216b1-c51b-4ab0-ac4d-ea26ff302d34",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "template"
+            },
+            {
+              "name": "template",
+              "value": "={{ { \"name\": \"notificacion_estado_cuenta\", \"language\": { \"code\": \"es\" } } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        224
+      ],
+      "id": "7d93a62b-18b1-4ccf-9aac-ce37609d56ca",
+      "name": "Enviar Advertencia Inactividad",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "tCJVhMSfqtz6Lsv2"
+  },
+  "shared": [
+    {
+      "createdAt": "2025-11-23T21:05:25.063Z",
+      "updatedAt": "2025-11-23T21:05:25.063Z",
+      "role": "workflow:owner",
+      "workflowId": "hzSwDDj8khjZknpq",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": {
+    "node:Revisar Cada 6 Horas": {
+      "recurrenceRules": [
+        0
+      ]
+    }
+  },
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-24T03:55:19.000Z",
+  "versionId": "d0925572-2090-4665-8690-e9cfe59b144b"
+}
