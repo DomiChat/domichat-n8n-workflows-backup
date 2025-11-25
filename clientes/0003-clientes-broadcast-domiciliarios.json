@@ -430,7 +430,7 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $json.contacts[0].wa_id + '_delivery'}}",
-        "sessionTTL": 86400000,
+        "sessionTTL": 86400,
         "contextWindowLength": 6
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
@@ -478,6 +478,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-06T16:48:15.000Z",
-  "versionId": "e050b507-b63f-4755-a44c-556e647b6287"
+  "updatedAt": "2025-11-24T16:21:07.000Z",
+  "versionId": "32f51c02-3102-40fb-a0c2-1ba57237cc68"
 }
