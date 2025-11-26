@@ -1329,7 +1329,7 @@
             },
             {
               "name": "template",
-              "value": "={{ { \"name\": \"notificacion_ventana_cerrada_7\", \"language\": { \"code\": \"es\" }, \"components\": [ { \"type\": \"body\", \"parameters\": [ { \"type\": \"text\", \"text\": $('Start').first().json.pedido_id } ] } ] } }}"
+              "value": "={{ { \"name\": \"notificar_ventana_cerrada\", \"language\": { \"code\": \"es\" }, \"components\": [ { \"type\": \"body\", \"parameters\": [ { \"type\": \"text\", \"text\": $('Start').first().json.pedido_id } ] } ] } }}"
             }
           ]
         },
@@ -1385,7 +1385,7 @@
             },
             {
               "name": "text",
-              "value": "={ body: 'Tiempo agotado\\n#️⃣ Pedido *{{ $('Algoritmo Selección').item.json.pedido_id }}*: Ya no acepta propuestas\\nTiempo límite alcanzado' }"
+              "value": "={ body: '#️⃣ Pedido *{{ $('Algoritmo Selección').item.json.pedido_id }}*: Ya no acepta propuestas\\nTiempo límite alcanzado' }"
             }
           ]
         },
@@ -1635,6 +1635,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-25T00:09:43.000Z",
-  "versionId": "b1b09948-3b3b-4e94-87dc-ee63d7062611"
+  "updatedAt": "2025-11-25T23:17:31.000Z",
+  "versionId": "2a0369c7-d946-4cd3-8f7d-416ab2f531c2"
 }
