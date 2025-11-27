@@ -1470,36 +1470,6 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "string"
-            },
-            {
-              "id": "phone_number_id_domiciliarios",
-              "displayName": "phone_number_id_domiciliarios",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": true
-            },
-            {
-              "id": "version_whatsapp_api",
-              "displayName": "version_whatsapp_api",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": true
-            },
-            {
-              "id": "tiempo_procesar_contraoferta",
-              "displayName": "tiempo_procesar_contraoferta",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -2368,8 +2338,8 @@
   },
   "shared": [
     {
-      "createdAt": "2025-09-27T17:28:56.533Z",
       "updatedAt": "2025-09-27T17:28:56.533Z",
+      "createdAt": "2025-09-27T17:28:56.533Z",
       "role": "workflow:owner",
       "workflowId": "vZz3KSWmbZa2xPyx",
       "projectId": "0IzhKVOc0T9TvoCy"
@@ -2378,6 +2348,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-23T20:53:35.000Z",
-  "versionId": "5c2043e8-80a2-4933-8e5f-ab47fe01dd6a"
+  "updatedAt": "2025-11-27T04:56:26.000Z",
+  "versionId": "967ebda9-875a-40c6-9573-be0844502100"
 }
