@@ -1736,7 +1736,8 @@
       "name": "Mostrar Typing Indicator",
       "retryOnFail": true,
       "alwaysOutputData": false,
-      "maxTries": 3
+      "maxTries": 3,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -1888,6 +1889,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-24T04:15:14.000Z",
-  "versionId": "593ec2f5-3e5f-4029-9121-457bd93f02ae"
+  "updatedAt": "2025-11-29T15:49:05.000Z",
+  "versionId": "2968f27c-924c-4541-af00-5f62c4b8543b"
 }
