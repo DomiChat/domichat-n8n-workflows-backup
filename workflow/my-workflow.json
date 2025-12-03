@@ -1,0 +1,100 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Notificar Domiciliario Con Plantilla",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-02T15:57:21.421Z",
+  "id": "ZYFDxhkaIasH2uMT",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.lista_compras) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.direccion) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        16
+      ],
+      "id": "9e272e71-b5e7-477e-a69e-2f0d38d6c133",
+      "name": "Notificar Domiciliario Con Plantilla",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        16
+      ],
+      "id": "178caffe-c101-4b1c-b5a9-5ba165d1c5f8",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "lista_compras": "1 pollo amarillo, despresado y con la pechuga abierta\n1 bolsas de tomates rojos\n1 bolsa de cebolla cabezona blanca\n1 paquete de cilantro\n1 bolsa de agua 5 litros\n4 plátanos maduros\n1 libra de sal\n1 pasta de ajo pequeña",
+          "valor_oferta": "10000",
+          "zona_domicilio": "Rural",
+          "pedido_id": "13",
+          "direccion": "Verraa la esmeralda/ sector San Juan\nConjuro Villa\nDiana",
+          "ciudad": "La Vega",
+          "numero_domiciliario": "573006064535"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-02T15:57:21.425Z",
+      "createdAt": "2025-12-02T15:57:21.425Z",
+      "role": "workflow:owner",
+      "workflowId": "ZYFDxhkaIasH2uMT",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-02T15:57:21.421Z",
+  "versionId": "f3a1f833-93d2-4b19-8d0d-b39aea50b913"
+}
