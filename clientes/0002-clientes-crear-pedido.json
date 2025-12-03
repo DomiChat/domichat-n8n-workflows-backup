@@ -235,9 +235,9 @@
         "json": {
           "phone_number": "573006064535",
           "client_name": "Manuel Torres",
-          "lista_compras": "1 kilo arroz, 2 libras carne, 1 sixpack cerveza",
-          "direccion": "Vereda San Miguel, finca Los Rosales, bajando por el río, casa azul después del puente",
-          "ciudad": "Villeta",
+          "lista_compras": "1 pollo amarillo grande despresado y con la pechuga abierta\n2 libras de carne molida de res especial para hamburguesas\n3 libras de carne de cerdo para asar en posta\n1 libra de costilla de cerdo ahumada\n2 libras de pechuga de pollo deshuesada y sin piel\n5 bolsas grandes de tomates rojos bien maduros\n3 bolsas de cebolla cabezona blanca\n2 bolsas de cebolla larga fresca\n4 paquetes grandes de cilantro bien fresco\n2 paquetes de perejil crespo\n1 bolsa de agua de 5 litros marca cristal\n2 bolsas de agua de 3 litros\n10 plátanos hartones bien maduros\n8 plátanos verdes para hacer patacones\n1 libra de sal marina\n1 libra de azúcar blanca refinada\n2 pastas de ajo grandes\n1 frasco de comino molido\n1 bolsa de arroz blanco de 5 libras\n2 libras de frijol cargamanto rojo\n1 paquete de pasta espagueti marca zenú\n3 latas de atún en aceite de oliva\n2 latas de sardinas en salsa de tomate picante\n1 paquete de galletas de soda saltin noel\n1 bolsa de pan tajado integral bimbo\n2 litros de leche entera pasteurizada\n1 queso campesino fresco de 500 gramos\n12 huevos doble A extra grandes\n1 margarina de 250 gramos\n3 aguacates hass grandes y maduros\n8 limones tahití jugosos",
+          "direccion": "Vereda San Antonio del Camino Real\nSector conocido como Las Tres Quebradas\nFinca El Descanso\nCasa principal color blanca\nReferencia: Después del colegio rural subir 2 km",
+          "ciudad": "La Vega",
           "valor_oferta": "10000",
           "zona_domicilio": "Rural"
         }
@@ -259,6 +259,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-09-25T05:02:35.000Z",
-  "versionId": "5ce230dd-0dce-4b14-86c2-edc45bf00fd5"
+  "updatedAt": "2025-12-02T22:30:14.000Z",
+  "versionId": "afb96df3-fc02-41f0-95e4-3896b5bcb7f8"
 }
