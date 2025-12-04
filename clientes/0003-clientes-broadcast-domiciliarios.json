@@ -70,18 +70,6 @@
         ]
       ]
     },
-    "Notificar Domiciliario Con Botones": {
-      "main": [
-        [
-          {
-            "node": "Chat Memory Manager",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        []
-      ]
-    },
     "¿Es Plantilla?": {
       "main": [
         [
@@ -100,6 +88,17 @@
         ]
       ]
     },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Chat Memory Manager",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Notificar Domiciliario Con Plantilla": {
       "main": [
         [
@@ -111,12 +110,12 @@
         ]
       ]
     },
-    "Redis Chat Memory": {
-      "ai_memory": [
+    "Notificar Domiciliario Con Botones": {
+      "main": [
         [
           {
             "node": "Chat Memory Manager",
-            "type": "ai_memory",
+            "type": "main",
             "index": 0
           }
         ]
@@ -272,7 +271,7 @@
       "typeVersion": 3.4,
       "position": [
         192,
-        352
+        368
       ],
       "id": "80eaac4c-1a2a-40e7-92fb-3dbe2790a199",
       "name": "No hay domiciliarios"
@@ -323,40 +322,10 @@
       "typeVersion": 1.1,
       "position": [
         960,
-        160
+        176
       ],
       "id": "49157f10-a4a7-474f-8f2e-5181d953577e",
       "name": "Chat Memory Manager"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.numero_domiciliario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🚚 Pedido disponible\"\n        },\n        \"body\": {\n            \"text\": {{ JSON.stringify(\"📋 No. \" + $('Start').item.json.pedido_id + \"\\n📦 \" + $('Start').item.json.lista_compras + \"\\n📍 \" + $('Start').item.json.direccion + \" (\" + $('Start').item.json.zona_domicilio + \")\\n💰 Valor: $\" + $('Start').item.json.valor_oferta + \"\\n\\n⏰ Responder en 3 minutos\") }}\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ACEPTAR-{{ $('Start').item.json.pedido_id }}\",\n                        \"title\": \"Aceptar\"\n                    }\n                },\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"CONTRAOFERTAR-{{ $('Start').item.json.pedido_id }}\", \n                        \"title\": \"Contraofertar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        624,
-        176
-      ],
-      "id": "4548d4e9-e168-4318-9b89-172bb8367953",
-      "name": "Notificar Domiciliario Con Botones",
-      "retryOnFail": true,
-      "alwaysOutputData": false,
-      "maxTries": 2
     },
     {
       "parameters": {
@@ -394,40 +363,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.lista_compras) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.direccion) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        624,
-        16
-      ],
-      "id": "9ae46bb9-0ae7-41b5-8240-efc8d26810da",
-      "name": "Notificar Domiciliario Con Plantilla",
-      "retryOnFail": true,
-      "alwaysOutputData": false,
-      "maxTries": 2
-    },
-    {
-      "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $json.contacts[0].wa_id + '_delivery'}}",
         "sessionTTL": 86400,
@@ -447,6 +382,114 @@
           "name": "Redis QA"
         }
       }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "template"
+            },
+            {
+              "name": "template",
+              "value": "={{ {\n  name: 'notificar_pedido',\n  language: { code: 'es' },\n  components: [\n    {\n      type: 'body',\n      parameters: [\n        {\n          type: 'text',\n          text: $('Start').first().json.pedido_id\n        },\n        {\n          type: 'text',\n          text: $('Start').first().json.lista_compras.length > 550 ? $('Start').first().json.lista_compras.substring(0, 500) + '... y más productos. Contactar cliente' : $('Start').first().json.lista_compras\n        },\n        {\n          type: 'text',\n          text: $('Start').first().json.direccion.length > 280 ? $('Start').first().json.direccion.substring(0, 240) + '... Ver detalles con cliente' : $('Start').first().json.direccion\n        },\n        {\n          type: 'text',\n          text: $('Start').first().json.zona_domicilio\n        },\n        {\n          type: 'text',\n          text: $('Start').first().json.valor_oferta\n        }\n      ]\n    }\n  ]\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        656,
+        16
+      ],
+      "id": "d2ee2a26-03f0-4815-aae8-81be3f20a038",
+      "name": "Notificar Domiciliario Con Plantilla",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "interactive"
+            },
+            {
+              "name": "interactive",
+              "value": "={{ {\n  type: 'button',\n  header: {\n    type: 'text',\n    text: '🚚 Pedido disponible'\n  },\n  body: {\n    text: '📋 No. ' + $('Start').item.json.pedido_id + '\\n📦 ' + ($('Start').item.json.lista_compras.length > 600 ? $('Start').item.json.lista_compras.substring(0, 550) + '... y más productos. Contactar cliente' : $('Start').item.json.lista_compras) + '\\n📍 ' + ($('Start').item.json.direccion.length > 250 ? $('Start').item.json.direccion.substring(0, 210) + '... Ver detalles con cliente' : $('Start').item.json.direccion) + ' (' + $('Start').item.json.zona_domicilio + ')\\n💰 Valor: $' + $('Start').item.json.valor_oferta + '\\n\\n⏰ Responder en 3 minutos'\n  },\n  action: {\n    buttons: [\n      {\n        type: 'reply',\n        reply: {\n          id: 'ACEPTAR-' + $('Start').item.json.pedido_id,\n          title: 'Aceptar'\n        }\n      },\n      {\n        type: 'reply',\n        reply: {\n          id: 'CONTRAOFERTAR-' + $('Start').item.json.pedido_id,\n          title: 'Contraofertar'\n        }\n      }\n    ]\n  }\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        656,
+        176
+      ],
+      "id": "ad7441cb-5de7-4476-a2b2-1975d5a3a144",
+      "name": "Notificar Domiciliario Con Botones",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
     }
   ],
   "pinData": {
@@ -478,6 +521,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-24T16:21:07.000Z",
-  "versionId": "32f51c02-3102-40fb-a0c2-1ba57237cc68"
+  "updatedAt": "2025-12-03T17:02:31.000Z",
+  "versionId": "68bceedb-de0e-4e97-b860-ab6e64123f22"
 }
