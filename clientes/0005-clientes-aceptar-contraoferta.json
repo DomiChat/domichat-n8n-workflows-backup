@@ -150,12 +150,38 @@
             {
               "name": "Authorization",
               "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
             }
           ]
         },
         "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.domiciliario_asignado }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🎉 ¡PEDIDO ASIGNADO!\"\n        },\n        \"body\": {\n            \"text\": {{ JSON.stringify(\"✅ Se aceptó tu contraoferta\\n\\n🆔 Pedido No: \" + $json.pedido_id + \"\\n💰 Valor: $\" + $json.valor_final + \"\\n📍 Dirección: \" + $json.direccion + \"\\n🛒 Productos: \" + $json.lista_compras + \"\\n📱 Cliente: \" + $json.nombre_usuario + \"\\n📞 Teléfono: \" + $json.numero_usuario.replace(/^57/, '') + \"\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón\") }}\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ENTREGAR-{{ $json.pedido_id }}\",\n                        \"title\": \"Entregar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.domiciliario_asignado }}"
+            },
+            {
+              "name": "type",
+              "value": "interactive"
+            },
+            {
+              "name": "interactive",
+              "value": "={{ {\n  type: 'button',\n  header: {\n    type: 'text',\n    text: '🎉 ¡PEDIDO ASIGNADO!'\n  },\n  body: {\n    text: '✅ Se aceptó tu contraoferta\\n\\n📋 *No. pedido*: ' + $json.pedido_id + '\\n🛒 *Productos*: ' + ($json.lista_compras.length > 550 ? $json.lista_compras.substring(0, 500) + '... y más productos. Contactar cliente' : $json.lista_compras) + '\\n📍 *Dirección*: ' + ($json.direccion.length > 250 ? $json.direccion.substring(0, 210) + '... Ver detalles con cliente' : $json.direccion) + '\\n💰 *Valor*: $' + $json.valor_final + '\\n📱 *Nombre*: ' + $json.nombre_usuario + '\\n📞 *Teléfono*: ' + $json.numero_usuario.replace(/^57/, '') + '\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón'\n  },\n  action: {\n    buttons: [\n      {\n        type: 'reply',\n        reply: {\n          id: 'ENTREGAR-' + $json.pedido_id,\n          title: 'Entregar'\n        }\n      }\n    ]\n  }\n} }}"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -164,7 +190,7 @@
         656,
         -96
       ],
-      "id": "b7b09ef3-3860-4042-ab00-00c07c09bbb0",
+      "id": "46b20893-470c-4c34-be07-cfc366a60855",
       "name": "Notificar Domiciliario Asignado",
       "retryOnFail": true,
       "alwaysOutputData": false,
@@ -175,9 +201,29 @@
     "Start": [
       {
         "json": {
-          "pedido_id": "75",
-          "phone_number_id_domiciliarios": "768517399686178",
-          "version_whatsapp_api": "v22.0"
+          "pedido_id": "214"
+        }
+      }
+    ],
+    "Guardar Pedido": [
+      {
+        "json": {
+          "pedido_id": 214,
+          "estado": "Confirmado",
+          "numero_usuario": "573006064535",
+          "nombre_usuario": "Manuel Torres",
+          "lista_compras": "1 pollo grande despresado con la pechuga abierta, 2 libras de carne premium molida, 3 bolsas de tomates cherry rojos, 1 paquete de cilantro fresco, 2 libras de arroz Diana de 5 libras, 4 plátanos maduros, 1 aceite de cocina Gourmet, 2 paquetes de pasta espagueti, 1 bolsa de frijol cargamanto, 3 latas de atún en aceite, 1 bolsa de azúcar blanca, 2 paquetes de galletas saltin, 1 margarina La Fina de 500g, 4 huevos doble A",
+          "direccion": "Vereda La Esperanza del Camino Real, Sector conocido como Las Tres Quebradas, Finca agroturística El Descanso del Viajero, Casa principal estilo colonial, color amarillo ocre, techo de teja de barro, portón de hierro forjado negro. Referencias: Salir por la vía principal hacia el norte, pasar el puente sobre el río, continuar 8 km, pasar la escuela rural Simón Bolívar, subir pendiente 3 km, en el cruce de la tienda La Esperanza tomar desvío a la izquierda, continuar por camino destapado 2.5 km, en la bifurcación con letrero de madera tomar camino de la derecha, subir 1.5 km hasta ver el portón negro.",
+          "zona_domicilio": "Rural",
+          "valor_oferta": 45000,
+          "valor_final": 50000,
+          "domiciliario_asignado": "573006064535",
+          "fecha_pedido": "2025-12-03T13:27:35+00:00",
+          "motivo_cancelacion": null,
+          "codigo_verificacion": "9069",
+          "fecha_confirmacion": "2025-12-03T13:30:53+00:00",
+          "ciudad": "La Vega",
+          "fecha_entrega": null
         }
       }
     ]
@@ -199,6 +245,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-11-06T16:55:14.000Z",
-  "versionId": "84e20314-c2d3-4de8-bc64-79ce0f03edc1"
+  "updatedAt": "2025-12-03T18:42:12.000Z",
+  "versionId": "c7f86e01-145f-4bcb-b3fe-a83064964cfb"
 }
