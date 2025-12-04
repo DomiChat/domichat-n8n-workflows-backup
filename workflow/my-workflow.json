@@ -1,11 +1,22 @@
 {
   "active": false,
   "connections": {
-    "When clicking ‘Execute workflow’": {
+    "Start": {
       "main": [
         [
           {
-            "node": "Notificar Domiciliario Con Plantilla",
+            "node": "Detectar Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detectar Confirmación": {
+      "main": [
+        [
+          {
+            "node": "Notificar Domiciliario Con Botones2",
             "type": "main",
             "index": 0
           }
@@ -19,6 +30,82 @@
   "meta": null,
   "name": "My workflow",
   "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        16
+      ],
+      "id": "178caffe-c101-4b1c-b5a9-5ba165d1c5f8",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "template"
+            },
+            {
+              "name": "template",
+              "value": "={{ {\n  \"name\": \"notificar_pedido\",\n  \"language\": {\n    \"code\": \"es\"\n  },\n  \"components\": [\n    {\n      \"type\": \"body\",\n      \"parameters\": [\n        {\n          \"type\": \"text\",\n          \"text\": $('Start').first().json.pedido_id\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $('Start').first().json.lista_compras.replace(/\\n/g, ', ')\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $('Start').first().json.direccion.replace(/\\n/g, ' - ')\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $('Start').first().json.zona_domicilio\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $('Start').first().json.valor_oferta\n        }\n      ]\n    }\n  ]\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        368,
+        -256
+      ],
+      "id": "874b7c11-d726-4080-bf72-15412ae4d1ba",
+      "name": "Notificar Domiciliario Con Plantilla1",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.output;\n\n/**\n * Limpieza completa de caracteres problemáticos\n */\nfunction cleanText(text) {\n    if (!text || typeof text !== 'string') return text;\n    \n    return text\n        // 1. NORMALIZAR Unicode\n        .normalize('NFC')\n        \n        // 2. ELIMINAR caracteres de control invisibles (U+0000 a U+001F excepto los que manejamos)\n        .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, '')\n        \n        // 3. ELIMINAR Zero-Width spaces y caracteres invisibles\n        .replace(/[\\u200B-\\u200D\\uFEFF]/g, '')  // Zero-width space, joiner, non-joiner\n        .replace(/\\u00A0/g, ' ')                 // Non-breaking space → espacio normal\n        \n        // 4. ELIMINAR comillas (dobles y simples)\n        .replace(/\"/g, '')                       // ❌ Comillas dobles mueren\n        .replace(/'/g, '')                       // ❌ Comillas simples mueren\n        .replace(/`/g, '')                       // ❌ Backticks mueren\n        \n        // 5. CONVERTIR saltos de línea a comas\n        .replace(/\\r\\n/g, ', ')                  // Windows line breaks → coma\n        .replace(/\\n/g, ', ')                    // Unix line breaks → coma\n        .replace(/\\r/g, ', ')                    // Old Mac line breaks → coma\n        \n        // 6. CONVERTIR tabs a espacios\n        .replace(/\\t/g, ' ')\n        \n        // 7. NORMALIZAR espacios múltiples\n        .replace(/ {5,}/g, '    ')               // 5+ espacios → 4 espacios (límite WhatsApp)\n        .replace(/  +/g, ' ')                    // 2+ espacios → 1 espacio\n        \n        // 8. LIMPIAR comas múltiples\n        .replace(/, , +/g, ', ')                 // \", , \" → \", \"\n        .replace(/,{2,}/g, ',')                  // \",,\" → \",\"\n        .replace(/, ,/g, ', ')                   // \", ,\" → \", \"\n        \n        // 9. LIMPIAR espacios alrededor de comas\n        .replace(/ , /g, ', ')                   // \" , \" → \", \"\n        .replace(/,  +/g, ', ')                  // \",  +\" → \", \"\n        \n        // 10. TRIM profundo\n        .trim()\n        .replace(/^, /, '')                      // Quitar coma al inicio\n        .replace(/, $/, '');                     // Quitar coma al final\n}\n\nconst jsonBlockMatch = aiResponse.match(/```json\\s*([\\s\\S]*?)\\s*```/);\nconst hasJson = jsonBlockMatch !== null;\nlet orderData = null;\nlet isPedidoConfirmado = false;\n\nif (hasJson) {\n    try {\n        const jsonString = jsonBlockMatch[1].trim();\n        orderData = JSON.parse(jsonString);\n        \n        if (orderData && \n            orderData.pedido_id && \n            orderData.ventana_id && \n            orderData.lista_compras && \n            orderData.direccion && \n            orderData.zona_domicilio &&\n            orderData.valor_oferta &&\n            orderData.nombre_completo &&\n            orderData.ciudad) {\n            \n            isPedidoConfirmado = true;\n            \n            // Limpiar todos los campos de texto\n            orderData.lista_compras = cleanText(orderData.lista_compras);\n            orderData.direccion = cleanText(orderData.direccion);\n            orderData.nombre_completo = cleanText(orderData.nombre_completo);\n            orderData.ciudad = cleanText(orderData.ciudad);\n            orderData.zona_domicilio = cleanText(orderData.zona_domicilio);\n            \n            // Solo trim en campos numéricos/IDs\n            orderData.pedido_id = String(orderData.pedido_id).trim();\n            orderData.ventana_id = String(orderData.ventana_id).trim();\n            orderData.valor_oferta = String(orderData.valor_oferta).trim();\n        }\n    } catch (error) {\n        console.log('Error parsing JSON:', error);\n        orderData = null;\n    }\n}\n\nlet cleanResponse = aiResponse;\nif (hasJson) {\n    cleanResponse = aiResponse.replace(jsonBlockMatch[0], '').trim();\n    cleanResponse = cleanResponse.replace(/\\n\\s*\\n+/g, '\\n\\n').trim();\n}\n\nreturn [{\n    output: cleanResponse,\n    is_pedido_confirmado: isPedidoConfirmado,\n    order_data: orderData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        16
+      ],
+      "id": "a3740176-c9c5-425e-8896-2a76e77481f8",
+      "name": "Detectar Confirmación"
+    },
     {
       "parameters": {
         "method": "POST",
@@ -38,43 +125,217 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.lista_compras) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": {{ JSON.stringify($('Start').first().json.direccion) }}\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $('Start').first().json.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{ $('Start').first().json.numero_domiciliario }}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"notificar_pedido\",\n    \"language\": {\n      \"code\": \"es\"\n    },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $json.order_data.pedido_id }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $json.order_data.lista_compras.length > 550 ? $json.order_data.lista_compras.substring(0, 547) + '...' : $json.order_data.lista_compras }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $json.order_data.direccion.length > 280 ? $json.order_data.direccion.substring(0, 277) + '...' : $json.order_data.direccion }}},\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $json.order_data.zona_domicilio }}\"\n          },\n          {\n            \"type\": \"text\",\n            \"text\": \"{{ $json.order_data.valor_oferta }}\"\n          }\n        ]\n      }\n    ]\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -80,
-        16
+        144,
+        -256
       ],
-      "id": "9e272e71-b5e7-477e-a69e-2f0d38d6c133",
+      "id": "59ca20a3-b6a4-4a6b-a0e6-19ba169bc30a",
       "name": "Notificar Domiciliario Con Plantilla",
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Start').first().json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "template"
+            },
+            {
+              "name": "template",
+              "value": "={{ {\n  \"name\": \"notificar_pedido\",\n  \"language\": {\n    \"code\": \"es\"\n  },\n  \"components\": [\n    {\n      \"type\": \"body\",\n      \"parameters\": [\n        {\n          \"type\": \"text\",\n          \"text\": $json.order_data.pedido_id\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $json.order_data.lista_compras\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $json.order_data.direccion\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $json.order_data.zona_domicilio\n        },\n        {\n          \"type\": \"text\",\n          \"text\": $json.order_data.valor_oferta\n        }\n      ]\n    }\n  ]\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        -288,
+        592,
+        -240
+      ],
+      "id": "647a9e83-3ecb-42aa-a34a-7422cda70b01",
+      "name": "Notificar Domiciliario Con Plantilla2",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Start').first().json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "template"
+            },
+            {
+              "name": "template",
+              "value": "={{ {\n  name: 'notificar_pedido',\n  language: { code: 'es' },\n  components: [\n    {\n      type: 'body',\n      parameters: [\n        {\n          type: 'text',\n          text: $json.order_data.pedido_id\n        },\n        {\n          type: 'text',\n          text: $json.order_data.lista_compras.length > 550 ? $json.order_data.lista_compras.substring(0, 547) + '...' : $json.order_data.lista_compras\n        },\n        {\n          type: 'text',\n          text: $json.order_data.direccion.length > 280 ? $json.order_data.direccion.substring(0, 277) + '...' : $json.order_data.direccion\n        },\n        {\n          type: 'text',\n          text: $json.order_data.zona_domicilio\n        },\n        {\n          type: 'text',\n          text: $json.order_data.valor_oferta\n        }\n      ]\n    }\n  ]\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
         16
       ],
-      "id": "178caffe-c101-4b1c-b5a9-5ba165d1c5f8",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "a9a29fed-22e6-4d88-8ba6-c0d660540603",
+      "name": "Notificar Domiciliario Con Plantilla3",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Start').first().json.numero_domiciliario }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🚚 Pedido disponible\"\n        },\n        \"body\": {\n            \"text\": \"{{ \"📋 No. \" + $json.order_data.pedido_id + \"\\n📦 \" + $json.order_data.lista_compras + \"\\n📍 \" + $json.order_data.direccion + \" (\" + $json.order_data.zona_domicilio + \")\\n💰 Valor: $\" + $json.order_data.valor_oferta + \"\\n\\n⏰ Responder en 3 minutos\" }}\"\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ACEPTAR-{{ $json.order_data.pedido_id }}\",\n                        \"title\": \"Aceptar\"\n                    }\n                },\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"CONTRAOFERTAR-{{ $json.order_data.pedido_id }}\", \n                        \"title\": \"Contraofertar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        368,
+        0
+      ],
+      "id": "4bb7b17b-7719-4d7f-8154-56f3b8f0856f",
+      "name": "Notificar Domiciliario Con Botones",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Start').first().json.numero_domiciliario }}"
+            },
+            {
+              "name": "type",
+              "value": "interactive"
+            },
+            {
+              "name": "interactive",
+              "value": "={{ {\n  type: 'button',\n  header: {\n    type: 'text',\n    text: '🚚 Pedido disponible'\n  },\n  body: {\n    text: '📋 No. ' + $json.order_data.pedido_id + '\\n📦 ' + ($json.order_data.lista_compras.length > 600 ? $json.order_data.lista_compras.substring(0, 597) + '...' : $json.order_data.lista_compras) + '\\n📍 ' + ($json.order_data.direccion.length > 250 ? $json.order_data.direccion.substring(0, 247) + '...' : $json.order_data.direccion) + ' (' + $json.order_data.zona_domicilio + ')\\n💰 Valor: $' + $json.order_data.valor_oferta + '\\n\\n⏰ Responder en 3 minutos'\n  },\n  action: {\n    buttons: [\n      {\n        type: 'reply',\n        reply: {\n          id: 'ACEPTAR-' + $json.order_data.pedido_id,\n          title: 'Aceptar'\n        }\n      },\n      {\n        type: 'reply',\n        reply: {\n          id: 'CONTRAOFERTAR-' + $json.order_data.pedido_id,\n          title: 'Contraofertar'\n        }\n      }\n    ]\n  }\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        16
+      ],
+      "id": "89eece1e-1097-404e-9c72-aeb507c6a1af",
+      "name": "Notificar Domiciliario Con Botones2",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2
     }
   ],
   "pinData": {
-    "When clicking ‘Execute workflow’": [
+    "Start": [
       {
         "json": {
-          "lista_compras": "1 pollo amarillo, despresado y con la pechuga abierta\n1 bolsas de tomates rojos\n1 bolsa de cebolla cabezona blanca\n1 paquete de cilantro\n1 bolsa de agua 5 litros\n4 plátanos maduros\n1 libra de sal\n1 pasta de ajo pequeña",
-          "valor_oferta": "10000",
-          "zona_domicilio": "Rural",
-          "pedido_id": "13",
-          "direccion": "Verraa la esmeralda/ sector San Juan\nConjuro Villa\nDiana",
-          "ciudad": "La Vega",
+          "output": "✅ ¡Pedido creado exitosamente!\n\n🆔 *Número de tu pedido:* 18\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos en *3 min*.\n\n📢 *¡Gracias por usar DomiChat!*\n\n\n```json\n{\n  \"pedido_id\": \"18\",\n  \"ventana_id\": \"VEN-18\",\n  \"nombre_completo\": \"Carlos Alberto Ramírez González\",\n  \"ciudad\": \"La Vega\",\n  \"lista_compras\": \"1 pollo amarillo grande despresado y con la pechuga abierta\\n2 libras de carne molida de res especial\\n3 libras de carne de cerdo para asar\\n1 libra de costilla de cerdo\\n2 libras de pechuga de pollo deshuesada\\n5 bolsas grandes de tomates rojos maduros\\n3 bolsas de cebolla cabezona blanca\\n2 bolsas de cebolla larga o cebollín\\n4 paquetes grandes de cilantro fresco\\n2 paquetes de perejil crespo\\n1 bolsa de agua de 5 litros marca cristal\\n2 bolsas de agua de 3 litros\\n10 plátanos hartones maduros\\n8 plátanos verdes para patacones\\n1 libra de sal marina\\n1 libra de azúcar blanca\\n2 pastas de ajo grandes\\n1 frasco de comino molido\\n1 bolsa de arroz de 5 libras\\n2 libras de frijol cargamanto rojo\\n1 paquete de pasta espagueti\\n3 latas de atún en aceite\\n2 latas de sardinas en salsa de tomate\\n1 paquete de galletas de soda\\n1 bolsa de pan tajado integral\\n2 litros de leche entera\\n1 queso campesino de 500 gramos\\n6 huevos AA\\n1 margarina de 250 gramos\\n2 aguacates hass grandes\\n5 limones tahití\\n3 mangos tommy\\n1 papaya mediana madura\\n2 piñas golden\\n1 sandía pequeña\\n4 bananos maduros\",\n  \"zona_domicilio\": \"Rural\",\n  \"direccion\": \"Vereda La Esperanza\\nSector Alto de las Cruces\\nFinca \\\"Villa María\\\"\\nCasa principal color blanca con techo de teja\\nReferencia: Después del colegio rural, subir 2 kilómetros por la vía destapada, tomar el desvío a mano izquierda donde está el letrero de madera, continuar 500 metros hasta encontrar el portón verde\",\n  \"valor_oferta\": \"180000\"\n}\n```",
           "numero_domiciliario": "573006064535"
         }
       }
@@ -95,6 +356,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-02T15:57:21.421Z",
-  "versionId": "f3a1f833-93d2-4b19-8d0d-b39aea50b913"
+  "updatedAt": "2025-12-03T18:53:08.000Z",
+  "versionId": "2671044f-9636-42f4-9fb4-1552e318713b"
 }
