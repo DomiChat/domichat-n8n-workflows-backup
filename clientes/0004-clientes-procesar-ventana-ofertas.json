@@ -192,17 +192,6 @@
         ]
       ]
     },
-    "Notificar Domiciliario Asignado": {
-      "main": [
-        [
-          {
-            "node": "Return Aceptado",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Notificar Domiciliario Rechazado": {
       "main": [
         [
@@ -363,6 +352,17 @@
             "node": "Unir Flujos",
             "type": "main",
             "index": 2
+          }
+        ]
+      ]
+    },
+    "Notificar Domiciliario Asignado": {
+      "main": [
+        [
+          {
+            "node": "Return Aceptado",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -916,7 +916,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1776,
+        1792,
         544
       ],
       "id": "40675f20-e93e-4af7-9874-0b7b14016c0a",
@@ -955,37 +955,6 @@
       ],
       "id": "aedfcb39-25ec-4f03-bf79-b9520a07edbf",
       "name": "Notificar Otros Domiciliarios"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $json.domiciliario_asignado }}\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"button\",\n        \"header\": {\n            \"type\": \"text\",\n            \"text\": \"🎉 ¡PEDIDO ASIGNADO!\"\n        },\n        \"body\": {\n            \"text\": {{ JSON.stringify(\"✅ Se aceptó tu propuesta\\n\\n🆔 Pedido: \" + $json.pedido_id + \"\\n💰 Valor: $\" + $json.valor_final + \"\\n📍 Dirección: \" + $json.direccion + \"\\n🛒 Productos: \" + $json.lista_compras + \"\\n📱 Cliente: \" + $json.nombre_usuario + \"\\n📞 Teléfono: \" + $json.numero_usuario.replace(/^57/, '') + \"\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón\") }}\n        },\n        \"action\": {\n            \"buttons\": [\n                {\n                    \"type\": \"reply\",\n                    \"reply\": {\n                        \"id\": \"ENTREGAR-{{ $json.pedido_id }}\",\n                        \"title\": \"Entregar\"\n                    }\n                }\n            ]\n        }\n    }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        1792,
-        144
-      ],
-      "id": "c83c6237-2331-4793-a577-a030c26c69b5",
-      "name": "Notificar Domiciliario Asignado",
-      "retryOnFail": true,
-      "alwaysOutputData": false,
-      "maxTries": 2,
-      "executeOnce": false
     },
     {
       "parameters": {
@@ -1402,96 +1371,66 @@
       "retryOnFail": true,
       "alwaysOutputData": false,
       "maxTries": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_DELIVERY_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_DELIVERY_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "recipient_type",
+              "value": "individual"
+            },
+            {
+              "name": "to",
+              "value": "={{ $json.domiciliario_asignado }}"
+            },
+            {
+              "name": "type",
+              "value": "interactive"
+            },
+            {
+              "name": "interactive",
+              "value": "={{ {\n  type: 'button',\n  header: {\n    type: 'text',\n    text: '🎉 ¡PEDIDO ASIGNADO!'\n  },\n  body: {\n    text: '✅ Se aceptó tu propuesta\\n\\n📋 *No. pedido*: ' + $json.pedido_id + '\\n🛒 *Productos*: ' + ($json.lista_compras.length > 550 ? $json.lista_compras.substring(0, 500) + '... y más productos. Contactar cliente' : $json.lista_compras) + '\\n📍 *Dirección*: ' + ($json.direccion.length > 250 ? $json.direccion.substring(0, 210) + '... Ver detalles con cliente' : $json.direccion) + '\\n💰 *Valor*: $' + $json.valor_final + '\\n📱 *Nombre*: ' + $json.nombre_usuario + '\\n📞 *Teléfono*: ' + $json.numero_usuario.replace(/^57/, '') + '\\n\\n🚚 ¡Puedes comenzar el domicilio!\\n⏰ Recuerda contactar al cliente\\n\\n⚠️ Al entregar: Pide código al cliente y presiona el botón'\n  },\n  action: {\n    buttons: [\n      {\n        type: 'reply',\n        reply: {\n          id: 'ENTREGAR-' + $json.pedido_id,\n          title: 'Entregar'\n        }\n      }\n    ]\n  }\n} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1792,
+        144
+      ],
+      "id": "638a2efd-b5fd-49f2-9874-e0bb01f544c9",
+      "name": "Notificar Domiciliario Asignado",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 2,
+      "executeOnce": false
     }
   ],
   "pinData": {
-    "Start": [
-      {
-        "json": {
-          "ventana_id": "VEN-204",
-          "pedido_id": "204",
-          "valor_oferta": "5000",
-          "domiciliarios_notificados": "573193783993,573213040963,573123698805,573006064535"
-        }
-      }
-    ],
-    "Buscar Ofertas Recibidas": [
-      {
-        "json": {
-          "ventana_id": "VEN-204",
-          "numero_domiciliario": "573006064535",
-          "nombre_domiciliario": "Manuel",
-          "tipo_oferta": "aceptacion",
-          "valor_oferta": 5000,
-          "calificacion_domiciliario": 5,
-          "fecha_oferta": "2025-11-26T15:19:48.6612+00:00",
-          "oferta_id": "OFE-168"
-        }
-      }
-    ],
-    "Procesar Ofertas Ventana": [
-      {
-        "json": {
-          "valor_oferta": "5000",
-          "ofertas_recibidas": [
-            {
-              "json": {
-                "ventana_id": "VEN-204",
-                "numero_domiciliario": "573006064535",
-                "nombre_domiciliario": "Manuel",
-                "tipo_oferta": "aceptacion",
-                "valor_oferta": 5000,
-                "calificacion_domiciliario": 5,
-                "fecha_oferta": "2025-11-26T15:19:48.6612+00:00",
-                "oferta_id": "OFE-168"
-              },
-              "pairedItem": {
-                "item": 0
-              }
-            }
-          ],
-          "pedido_id": "204",
-          "ventana_id": "VEN-204"
-        }
-      }
-    ],
-    "Algoritmo Selección": [
-      {
-        "json": {
-          "pedido_id": "204",
-          "ventana_id": "VEN-204",
-          "oferta_id": "OFE-168",
-          "tipo_seleccion": "aceptacion",
-          "valor_final": "5000",
-          "nombre_domiciliario": "Manuel",
-          "numero_domiciliario": "573006064535",
-          "calificacion_domiciliario": 5
-        }
-      }
-    ],
-    "Cerrar Ventana Ofertas": [
-      {
-        "json": {
-          "ventana_id": "VEN-204",
-          "pedido_id": 204,
-          "tiempo_inicio": "2025-11-26T10:19:12+00:00",
-          "tiempo_fin": "2025-11-26T10:22:12+00:00",
-          "estado_ventana": "cerrada"
-        }
-      }
-    ],
-    "Clasificar Domiciliarios": [
-      {
-        "json": {
-          "rechazados": [],
-          "no_participaron": [
-            "573193783993",
-            "573213040963",
-            "573123698805"
-          ]
-        }
-      }
-    ],
     "¿Hay Domiciliarios No Participaron?": [
       {
         "json": {
@@ -1521,16 +1460,114 @@
         }
       }
     ],
-    "Notificar Otros Domiciliarios": [
+    "Start": [
+      {
+        "json": {
+          "ventana_id": "VEN-213",
+          "pedido_id": "213",
+          "valor_oferta": "45000",
+          "domiciliarios_notificados": "573006064535"
+        }
+      }
+    ],
+    "Buscar Ofertas Recibidas": [
+      {
+        "json": {
+          "ventana_id": "VEN-213",
+          "numero_domiciliario": "573006064535",
+          "nombre_domiciliario": "Manuel",
+          "tipo_oferta": "aceptacion",
+          "valor_oferta": 45000,
+          "calificacion_domiciliario": 5,
+          "fecha_oferta": "2025-12-03T18:11:38.497688+00:00",
+          "oferta_id": "OFE-174"
+        }
+      }
+    ],
+    "Procesar Ofertas Ventana": [
+      {
+        "json": {
+          "valor_oferta": "45000",
+          "ofertas_recibidas": [
+            {
+              "json": {
+                "ventana_id": "VEN-213",
+                "numero_domiciliario": "573006064535",
+                "nombre_domiciliario": "Manuel",
+                "tipo_oferta": "aceptacion",
+                "valor_oferta": 45000,
+                "calificacion_domiciliario": 5,
+                "fecha_oferta": "2025-12-03T18:11:38.497688+00:00",
+                "oferta_id": "OFE-174"
+              },
+              "pairedItem": {
+                "item": 0
+              }
+            }
+          ],
+          "pedido_id": "213",
+          "ventana_id": "VEN-213"
+        }
+      }
+    ],
+    "Algoritmo Selección": [
+      {
+        "json": {
+          "pedido_id": "213",
+          "ventana_id": "VEN-213",
+          "oferta_id": "OFE-174",
+          "tipo_seleccion": "aceptacion",
+          "valor_final": "45000",
+          "nombre_domiciliario": "Manuel",
+          "numero_domiciliario": "573006064535",
+          "calificacion_domiciliario": 5
+        }
+      }
+    ],
+    "Cerrar Ventana Ofertas": [
+      {
+        "json": {
+          "ventana_id": "VEN-213",
+          "pedido_id": 213,
+          "tiempo_inicio": "2025-12-03T13:11:04+00:00",
+          "tiempo_fin": "2025-12-03T13:14:04+00:00",
+          "estado_ventana": "cerrada"
+        }
+      }
+    ],
+    "Confirmar Pedido Automático": [
+      {
+        "json": {
+          "pedido_id": 213,
+          "estado": "Confirmado",
+          "numero_usuario": "573006064535",
+          "nombre_usuario": "Manuel Torres",
+          "lista_compras": "1 pollo grande despresado con la pechuga abierta, 2 libras de carne premium molida, 3 bolsas de tomates cherry rojos, 1 paquete de cilantro fresco, 2 libras de arroz Diana de 5 libras, 4 plátanos maduros, 1 aceite de cocina Gourmet, 2 paquetes de pasta espagueti, 1 bolsa de frijol cargamanto, 3 latas de atún en aceite, 1 bolsa de azúcar blanca, 2 paquetes de galletas saltin, 1 margarina La Fina de 500g, 4 huevos doble A",
+          "direccion": "Vereda La Esperanza del Camino Real, Sector conocido como Las Tres Quebradas, Finca agroturística El Descanso del Viajero, Casa principal estilo colonial con corredores amplios, Color amarillo ocre con detalles en madera, Techo de teja de barro tradicional, Portón de entrada en hierro forjado color negro. Referencias para llegar desde el pueblo: Salir por la vía principal hacia el norte, Pasar el puente sobre el río, Continuar por aproximadamente 8 kilómetros, Pasar la escuela rural Simón Bolívar que queda a mano derecha, Subir la pendiente pronunciada durante 3 kilómetros más, Al llegar al cruce donde está la tienda La Esperanza tomar el desvío a mano izquierda, Continuar por camino destapado durante 2.5 kilómetros, Encontrarán una bifurcación señalizada con un letrero de madera, Tomar el camino de la derecha, Subir otros 1.5 kilómetros hasta ver el portón negro, Tocar el timbre o llamar al celular, Los perros son amigables pero ladran mucho.",
+          "zona_domicilio": "Rural",
+          "valor_oferta": 45000,
+          "valor_final": 45000,
+          "domiciliario_asignado": "573006064535",
+          "fecha_pedido": "2025-12-03T13:11:04+00:00",
+          "motivo_cancelacion": null,
+          "codigo_verificacion": "7924",
+          "fecha_confirmacion": "2025-12-03T13:12:12+00:00",
+          "ciudad": "La Vega",
+          "fecha_entrega": null
+        }
+      }
+    ],
+    "Clasificar Domiciliarios": [
       {
         "json": {
           "rechazados": [],
-          "no_participaron": [
-            "573193783993",
-            "573213040963",
-            "573123698805"
-          ]
+          "no_participaron": []
         }
+      }
+    ],
+    "Unir Flujos": [
+      {
+        "json": {}
       }
     ],
     "Configurar Timer": [
@@ -1538,7 +1575,7 @@
         "json": {
           "timerSeconds": 60,
           "multiplicador": 3,
-          "hora_inicial": "2025-11-26T10:19:16.995-05:00"
+          "hora_inicial": "2025-12-03T13:11:12.137-05:00"
         }
       }
     ],
@@ -1554,14 +1591,14 @@
     "Obtener Ofertas": [
       {
         "json": {
-          "ventana_id": "VEN-204",
+          "ventana_id": "VEN-213",
           "numero_domiciliario": "573006064535",
           "nombre_domiciliario": "Manuel",
           "tipo_oferta": "aceptacion",
-          "valor_oferta": 5000,
+          "valor_oferta": 45000,
           "calificacion_domiciliario": 5,
-          "fecha_oferta": "2025-11-26T15:19:48.6612+00:00",
-          "oferta_id": "OFE-168"
+          "fecha_oferta": "2025-12-03T18:11:38.497688+00:00",
+          "oferta_id": "OFE-174"
         }
       }
     ],
@@ -1596,20 +1633,6 @@
           "timerSeconds": 60
         }
       }
-    ],
-    "¿Algún Domiciliario Aceptó?": [
-      {
-        "json": {
-          "ventana_id": "VEN-204",
-          "numero_domiciliario": "573006064535",
-          "nombre_domiciliario": "Manuel",
-          "tipo_oferta": "aceptacion",
-          "valor_oferta": 5000,
-          "calificacion_domiciliario": 5,
-          "fecha_oferta": "2025-11-26T15:19:48.6612+00:00",
-          "oferta_id": "OFE-168"
-        }
-      }
     ]
   },
   "settings": {
@@ -1627,6 +1650,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-02T22:30:21.000Z",
-  "versionId": "11bdb567-1611-46ed-a537-0b67b9bd642f"
+  "updatedAt": "2025-12-03T18:52:16.000Z",
+  "versionId": "3c8ef9b8-cae5-4b33-b6bb-162a563478a8"
 }
