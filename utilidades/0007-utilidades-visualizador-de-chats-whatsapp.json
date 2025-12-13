@@ -112,7 +112,7 @@
     {
       "parameters": {
         "resource": "execution",
-        "limit": 250,
+        "returnAll": true,
         "filters": {
           "workflowId": {
             "__rl": true,
@@ -215,6 +215,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-12T01:43:32.000Z",
-  "versionId": "8777d9a8-428f-4949-9b52-05010929169b"
+  "updatedAt": "2025-12-12T17:52:19.000Z",
+  "versionId": "52bf6845-6bd6-4d9f-aaaa-d7db77e5b074"
 }
