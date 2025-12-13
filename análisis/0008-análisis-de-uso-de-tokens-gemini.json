@@ -1,0 +1,303 @@
+{
+  "active": true,
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Ejecuciones Clientes": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Ejecuciones Domiciliarios": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Obtener Ejecuciones Clientes",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Obtener Ejecuciones Domiciliarios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Procesar Tokens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesar Tokens": {
+      "main": [
+        [
+          {
+            "node": "Generar Estadísticas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Estadísticas": {
+      "main": [
+        [
+          {
+            "node": "Dashboard HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dashboard HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-12-12T14:43:44.252Z",
+  "id": "7YdSZMjJmmKOi57o",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "0008 Análisis de Uso de Tokens Gemini",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4f785179-0bc2-432f-af2e-c51d69b9b370",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "returnAll": true,
+        "filters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "yaCf8dMfA4VZ0uW3",
+            "mode": "list",
+            "cachedResultName": "0001 Clientes Flujo Principal (#yaCf8dMfA4VZ0uW3)"
+          }
+        },
+        "options": {
+          "activeWorkflows": true
+        },
+        "requestOptions": {}
+      },
+      "id": "05976fb5-ec2a-41f2-a283-99520a94f565",
+      "name": "Obtener Ejecuciones Clientes",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -480
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "returnAll": true,
+        "filters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "JzCR1G7hmoGWDfvd",
+            "mode": "list",
+            "cachedResultName": "0001 Domiciliarios Flujo Principal (#JzCR1G7hmoGWDfvd)"
+          }
+        },
+        "options": {
+          "activeWorkflows": true
+        },
+        "requestOptions": {}
+      },
+      "id": "78e875d1-abca-4e23-88a6-54495e63af57",
+      "name": "Obtener Ejecuciones Domiciliarios",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        -288
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "7a560f0c-1f94-413b-9d03-ed61662f1c11",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -496,
+        -288
+      ],
+      "id": "4c9c8f1a-cceb-43ee-a18a-726ee68868cf",
+      "name": "Webhook",
+      "webhookId": "7a560f0c-1f94-413b-9d03-ed61662f1c11"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        -384
+      ],
+      "id": "50ac2da8-324d-4837-acf0-da17f9da1aea",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        176,
+        -384
+      ],
+      "id": "4c122922-0c15-4aa1-b017-7fe628fa2130",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// PROCESAR TOKENS - BÚSQUEDA RECURSIVA DINÁMICA\nconst executionsData = $input.all();\nconst tokenAnalysis = [];\n\nconsole.log('=== PROCESANDO TOKENS ===');\nconsole.log('Total ejecuciones recibidas:', executionsData.length);\n\n// Función recursiva para buscar tokenUsage en cualquier nivel\nfunction findTokenUsage(obj, path = '') {\n  const results = [];\n  \n  if (!obj || typeof obj !== 'object') return results;\n  \n  // Si encontramos tokenUsage directamente\n  if (obj.tokenUsage && obj.tokenUsage.totalTokens !== undefined) {\n    results.push({\n      tokenUsage: obj.tokenUsage,\n      path: path\n    });\n  }\n  \n  // Buscar recursivamente en todas las propiedades\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      const newPath = path ? `${path}.${key}` : key;\n      \n      if (Array.isArray(obj[key])) {\n        // Si es array, buscar en cada elemento\n        obj[key].forEach((item, index) => {\n          const arrayResults = findTokenUsage(item, `${newPath}[${index}]`);\n          results.push(...arrayResults);\n        });\n      } else if (typeof obj[key] === 'object' && obj[key] !== null) {\n        // Si es objeto, buscar recursivamente\n        const nestedResults = findTokenUsage(obj[key], newPath);\n        results.push(...nestedResults);\n      }\n    }\n  }\n  \n  return results;\n}\n\n// Función para buscar información de usuario en el trigger\nfunction findUserInfo(runData) {\n  let userInfo = {\n    wa_id: null,\n    name: null\n  };\n  \n  // Buscar en todos los nodos que puedan ser triggers\n  for (const nodeName in runData) {\n    if (!nodeName.toLowerCase().includes('trigger') && \n        !nodeName.toLowerCase().includes('whatsapp')) continue;\n    \n    const nodeData = runData[nodeName];\n    if (!nodeData || nodeData.length === 0) continue;\n    \n    // Buscar recursivamente contacts[0].wa_id y contacts[0].profile.name\n    function searchContacts(obj) {\n      if (!obj || typeof obj !== 'object') return null;\n      \n      // Si encontramos contacts array\n      if (obj.contacts && Array.isArray(obj.contacts) && obj.contacts[0]) {\n        const contact = obj.contacts[0];\n        return {\n          wa_id: contact.wa_id,\n          name: contact.profile?.name || contact.name || 'Usuario Desconocido'\n        };\n      }\n      \n      // Buscar en propiedades anidadas\n      for (const key in obj) {\n        if (typeof obj[key] === 'object') {\n          const result = searchContacts(obj[key]);\n          if (result) return result;\n        }\n      }\n      \n      return null;\n    }\n    \n    const found = searchContacts(nodeData);\n    if (found && found.wa_id) {\n      userInfo = found;\n      console.log(`✅ Usuario encontrado en nodo \"${nodeName}\":`, userInfo.name, userInfo.wa_id);\n      break;\n    }\n  }\n  \n  return userInfo;\n}\n\nfor (const execution of executionsData) {\n  try {\n    const executionData = execution.json.data;\n    const workflowData = execution.json.workflowData;\n    const runData = executionData?.resultData?.runData;\n    \n    if (!runData) {\n      console.log('❌ Sin runData:', execution.json.id);\n      continue;\n    }\n    \n    console.log('\\n🔍 ========================================');\n    console.log('Procesando ejecución:', execution.json.id);\n    console.log('Workflow:', execution.json.workflowData?.name);\n    console.log('Fecha:', execution.json.startedAt);\n    console.log('Nodos en ejecución:', Object.keys(runData).length);\n    console.log('========================================');\n    \n    const executionInfo = {\n      executionId: execution.json.id,\n      workflowId: execution.json.workflowId,\n      workflowName: workflowData?.name || 'Unknown',\n      startedAt: execution.json.startedAt,\n      stoppedAt: execution.json.stoppedAt,\n      duration: new Date(execution.json.stoppedAt) - new Date(execution.json.startedAt),\n      totalTokens: 0,\n      promptTokens: 0,\n      completionTokens: 0,\n      geminiNodes: [],\n      userPhone: null,\n      userName: null\n    };\n    \n    // 1. BUSCAR USUARIO\n    const userInfo = findUserInfo(runData);\n    executionInfo.userPhone = userInfo.wa_id;\n    executionInfo.userName = userInfo.name;\n    \n    // 2. BUSCAR TOKENS EN TODA LA ESTRUCTURA\n    let totalTokensFound = 0;\n    \n    for (const nodeName in runData) {\n      const nodeData = runData[nodeName];\n      \n      if (!nodeData || nodeData.length === 0) continue;\n      \n      console.log(`\\n📦 Analizando nodo: \"${nodeName}\"`);\n      \n      // Buscar tokenUsage recursivamente en TODO el nodo\n      const tokenResults = findTokenUsage(nodeData);\n      \n      if (tokenResults.length > 0) {\n        console.log(`   ✅ Encontrados ${tokenResults.length} registros de tokens`);\n        \n        for (const result of tokenResults) {\n          const tokenUsage = result.tokenUsage;\n          \n          console.log(`   💎 Path: ${result.path}`);\n          console.log(`   📊 Tokens:`, {\n            total: tokenUsage.totalTokens,\n            prompt: tokenUsage.promptTokens,\n            completion: tokenUsage.completionTokens\n          });\n          \n          executionInfo.totalTokens += tokenUsage.totalTokens || 0;\n          executionInfo.promptTokens += tokenUsage.promptTokens || 0;\n          executionInfo.completionTokens += tokenUsage.completionTokens || 0;\n          totalTokensFound++;\n          \n          // Guardar info del nodo (evitar duplicados)\n          const existingNode = executionInfo.geminiNodes.find(n => n.nodeName === nodeName);\n          if (existingNode) {\n            existingNode.totalTokens += tokenUsage.totalTokens || 0;\n            existingNode.promptTokens += tokenUsage.promptTokens || 0;\n            existingNode.completionTokens += tokenUsage.completionTokens || 0;\n          } else {\n            executionInfo.geminiNodes.push({\n              nodeName: nodeName,\n              totalTokens: tokenUsage.totalTokens || 0,\n              promptTokens: tokenUsage.promptTokens || 0,\n              completionTokens: tokenUsage.completionTokens || 0\n            });\n          }\n        }\n      }\n    }\n    \n    // 3. AGREGAR SI HAY TOKENS\n    if (executionInfo.totalTokens > 0) {\n      tokenAnalysis.push(executionInfo);\n      console.log('\\n✅ ========================================');\n      console.log('EJECUCIÓN AGREGADA');\n      console.log('ID:', executionInfo.executionId);\n      console.log('Usuario:', executionInfo.userName || 'No identificado');\n      console.log('Teléfono:', executionInfo.userPhone || 'N/A');\n      console.log('Total Tokens:', executionInfo.totalTokens);\n      console.log('  - Prompt:', executionInfo.promptTokens);\n      console.log('  - Completion:', executionInfo.completionTokens);\n      console.log('Nodos Gemini:', executionInfo.geminiNodes.map(n => n.nodeName).join(', '));\n      console.log('========================================');\n    } else {\n      console.log('\\n⚠️ Ejecución sin tokens:', executionInfo.executionId);\n    }\n    \n  } catch (error) {\n    console.log('❌ Error procesando ejecución:', execution.json?.id);\n    console.log('Error:', error.message);\n    console.log('Stack:', error.stack);\n  }\n}\n\nconsole.log('\\n\\n🎯 ========================================');\nconsole.log('RESUMEN FINAL');\nconsole.log('========================================');\nconsole.log('Total ejecuciones procesadas:', executionsData.length);\nconsole.log('Ejecuciones CON tokens:', tokenAnalysis.length);\nconsole.log('Total tokens acumulados:', tokenAnalysis.reduce((sum, e) => sum + e.totalTokens, 0));\nconsole.log('Total prompt tokens:', tokenAnalysis.reduce((sum, e) => sum + e.promptTokens, 0));\nconsole.log('Total completion tokens:', tokenAnalysis.reduce((sum, e) => sum + e.completionTokens, 0));\nconsole.log('Usuarios únicos:', new Set(tokenAnalysis.map(e => e.userPhone).filter(Boolean)).size);\nconsole.log('========================================\\n');\n\n// Ordenar por fecha\ntokenAnalysis.sort((a, b) => new Date(a.startedAt) - new Date(b.startedAt));\n\nreturn tokenAnalysis.map(item => ({ json: item }));"
+      },
+      "id": "9d367227-f1da-4123-8eba-2455b928772a",
+      "name": "Procesar Tokens",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const allData = $input.all();\n\nconsole.log('=== GENERAR ESTADÍSTICAS ===');\nconsole.log('Total items:', allData.length);\n\nif (!allData || allData.length === 0) {\n  return [{\n    json: {\n      error: 'No hay datos de tokens',\n      totalStats: { totalTokens: 0, totalExecutions: 0, uniqueUsers: 0 },\n      byDate: [],\n      byUser: [],\n      byWorkflow: [],\n      byHour: []\n    }\n  }];\n}\n\nconst byDate = {};\nconst byUser = {};\nconst byWorkflow = {};\nconst byHour = {};\n\nfor (const item of allData) {\n  const data = item.json;\n  \n  if (!data.startedAt || !data.totalTokens) continue;\n  \n  const date = new Date(data.startedAt);\n  const dateKey = date.toISOString().split('T')[0];\n  const hour = date.getHours();\n  \n  // Por fecha\n  if (!byDate[dateKey]) {\n    byDate[dateKey] = { date: dateKey, totalTokens: 0, promptTokens: 0, completionTokens: 0, executionCount: 0 };\n  }\n  byDate[dateKey].totalTokens += data.totalTokens;\n  byDate[dateKey].promptTokens += data.promptTokens;\n  byDate[dateKey].completionTokens += data.completionTokens;\n  byDate[dateKey].executionCount++;\n  \n  // Por hora\n  const hourKey = `${dateKey} ${hour.toString().padStart(2, '0')}:00`;\n  if (!byHour[hourKey]) {\n    byHour[hourKey] = { datetime: hourKey, totalTokens: 0, executionCount: 0 };\n  }\n  byHour[hourKey].totalTokens += data.totalTokens;\n  byHour[hourKey].executionCount++;\n  \n  // Por usuario\n  if (data.userPhone) {\n    if (!byUser[data.userPhone]) {\n      byUser[data.userPhone] = {\n        phone: data.userPhone,\n        name: data.userName,\n        totalTokens: 0,\n        promptTokens: 0,\n        completionTokens: 0,\n        executionCount: 0,\n        workflows: {}\n      };\n    }\n    byUser[data.userPhone].totalTokens += data.totalTokens;\n    byUser[data.userPhone].promptTokens += data.promptTokens;\n    byUser[data.userPhone].completionTokens += data.completionTokens;\n    byUser[data.userPhone].executionCount++;\n    \n    if (!byUser[data.userPhone].workflows[data.workflowName]) {\n      byUser[data.userPhone].workflows[data.workflowName] = { name: data.workflowName, tokens: 0, count: 0 };\n    }\n    byUser[data.userPhone].workflows[data.workflowName].tokens += data.totalTokens;\n    byUser[data.userPhone].workflows[data.workflowName].count++;\n  }\n  \n  // Por workflow\n  if (!byWorkflow[data.workflowName]) {\n    byWorkflow[data.workflowName] = { name: data.workflowName, totalTokens: 0, promptTokens: 0, completionTokens: 0, executionCount: 0 };\n  }\n  byWorkflow[data.workflowName].totalTokens += data.totalTokens;\n  byWorkflow[data.workflowName].promptTokens += data.promptTokens;\n  byWorkflow[data.workflowName].completionTokens += data.completionTokens;\n  byWorkflow[data.workflowName].executionCount++;\n}\n\nconst dateStats = Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));\nconst hourStats = Object.values(byHour).sort((a, b) => a.datetime.localeCompare(b.datetime));\nconst userStats = Object.values(byUser)\n  .map(u => ({ ...u, workflows: Object.values(u.workflows) }))\n  .sort((a, b) => b.totalTokens - a.totalTokens);\nconst workflowStats = Object.values(byWorkflow).sort((a, b) => b.totalTokens - a.totalTokens);\n\nconst totalStats = {\n  totalTokens: allData.reduce((sum, item) => sum + item.json.totalTokens, 0),\n  promptTokens: allData.reduce((sum, item) => sum + item.json.promptTokens, 0),\n  completionTokens: allData.reduce((sum, item) => sum + item.json.completionTokens, 0),\n  totalExecutions: allData.length,\n  uniqueUsers: Object.keys(byUser).length,\n  dateRange: {\n    start: dateStats[0]?.date || null,\n    end: dateStats[dateStats.length - 1]?.date || null\n  }\n};\n\nreturn [{\n  json: {\n    totalStats,\n    byDate: dateStats,\n    byHour: hourStats,\n    byUser: userStats,\n    byWorkflow: workflowStats\n  }\n}];"
+      },
+      "id": "bd475060-7a52-414c-9b3d-a1024918194e",
+      "name": "Generar Estadísticas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Análisis Tokens Gemini - DomiChat</title><script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px;min-height:100vh}.container{max-width:1400px;margin:0 auto;background:white;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);padding:30px}.header{text-align:center;margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid #667eea}.header h1{color:#667eea;font-size:2.5em;margin-bottom:10px}.header p{color:#666;font-size:1.1em}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:40px}.stat-card{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:25px;border-radius:15px;color:white;box-shadow:0 5px 15px rgba(0,0,0,0.2);transition:transform 0.3s ease}.stat-card:hover{transform:translateY(-5px)}.stat-card h3{font-size:0.9em;opacity:0.9;margin-bottom:10px}.stat-card .value{font-size:2em;font-weight:bold}.filters{background:#f8f9fa;padding:20px;border-radius:15px;margin-bottom:30px;display:flex;flex-wrap:wrap;gap:15px;align-items:center}.filter-group{display:flex;flex-direction:column;gap:5px}.filter-group label{font-size:0.9em;color:#666;font-weight:600}.filter-group input,.filter-group select{padding:10px 15px;border:2px solid #ddd;border-radius:8px;font-size:1em;transition:border-color 0.3s}.filter-group input:focus,.filter-group select:focus{outline:none;border-color:#667eea}.btn{padding:10px 25px;background:#667eea;color:white;border:none;border-radius:8px;font-size:1em;cursor:pointer;transition:background 0.3s;align-self:flex-end}.btn:hover{background:#764ba2}.chart-container{background:white;padding:25px;border-radius:15px;margin-bottom:30px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}.chart-container h2{color:#333;margin-bottom:20px;font-size:1.5em}.chart-wrapper{position:relative;height:400px}.table-container{background:white;padding:25px;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,0.1);overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{padding:15px;text-align:left;border-bottom:1px solid #eee}th{background:#f8f9fa;color:#333;font-weight:600;position:sticky;top:0}tr:hover{background:#f8f9fa}.badge{display:inline-block;padding:5px 10px;border-radius:20px;font-size:0.85em;font-weight:600}.badge-client{background:#e3f2fd;color:#1976d2}.badge-driver{background:#f3e5f5;color:#7b1fa2}@media(max-width:768px){.stats-grid{grid-template-columns:1fr}.filters{flex-direction:column;align-items:stretch}.btn{align-self:stretch}}</style></head><body><div class=\"container\"><div class=\"header\"><h1>📊 Análisis de Uso de Tokens Gemini</h1><p>DomiChat - Monitoreo de consumo de IA</p></div><div class=\"stats-grid\" id=\"stats-grid\"></div><div class=\"filters\"><div class=\"filter-group\"><label>Fecha Inicio</label><input type=\"date\" id=\"startDate\"></div><div class=\"filter-group\"><label>Fecha Fin</label><input type=\"date\" id=\"endDate\"></div><div class=\"filter-group\"><label>Agrupar por</label><select id=\"groupBy\"><option value=\"day\">Día</option><option value=\"week\">Semana</option><option value=\"month\">Mes</option></select></div><button class=\"btn\" onclick=\"applyFilters()\">Aplicar Filtros</button></div><div class=\"chart-container\"><h2>📈 Uso de Tokens por Fecha</h2><div class=\"chart-wrapper\"><canvas id=\"tokensChart\"></canvas></div></div><div class=\"chart-container\"><h2>👥 Top 10 Usuarios por Consumo</h2><div class=\"chart-wrapper\"><canvas id=\"usersChart\"></canvas></div></div><div class=\"chart-container\"><h2>🔄 Tokens por Workflow</h2><div class=\"chart-wrapper\"><canvas id=\"workflowChart\"></canvas></div></div><div class=\"chart-container\"><h2>⏰ Distribución Horaria</h2><div class=\"chart-wrapper\"><canvas id=\"hourlyChart\"></canvas></div></div><div class=\"table-container\"><h2>📋 Detalle de Usuarios</h2><table><thead><tr><th>#</th><th>Usuario</th><th>Teléfono</th><th>Total Tokens</th><th>Prompt</th><th>Completion</th><th>Ejecuciones</th><th>Workflows</th></tr></thead><tbody id=\"usersTableBody\"></tbody></table></div></div><script>const rawData={{ JSON.stringify($json) }};let tokensChart,usersChart,workflowChart,hourlyChart;let filteredData=rawData;function initializeFilters(){const dates=rawData.byDate.map(d=>d.date);if(dates.length>0){document.getElementById('startDate').value=dates[0];document.getElementById('endDate').value=dates[dates.length-1]}}function applyFilters(){const startDate=document.getElementById('startDate').value;const endDate=document.getElementById('endDate').value;const groupBy=document.getElementById('groupBy').value;filteredData={...rawData,byDate:rawData.byDate.filter(d=>d.date>=startDate&&d.date<=endDate),byHour:rawData.byHour.filter(h=>h.datetime.split(' ')[0]>=startDate&&h.datetime.split(' ')[0]<=endDate)};if(groupBy!=='day'){filteredData.byDate=regroupData(filteredData.byDate,groupBy)}updateCharts()}function regroupData(data,groupBy){const grouped={};data.forEach(item=>{let key;const date=new Date(item.date);if(groupBy==='week'){const weekStart=new Date(date);weekStart.setDate(date.getDate()-date.getDay());key=weekStart.toISOString().split('T')[0]}else if(groupBy==='month'){key=item.date.substring(0,7)}else{key=item.date}if(!grouped[key]){grouped[key]={date:key,totalTokens:0,promptTokens:0,completionTokens:0,executionCount:0}}grouped[key].totalTokens+=item.totalTokens;grouped[key].promptTokens+=item.promptTokens;grouped[key].completionTokens+=item.completionTokens;grouped[key].executionCount+=item.executionCount});return Object.values(grouped).sort((a,b)=>a.date.localeCompare(b.date))}function updateStatsCards(){const stats=rawData.totalStats;const avgPerExec=stats.totalExecutions>0?Math.round(stats.totalTokens/stats.totalExecutions):0;const statsHtml=`<div class=\"stat-card\"><h3>Total Tokens</h3><div class=\"value\">${stats.totalTokens.toLocaleString()}</div></div><div class=\"stat-card\"><h3>Tokens Prompt</h3><div class=\"value\">${stats.promptTokens.toLocaleString()}</div></div><div class=\"stat-card\"><h3>Tokens Completion</h3><div class=\"value\">${stats.completionTokens.toLocaleString()}</div></div><div class=\"stat-card\"><h3>Ejecuciones</h3><div class=\"value\">${stats.totalExecutions}</div></div><div class=\"stat-card\"><h3>Usuarios Únicos</h3><div class=\"value\">${stats.uniqueUsers}</div></div><div class=\"stat-card\"><h3>Promedio x Ejecución</h3><div class=\"value\">${avgPerExec.toLocaleString()}</div></div>`;document.getElementById('stats-grid').innerHTML=statsHtml}function createTokensChart(){const ctx=document.getElementById('tokensChart').getContext('2d');if(tokensChart)tokensChart.destroy();tokensChart=new Chart(ctx,{type:'line',data:{labels:filteredData.byDate.map(d=>d.date),datasets:[{label:'Total Tokens',data:filteredData.byDate.map(d=>d.totalTokens),borderColor:'#667eea',backgroundColor:'rgba(102,126,234,0.1)',fill:true,tension:0.4},{label:'Prompt',data:filteredData.byDate.map(d=>d.promptTokens),borderColor:'#f093fb',backgroundColor:'rgba(240,147,251,0.1)',fill:true,tension:0.4},{label:'Completion',data:filteredData.byDate.map(d=>d.completionTokens),borderColor:'#4facfe',backgroundColor:'rgba(79,172,254,0.1)',fill:true,tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},tooltip:{mode:'index',intersect:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(value){return value.toLocaleString()}}}}}})}function createUsersChart(){const ctx=document.getElementById('usersChart').getContext('2d');if(usersChart)usersChart.destroy();const topUsers=rawData.byUser.slice(0,10);usersChart=new Chart(ctx,{type:'bar',data:{labels:topUsers.map(u=>u.name||u.phone.slice(-4)),datasets:[{label:'Total Tokens',data:topUsers.map(u=>u.totalTokens),backgroundColor:'rgba(102,126,234,0.8)',borderColor:'#667eea',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(context){const user=topUsers[context.dataIndex];return[`Tokens: ${context.parsed.x.toLocaleString()}`,`Ejecuciones: ${user.executionCount}`,`Teléfono: ${user.phone}`]}}}},scales:{x:{beginAtZero:true,ticks:{callback:function(value){return value.toLocaleString()}}}}}})}function createWorkflowChart(){const ctx=document.getElementById('workflowChart').getContext('2d');if(workflowChart)workflowChart.destroy();workflowChart=new Chart(ctx,{type:'doughnut',data:{labels:rawData.byWorkflow.map(w=>w.name),datasets:[{data:rawData.byWorkflow.map(w=>w.totalTokens),backgroundColor:['rgba(102,126,234,0.8)','rgba(118,75,162,0.8)'],borderColor:['#667eea','#764ba2'],borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:function(context){const workflow=rawData.byWorkflow[context.dataIndex];const percentage=((workflow.totalTokens/rawData.totalStats.totalTokens)*100).toFixed(1);return[`${workflow.name}`,`Tokens: ${workflow.totalTokens.toLocaleString()}`,`${percentage}%`,`Ejecuciones: ${workflow.executionCount}`]}}}}}})}function createHourlyChart(){const ctx=document.getElementById('hourlyChart').getContext('2d');if(hourlyChart)hourlyChart.destroy();const hourlyData=Array(24).fill(0);const hourlyCount=Array(24).fill(0);filteredData.byHour.forEach(h=>{const hour=parseInt(h.datetime.split(' ')[1].split(':')[0]);hourlyData[hour]+=h.totalTokens;hourlyCount[hour]+=h.executionCount});hourlyChart=new Chart(ctx,{type:'bar',data:{labels:Array.from({length:24},(_, i)=>`${i.toString().padStart(2,'0')}:00`),datasets:[{label:'Tokens',data:hourlyData,backgroundColor:'rgba(102,126,234,0.8)',borderColor:'#667eea',borderWidth:2,yAxisID:'y'},{label:'Ejecuciones',data:hourlyCount,type:'line',borderColor:'#f093fb',backgroundColor:'rgba(240,147,251,0.1)',fill:false,tension:0.4,yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{type:'linear',display:true,position:'left',beginAtZero:true,ticks:{callback:function(value){return value.toLocaleString()}}},y1:{type:'linear',display:true,position:'right',beginAtZero:true,grid:{drawOnChartArea:false}}}}})}function updateUsersTable(){const tbody=document.getElementById('usersTableBody');let html='';rawData.byUser.forEach((user,index)=>{const workflows=user.workflows.map(w=>{const badge=w.name.includes('Clientes')?'badge-client':'badge-driver';return`<span class=\"badge ${badge}\">${w.name.split(' ')[1]}: ${w.tokens.toLocaleString()}</span>`}).join(' ');html+=`<tr><td>${index+1}</td><td>${user.name}</td><td>${user.phone}</td><td><strong>${user.totalTokens.toLocaleString()}</strong></td><td>${user.promptTokens.toLocaleString()}</td><td>${user.completionTokens.toLocaleString()}</td><td>${user.executionCount}</td><td>${workflows}</td></tr>`});tbody.innerHTML=html}function updateCharts(){createTokensChart();createUsersChart();createWorkflowChart();createHourlyChart()}function init(){initializeFilters();updateStatsCards();updateCharts();updateUsersTable()}init();</script></body></html>"
+      },
+      "id": "8fdf6f86-39dd-4bf6-85f4-a9fc918a9a9a",
+      "name": "Dashboard HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        1056,
+        -384
+      ],
+      "id": "6984b095-2291-4b6a-acd3-6b307e008522",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2025-12-12T14:43:44.255Z",
+      "createdAt": "2025-12-12T14:43:44.255Z",
+      "role": "workflow:owner",
+      "workflowId": "7YdSZMjJmmKOi57o",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-12T17:51:36.000Z",
+  "versionId": "91ca2c4a-c933-4100-8298-297af925f8c3"
+}
