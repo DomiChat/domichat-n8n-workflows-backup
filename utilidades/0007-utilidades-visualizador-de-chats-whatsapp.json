@@ -23,17 +23,6 @@
         ]
       ]
     },
-    "Obtener Ejecuciones": {
-      "main": [
-        [
-          {
-            "node": "Procesar Mensajes WhatsApp",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Procesar Mensajes WhatsApp": {
       "main": [
         [
@@ -61,6 +50,22 @@
         [
           {
             "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Ejecuciones2": {
+      "main": [
+        []
+      ]
+    },
+    "Obtener Ejecuciones": {
+      "main": [
+        [
+          {
+            "node": "Procesar Mensajes WhatsApp",
             "type": "main",
             "index": 0
           }
@@ -100,38 +105,6 @@
       "typeVersion": 1,
       "position": [
         48,
-        48
-      ],
-      "credentials": {
-        "n8nApi": {
-          "id": "BHKniPO0vSmUlxGV",
-          "name": "n8n account Prod"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "execution",
-        "returnAll": true,
-        "filters": {
-          "workflowId": {
-            "__rl": true,
-            "value": "={{ $json.id }}",
-            "mode": "id"
-          },
-          "status": "success"
-        },
-        "options": {
-          "activeWorkflows": true
-        },
-        "requestOptions": {}
-      },
-      "id": "70b52181-7a8b-4bfb-9b6d-6b45c59b464e",
-      "name": "Obtener Ejecuciones",
-      "type": "n8n-nodes-base.n8n",
-      "typeVersion": 1,
-      "position": [
-        240,
         48
       ],
       "credentials": {
@@ -197,6 +170,51 @@
       ],
       "id": "4d40c51c-1d63-4723-aefc-8c1f9e22d163",
       "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// DIAGNÓSTICO COMPLETO DEL CURSOR\n// ============================================================\nconst N8N_API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjU3NzdmNC03OTFlLTQ2YzctYjkxZS0yMTNmYWYxMzU2NTciLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzY3MzkyOTA0fQ.HsvwFvA4knzCQz9dQgXv71MW-13N1jwQQYblngzJSaI';\nconst N8N_BASE_URL = 'https://n8n.domichat.com.co';\n\nconst logs = [];\nfunction log(msg) {\n  logs.push(msg);\n  console.log(msg);\n}\n\nconst workflowId = $input.first().json.id;\nlog(`WorkflowId: ${workflowId}\\n`);\n\nconst executionsSummary = [];\nlet cursor = null;\nlet pageNum = 0;\n\n// Probar con diferentes límites\nconst limitsToTest = [100, 250];\n\nfor (const limitValue of limitsToTest) {\n  log(`\\n${'='.repeat(70)}`);\n  log(`🧪 PROBANDO CON LIMIT=${limitValue}`);\n  log(`${'='.repeat(70)}`);\n  \n  cursor = null;\n  pageNum = 0;\n  let totalThisTest = 0;\n  \n  while (pageNum < 5) { // Máximo 5 páginas por prueba\n    pageNum++;\n    \n    let queryString = `limit=${limitValue}&status=success&workflowId=${workflowId}`;\n    if (cursor) {\n      queryString += '&cursor=' + encodeURIComponent(cursor);\n    }\n    \n    const url = `${N8N_BASE_URL}/api/v1/executions?${queryString}`;\n    log(`\\n📄 Página ${pageNum} (limit=${limitValue})`);\n    log(`   Cursor: ${cursor ? cursor.substring(0, 30) + '...' : 'null'}`);\n    \n    try {\n      const response = await this.helpers.httpRequest({\n        method: 'GET',\n        url: url,\n        headers: {\n          'X-N8N-API-KEY': N8N_API_TOKEN,\n          'Accept': 'application/json'\n        },\n        json: true\n      });\n      \n      log(`   ✓ Response recibido`);\n      log(`   📦 data existe: ${!!response.data}`);\n      log(`   📦 data es array: ${Array.isArray(response.data)}`);\n      log(`   📦 data.length: ${response.data?.length || 0}`);\n      log(`   🔗 nextCursor existe: ${!!response.nextCursor}`);\n      log(`   🔗 nextCursor: ${response.nextCursor ? response.nextCursor.substring(0, 50) + '...' : 'null'}`);\n      \n      if (response.data && response.data.length > 0) {\n        totalThisTest += response.data.length;\n        \n        // Guardar info de las primeras 3 ejecuciones de esta página\n        const sample = response.data.slice(0, 3).map(e => ({\n          id: e.id,\n          startedAt: e.startedAt,\n          workflowId: e.workflowId\n        }));\n        \n        log(`   📋 Muestra (primeras 3):`);\n        sample.forEach(s => {\n          log(`      - ID: ${s.id}, Fecha: ${s.startedAt}`);\n        });\n        \n        executionsSummary.push(...response.data.map(e => ({\n          id: e.id,\n          startedAt: e.startedAt,\n          page: pageNum,\n          limitUsed: limitValue\n        })));\n      }\n      \n      // Analizar cursor\n      const prevCursor = cursor;\n      cursor = response.nextCursor || null;\n      \n      if (!cursor) {\n        log(`   🛑 NO HAY MÁS CURSOR - fin de páginas`);\n        log(`   📊 Total en esta prueba: ${totalThisTest}`);\n        break;\n      }\n      \n      if (prevCursor === cursor) {\n        log(`   ⚠️  CURSOR REPETIDO - mismo que página anterior!`);\n        log(`   📊 Total en esta prueba: ${totalThisTest}`);\n        break;\n      }\n      \n      if (response.data.length < limitValue) {\n        log(`   ℹ️  Recibimos ${response.data.length} < ${limitValue} - posible última página`);\n      }\n      \n      await new Promise(resolve => setTimeout(resolve, 200));\n      \n    } catch (error) {\n      log(`   ❌ ERROR: ${error.message}`);\n      break;\n    }\n  }\n  \n  log(`\\n✓ Prueba completada: ${totalThisTest} ejecuciones con limit=${limitValue}`);\n  \n  await new Promise(resolve => setTimeout(resolve, 500));\n}\n\n// Análisis final\nlog(`\\n\\n${'='.repeat(70)}`);\nlog(`📊 ANÁLISIS FINAL`);\nlog(`${'='.repeat(70)}`);\nlog(`Total de ejecuciones únicas obtenidas: ${new Set(executionsSummary.map(e => e.id)).size}`);\nlog(`Total de registros (incluyendo duplicados): ${executionsSummary.length}`);\n\n// Verificar si hay duplicados\nconst ids = executionsSummary.map(e => e.id);\nconst uniqueIds = new Set(ids);\nif (ids.length !== uniqueIds.size) {\n  log(`⚠️  Hay ${ids.length - uniqueIds.size} duplicados`);\n}\n\n// Fechas más antigua y más reciente\nif (executionsSummary.length > 0) {\n  const dates = executionsSummary.map(e => new Date(e.startedAt)).sort((a, b) => a - b);\n  log(`\\n📅 Rango de fechas:`);\n  log(`   Más antigua: ${dates[0].toISOString()}`);\n  log(`   Más reciente: ${dates[dates.length - 1].toISOString()}`);\n  log(`   Diferencia: ${Math.round((dates[dates.length - 1] - dates[0]) / (1000 * 60 * 60 * 24))} días`);\n}\n\nlog(`\\n💡 CONCLUSIÓN:`);\nif (new Set(ids).size <= 250) {\n  log(`   El API solo devuelve las primeras ${new Set(ids).size} ejecuciones`);\n  log(`   El cursor NO funciona para obtener más allá de este límite`);\n  log(`   Esto es una LIMITACIÓN de la API de n8n`);\n}\n\n// Retornar debug info\nreturn [{\n  json: {\n    totalUnicas: new Set(ids).size,\n    totalRegistros: executionsSummary.length,\n    rangoFechas: executionsSummary.length > 0 ? {\n      masAntigua: executionsSummary.map(e => e.startedAt).sort()[0],\n      masReciente: executionsSummary.map(e => e.startedAt).sort().reverse()[0]\n    } : null,\n    primerasEjecuciones: executionsSummary.slice(0, 10),\n    ultimasEjecuciones: executionsSummary.slice(-10),\n    logs: logs\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        -112
+      ],
+      "id": "74ff3863-ea2f-4798-bc39-9025fc1ccf58",
+      "name": "Obtener Ejecuciones2"
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "limit": 250,
+        "filters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "status": "success"
+        },
+        "options": {
+          "activeWorkflows": true
+        },
+        "requestOptions": {}
+      },
+      "id": "70b52181-7a8b-4bfb-9b6d-6b45c59b464e",
+      "name": "Obtener Ejecuciones",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        240,
+        48
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "BHKniPO0vSmUlxGV",
+          "name": "n8n account Prod"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -215,6 +233,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-12T17:52:19.000Z",
-  "versionId": "52bf6845-6bd6-4d9f-aaaa-d7db77e5b074"
+  "updatedAt": "2026-01-02T23:13:31.000Z",
+  "versionId": "65181eaa-99c0-4019-80b3-59bcccb71305"
 }
