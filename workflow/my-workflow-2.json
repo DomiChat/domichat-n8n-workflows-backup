@@ -1,0 +1,59 @@
+{
+  "active": false,
+  "connections": {},
+  "createdAt": "2026-01-06T22:13:47.518Z",
+  "id": "yTO4ezVHqgRnzrQi",
+  "isArchived": false,
+  "meta": null,
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_CLIENT_SENDER_ACCESS_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"573006064535\",\n    \"type\": \"interactive\",\n    \"interactive\": {\n        \"type\": \"flow\",\n        \"body\": {\n            \"text\": \"👋 ¡Hola! Bienvenido a DomiChat\\n\\n🚀 Para comenzar necesitamos registrarte\"\n        },\n        \"action\": {\n            \"name\": \"flow\",\n            \"parameters\": {\n                \"flow_message_version\": \"3\",\n                \"flow_token\": \"registro_cliente\",\n                \"flow_id\": \"770371012434062\",\n                \"flow_cta\": \"Registrarme\",\n                \"flow_action\": \"navigate\"\n            }\n        }\n    }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        224
+      ],
+      "id": "67d39f7b-f562-49fd-975b-8264f6dc6249",
+      "name": "Enviar Formulario Registro",
+      "retryOnFail": true,
+      "alwaysOutputData": false,
+      "maxTries": 3
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-06T22:13:47.520Z",
+      "createdAt": "2026-01-06T22:13:47.520Z",
+      "role": "workflow:owner",
+      "workflowId": "yTO4ezVHqgRnzrQi",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-06T22:13:47.518Z",
+  "versionId": "ec7f4476-c0b7-469c-957b-d723e66c75fb"
+}
