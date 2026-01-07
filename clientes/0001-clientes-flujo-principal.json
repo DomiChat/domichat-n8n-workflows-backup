@@ -467,13 +467,12 @@
     },
     "WhatsApp Clientes Trigger": {
       "main": [
-        [
-          {
-            "node": "¿Es mensaje del Sistema?",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        []
       ]
     }
   },
@@ -2284,7 +2283,7 @@
       "typeVersion": 1,
       "position": [
         -112,
-        400
+        960
       ],
       "id": "74d6bde7-0c7a-4fa1-9692-328c3b937abc",
       "name": "WhatsApp Clientes Trigger",
@@ -2294,7 +2293,24 @@
           "id": "cspqIaSswtdpcHIY",
           "name": "WhatsApp Clientes - Trigger"
         }
-      }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "52bb9df6-6620-4bd8-8c06-7fe297ec53c9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        400
+      ],
+      "id": "1250f77c-2674-48d0-b961-dcfb09dc3047",
+      "name": "Webhook",
+      "webhookId": "52bb9df6-6620-4bd8-8c06-7fe297ec53c9"
     }
   ],
   "pinData": {
@@ -2349,6 +2365,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-12-25T20:49:33.000Z",
-  "versionId": "b9903f7a-481a-43d2-9032-30887db3b28e"
+  "updatedAt": "2026-01-06T22:01:55.000Z",
+  "versionId": "197a90e2-fd09-4d54-9238-471afbfc1cef"
 }
