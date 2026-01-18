@@ -1,0 +1,186 @@
+{
+  "active": false,
+  "connections": {
+    "1. Abrir Conversación": {
+      "main": [
+        [
+          {
+            "node": "2. Asignar Equipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "1. Abrir Conversación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Asignar Equipo": {
+      "main": [
+        [
+          {
+            "node": "3. Mencionar Equipo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-18T03:33:14.886Z",
+  "id": "iaX05BwekrJHDeS1",
+  "isArchived": false,
+  "meta": null,
+  "name": "Desactivar Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/toggle_status",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "chatwootApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"open\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        176
+      ],
+      "id": "6dcebe93-ac71-4648-a97b-a76e153e02b7",
+      "name": "1. Abrir Conversación",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "conversation_id",
+              "type": "any"
+            },
+            {
+              "name": "account_id",
+              "type": "any"
+            }
+          ]
+        }
+      },
+      "id": "a88622b7-367d-4f84-8d80-1d06179189e7",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        96,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/assignments",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "chatwootApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"team_id\": 3\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        176
+      ],
+      "id": "de0b4910-2468-40ab-8f1a-3635fda99dd6",
+      "name": "2. Asignar Equipo",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/messages",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "chatwootApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"@domichat Nuevo Pedido.\",\n  \"message_type\": \"outgoing\",\n  \"private\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        752,
+        176
+      ],
+      "id": "980654dd-a275-459b-a6e0-568906938bb1",
+      "name": "3. Mencionar Equipo",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "conversation_id": 31,
+          "account_id": 1
+        }
+      }
+    ],
+    "1. Abrir Conversación": [
+      {
+        "json": {
+          "payload": {
+            "success": true,
+            "conversation_id": 31,
+            "current_status": "open",
+            "snoozed_until": null
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-18T03:33:14.890Z",
+      "createdAt": "2026-01-18T03:33:14.890Z",
+      "role": "workflow:owner",
+      "workflowId": "iaX05BwekrJHDeS1",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-18T04:07:45.000Z",
+  "versionId": "4630d6b3-f6ba-44fe-af1e-da748370bb6d"
+}
