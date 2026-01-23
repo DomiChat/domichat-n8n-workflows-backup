@@ -1,17 +1,6 @@
 {
   "active": false,
   "connections": {
-    "1. Abrir Conversación": {
-      "main": [
-        [
-          {
-            "node": "2. Asignar Equipo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Start": {
       "main": [
         [
@@ -23,11 +12,22 @@
         ]
       ]
     },
-    "2. Asignar Equipo": {
+    "1. Abrir Conversación": {
       "main": [
         [
           {
-            "node": "3. Mencionar Equipo",
+            "node": "2. Asignar a Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Asignar a Agente": {
+      "main": [
+        [
+          {
+            "node": "Guardar Pedido",
             "type": "main",
             "index": 0
           }
@@ -43,32 +43,6 @@
   "nodes": [
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/toggle_status",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "chatwootApi",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"status\": \"open\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        304,
-        176
-      ],
-      "id": "6dcebe93-ac71-4648-a97b-a76e153e02b7",
-      "name": "1. Abrir Conversación",
-      "credentials": {
-        "chatwootApi": {
-          "id": "TPBJz9hspCT2OIci",
-          "name": "Chatwoot DomiChat QA"
-        }
-      }
-    },
-    {
-      "parameters": {
         "workflowInputs": {
           "values": [
             {
@@ -78,6 +52,12 @@
             {
               "name": "account_id",
               "type": "any"
+            },
+            {
+              "name": "detalles_pedido"
+            },
+            {
+              "name": "tipo_pedido"
             }
           ]
         }
@@ -94,22 +74,22 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/assignments",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').first().json.account_id }}/conversations/{{ $('Start').first().json.conversation_id }}/toggle_status",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "chatwootApi",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"team_id\": 3\n}",
+        "jsonBody": "={\n  \"status\": \"open\"\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        528,
+        288,
         176
       ],
-      "id": "de0b4910-2468-40ab-8f1a-3635fda99dd6",
-      "name": "2. Asignar Equipo",
+      "id": "5e4187c0-3630-492c-b13b-b144bfc25c65",
+      "name": "1. Abrir Conversación",
       "credentials": {
         "chatwootApi": {
           "id": "TPBJz9hspCT2OIci",
@@ -120,48 +100,88 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/messages",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/assignments",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "chatwootApi",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"content\": \"@domichat Nuevo Pedido.\",\n  \"message_type\": \"outgoing\",\n  \"private\": true\n}",
+        "jsonBody": "={\n  \"assignee_id\": 3\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        752,
+        496,
         176
       ],
-      "id": "980654dd-a275-459b-a6e0-568906938bb1",
-      "name": "3. Mencionar Equipo",
+      "id": "fc7ce508-3b39-475f-bf5c-2410890c0268",
+      "name": "2. Asignar a Agente",
       "credentials": {
         "chatwootApi": {
           "id": "TPBJz9hspCT2OIci",
           "name": "Chatwoot DomiChat QA"
         }
       }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "dBqurS65Cvihd0xI",
+          "mode": "list",
+          "cachedResultName": "Pedidos",
+          "cachedResultUrl": "/projects/0IzhKVOc0T9TvoCy/datatables/dBqurS65Cvihd0xI"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "detalles": "={{ $('Start').first().json.detalles_pedido }}",
+            "tipo": "={{ $('Start').first().json.tipo_pedido }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "detalles",
+              "displayName": "detalles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        704,
+        176
+      ],
+      "id": "6deac739-67bd-4811-91fe-ef856e2d408c",
+      "name": "Guardar Pedido"
     }
   ],
   "pinData": {
     "Start": [
       {
         "json": {
-          "conversation_id": 31,
+          "conversation_id": 39,
           "account_id": 1
-        }
-      }
-    ],
-    "1. Abrir Conversación": [
-      {
-        "json": {
-          "payload": {
-            "success": true,
-            "conversation_id": 31,
-            "current_status": "open",
-            "snoozed_until": null
-          }
         }
       }
     ]
@@ -181,6 +201,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-18T04:07:45.000Z",
-  "versionId": "4630d6b3-f6ba-44fe-af1e-da748370bb6d"
+  "updatedAt": "2026-01-22T23:53:47.000Z",
+  "versionId": "6de09c69-b914-46e7-b302-73ed7863b631"
 }
