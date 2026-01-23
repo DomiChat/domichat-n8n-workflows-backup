@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Switch: Audio vs Texto vs Otros",
+            "node": "Marcar como Leído + Typing",
             "type": "main",
             "index": 0
           }
@@ -136,17 +136,23 @@
         ]
       ]
     },
-    "handoff_to_human11": {
-      "ai_tool": [
-        []
-      ]
-    },
     "handoff_to_human": {
       "ai_tool": [
         [
           {
             "node": "AI Agent",
             "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como Leído + Typing": {
+      "main": [
+        [
+          {
+            "node": "Switch: Audio vs Texto vs Otros",
+            "type": "main",
             "index": 0
           }
         ]
@@ -170,7 +176,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -592,
+        -848,
         -352
       ],
       "id": "b7e80699-5711-44cb-b41e-61f960b3d60d",
@@ -214,7 +220,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -144,
+        -400,
         -352
       ],
       "id": "ab2585c4-8a30-4ef0-b60c-9d08da3a18ee",
@@ -223,7 +229,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.message_content }}",
+        "text": "={{ $if($('Mostrar Salida Transcripción').isExecuted, $('Mostrar Salida Transcripción').item.json.message_content, $('Extract Chatwoot Data').item.json.message_content) }}",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=# System Prompt - Agente AI Domichat\n\n## Identidad y Rol\n\nEres el asistente virtual de **Domichat**, un servicio profesional de domicilios y mensajería en Colombia. Tu función es procesar solicitudes de servicio de manera rápida, precisa y profesional.\n\n**Nombre:** Agente Domichat  \n**Tono:** Amable, conciso, profesional  \n**Objetivo:** Recopilar la información esencial para cada tipo de servicio y confirmar la solicitud al usuario\n\n**Saludo inicial:**\n```\n¡Hola! Soy el asistente de Domichat. Puedo ayudarte con:\n- Domicilios (comida, productos, medicamentos)\n- Favores (recogida y entrega de objetos)\n- Viajes en moto\n\n¿Qué servicio necesitas?\n```\n\n---\n\n## Principios de Comunicación\n\n1. **Conciso y Directo**: Ve al punto sin rodeos innecesarios\n2. **Una pregunta a la vez**: No abrumes al usuario con múltiples preguntas\n3. **Confirma la información**: Resume lo capturado antes de finalizar\n4. **Lenguaje claro**: Usa lenguaje simple y directo\n5. **Profesional pero cercano**: Mantén un tono amable sin ser excesivamente casual\n\n---\n\n## Servicios Disponibles\n\n### 1️⃣ DOMICILIOS (Productos, Comida, Medicamentos)\n\n**Información requerida:**\n- ✅ **Producto(s):** ¿Qué necesita? (incluir cantidades específicas)\n- ✅ **Dirección de entrega:** ¿Dónde debe entregarse? (acepta direcciones completas o referencias como \"al frente del hospital\", \"salida del pueblo\", etc.)\n- 💡 **Lugar de compra (opcional):** Puede mencionarlo al solicitar los productos\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un domicilio\n2. Preguntar: \"¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n3. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n4. Confirmar información capturada\n5. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nPerfecto. Registré tu pedido:\n- [Producto y cantidad]\n- [Lugar de compra - solo si lo especificó]\n- Dirección: [Dirección completa y/o referencia]\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n```\n\n---\n\n### 2️⃣ FAVORES (Recogida y Entrega de Objetos)\n\n**Información requerida:**\n- ✅ **Descripción del favor:** ¿Qué necesita que se recoja/entregue?\n- ✅ **Dirección de recogida:** ¿De dónde se recoge? (acepta direcciones completas o referencias)\n- ✅ **Dirección de entrega:** ¿A dónde se lleva? (acepta direcciones completas o referencias)\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un favor\n2. Preguntar: \"¿Qué necesitas que recojamos?\"\n3. Preguntar: \"¿Cuál es la dirección completa de recogida?\"\n4. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n5. Confirmar información capturada\n6. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nEntendido. Registré tu solicitud:\n- Favor: [Descripción]\n- Recogida: [Dirección completa y/o referencia de origen]\n- Entrega: [Dirección completa y/o referencia de destino]\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n```\n\n---\n\n### 3️⃣ VIAJES (Transporte de Personas)\n\n**Información requerida:**\n- ✅ **Origen:** ¿De dónde sale? (acepta direcciones completas o referencias)\n- ✅ **Destino:** ¿A dónde va? (acepta direcciones completas o referencias)\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un viaje\n2. Preguntar: \"¿Cuál es la dirección completa de origen?\"\n3. Preguntar: \"¿Cuál es la dirección completa de destino?\"\n4. Confirmar información capturada\n5. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nListo. Tu viaje está registrado:\n- Origen: [Dirección/punto de partida y/o referencia]\n- Destino: [Dirección/punto de llegada y/o referencia]\n\nUn domiciliario se comunicará contigo en breve para confirmar la recogida. ✅\n```\n\n---\n\n## IMPORTANTE: Transferencia a Agente Humano\n\nDEBES usar la herramienta `handoff_to_human` INMEDIATAMENTE después de:\n\n1. ✅ Has identificado correctamente el tipo de servicio\n2. ✅ Has recopilado TODA la información requerida\n3. ✅ Has mostrado el resumen completo al usuario\n4. ✅ Has enviado el mensaje de confirmación final\n\n**Llama a la herramienta en el MISMO turno** en que envías el mensaje de confirmación.\n\n---\n\n## Instrucciones de Ejecución\n\n### Manejo de Direcciones\nAcepta cualquier formato de dirección que el usuario proporcione:\n- **Direcciones formales:** \"Calle 45 # 23-12, apto 301\"\n- **Referencias:** \"Al frente del hospital San José\", \"Salida del pueblo hacia Medellín\"\n- **Combinaciones:** \"Carrera 7 # 10-20, al lado de la farmacia\"\n- **Lugares conocidos:** \"Centro Comercial Andino\", \"Plaza de Bolívar\"\n\nNo exijas un formato específico. Si el usuario da una referencia clara, acéptala tal cual.\n\n### Recopilación de Información\n- Haz **UNA pregunta a la vez**\n- Sé específico en lo que preguntas\n- No repitas información que el usuario ya dio\n- Resume la información antes de finalizar\n- Llama a handoff_to_human INMEDIATAMENTE después del resumen\n\n---\n\n## Reglas y Restricciones\n\n### ✅ DEBES:\n- Identificar correctamente el tipo de servicio solicitado\n- Recopilar SOLO la información necesaria para cada servicio\n- Hacer una pregunta a la vez\n- Ser conciso en tus respuestas (máximo 2-3 oraciones por mensaje)\n- Confirmar la información antes de finalizar\n- Usar un saludo inicial breve solo en el primer mensaje\n- Usar emojis de forma moderada (✅ al confirmar)\n- Aceptar cualquier formato de dirección o referencia que el usuario proporcione\n- Llamar a handoff_to_human después del resumen final\n\n### ❌ NO DEBES:\n- Hacer múltiples preguntas en un mismo mensaje\n- Pedir información innecesaria (teléfono, nombre, método de pago)\n- Dar precios o costos (eso lo maneja el domiciliario)\n- Prometer tiempos de llegada específicos\n- Procesar pagos o dar información de facturación\n- Ofrecer servicios que no están en la lista (catering, mudanzas, etc.)\n- Ser excesivamente informal o usar jerga\n- Escribir mensajes largos o explicaciones innecesarias\n- Exigir un formato específico de dirección\n- Llamar a handoff_to_human antes de tener todos los datos requeridos\n\n---\n\n## Manejo de Situaciones Especiales\n\n### Si el usuario es ambiguo:\n```\nUsuario: \"Necesito un domicilio\"\nAgente: \"Claro. ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n```\n\n### Si el usuario da información parcial:\n```\nUsuario: \"Quiero pedir pollo, 2 órdenes\"\nAgente: \"Perfecto, 2 órdenes de pollo. ¿Cuál es la dirección completa de entrega?\"\n```\n\n### Si el usuario pide algo fuera del servicio:\n```\n\"Actualmente ese servicio no está disponible. Ofrecemos domicilios, favores (recogida/entrega) y viajes en moto. ¿Te puedo ayudar con alguno de estos?\"\n```\n\n### Si falta información crítica:\n```\nNo finalices hasta tener TODOS los datos requeridos para el servicio específico.\n```\n\n---\n\n## Ejemplos de Conversación\n\n### Ejemplo 1: Domicilio de Comida\n```\nUsuario: Hola\nAgente: ¡Hola! Soy el asistente de Domichat. Puedo ayudarte con:\n- Domicilios (comida, productos, medicamentos)\n- Favores (recogida y entrega de objetos)\n- Viajes en moto\n\n¿Qué servicio necesitas?\n\nUsuario: Quiero pedir comida\nAgente: ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\n\nUsuario: 2 pizzas medianas de Pizza Hut\nAgente: Perfecto. ¿Cuál es la dirección completa de entrega?\n\nUsuario: Al frente del hospital San José\nAgente: Listo. Registré tu pedido:\n- 2 pizzas medianas\n- Restaurante: Pizza Hut\n- Dirección: Al frente del hospital San José\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n```\n\n### Ejemplo 2: Favor\n```\nUsuario: Necesito que recojan unos documentos\nAgente: Claro. ¿Qué necesitas que recojamos?\n\nUsuario: Unos documentos importantes\nAgente: Entendido. ¿Cuál es la dirección completa de recogida?\n\nUsuario: Carrera 7 # 80-45\nAgente: ¿Cuál es la dirección completa de entrega?\n\nUsuario: Salida del pueblo hacia Medellín\nAgente: Perfecto. Registré tu solicitud:\n- Favor: Recoger documentos importantes\n- Recogida: Carrera 7 # 80-45\n- Entrega: Salida del pueblo hacia Medellín\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n```\n\n### Ejemplo 3: Viaje\n```\nUsuario: Necesito una moto para irme\nAgente: ¿Cuál es la dirección completa de origen?\n\nUsuario: Centro comercial Andino\nAgente: Entendido. ¿Cuál es la dirección completa de destino?\n\nUsuario: Calle 127 con 7\nAgente: Listo. Tu viaje está registrado:\n- Origen: Centro Comercial Andino\n- Destino: Calle 127 con 7\n\nUn domiciliario se comunicará contigo en breve para confirmar la recogida. ✅\n```\n\n---\n\n## Formato de Salida\n\nCada respuesta tuya debe seguir este formato:\n\n**Para preguntas de recopilación:**\n```\n[Confirmación breve de lo que dijeron] + [Pregunta específica única]\n```\n\n**Para confirmación final:**\n```\n[Palabra de confirmación]. Registré tu [tipo de solicitud]:\n- [Dato 1]\n- [Dato 2]\n- [Dato 3]\n\nUn domiciliario se comunicará [contigo/con usted] [pronto/en breve] [para coordinar el servicio]. ✅\n```\n\n---\n\n## Notas Importantes\n\n1. **Prioridad en la claridad:** Si tienes duda sobre qué servicio quiere el usuario, pregunta directamente\n2. **Eficiencia sobre todo:** Cada mensaje debe acercar la conversación a la conclusión\n3. **Sin información extra:** No agregues datos que el usuario no mencionó\n4. **Respeta el formato:** Los mensajes de confirmación deben ser consistentes\n5. **Contexto colombiano:** Entiende formatos de dirección colombianos (Calle X # Y-Z, Carrera, Avenida, etc.) y referencias locales\n6. **Flexibilidad en direcciones:** Acepta tanto direcciones formales como referencias (\"al frente de\", \"salida de\", \"al lado de\", etc.)\n\n---\n\n## Criterios de Éxito\n\n✅ Identificaste correctamente el tipo de servicio  \n✅ Recopilaste TODA la información necesaria  \n✅ Hiciste máximo 3-4 preguntas  \n✅ Confirmaste la información antes de finalizar  \n✅ El usuario entendió claramente que un domiciliario lo contactará  \n✅ Llamaste a handoff_to_human después del resumen\n\n---\n\n**Versión:** 3.2 - Agent Bot Payload  \n**Última actualización:** Enero 2026"
@@ -301,7 +307,7 @@
     },
     {
       "parameters": {
-        "url": "={{ $json.audio_url }}",
+        "url": "={{ $('Extract Chatwoot Data').first().json.audio_url }}",
         "authentication": "predefinedCredentialType",
         "nodeCredentialType": "chatwootApi",
         "sendHeaders": true,
@@ -465,6 +471,12 @@
               "name": "audio_url",
               "value": "={{ $json.body.attachments && $json.body.attachments.length > 0 && $json.body.attachments[0].file_type === 'audio' ? $json.body.attachments[0].data_url : '' }}",
               "type": "string"
+            },
+            {
+              "id": "d64d850d-2986-4c5f-b838-fadbedd6d8e3",
+              "name": "source_id",
+              "value": "={{ $json.body.conversation.messages[0].source_id }}",
+              "type": "string"
             }
           ]
         },
@@ -473,7 +485,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -368,
+        -624,
         -352
       ],
       "id": "be7ddb33-67b4-4946-8059-7c5c5c653cf0",
@@ -547,33 +559,6 @@
       "name": "Switch: Audio vs Texto vs Otros"
     },
     {
-      "parameters": {
-        "toolDescription": "Usa esta herramienta cuando hayas identificado el tipo de servicio y recopilado toda la información requerida. Esto transfiere la conversación a un agente humano.",
-        "method": "POST",
-        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Extract Chatwoot Data').item.json.account_id }}/conversations/{{ $('Extract Chatwoot Data').item.json.conversation_id }}/assignments",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "chatwootApi",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"status\": \"open\",\n  \"team_id\": 1\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequestTool",
-      "typeVersion": 4.2,
-      "position": [
-        0,
-        0
-      ],
-      "id": "65a64096-034d-4bdf-971e-449e1bfd6de3",
-      "name": "handoff_to_human1",
-      "credentials": {
-        "chatwootApi": {
-          "id": "TPBJz9hspCT2OIci",
-          "name": "Chatwoot DomiChat QA"
-        }
-      }
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
@@ -608,86 +593,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "iaX05BwekrJHDeS1",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/iaX05BwekrJHDeS1",
-          "cachedResultName": "Desactivar Bot"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "conversation_id": "={{ $('Extract Chatwoot Data').item.json.conversation_id }}",
-            "account_id": "={{ $('Extract Chatwoot Data').item.json.account_id }}"
-          },
-          "matchingColumns": [
-            "conversation_id",
-            "account_id"
-          ],
-          "schema": [
-            {
-              "id": "conversation_id",
-              "displayName": "conversation_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "account_id",
-              "displayName": "account_id",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1088,
-        160
-      ],
-      "name": "Call Desactivar Bot",
-      "id": "7eb9df43-7c84-4210-a49e-ebdbc0ddeaf3"
-    },
-    {
-      "parameters": {
-        "toolDescription": "Usa esta herramienta cuando hayas identificado el tipo de servicio y recopilado toda la información requerida.",
-        "method": "POST",
-        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Extract Chatwoot Data').item.json.account_id }}/conversations/{{ $('Extract Chatwoot Data').item.json.conversation_id }}/toggle_status",
-        "authentication": "predefinedCredentialType",
-        "nodeCredentialType": "chatwootApi",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"status\": \"open\",\n  \"team_id\": 1\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequestTool",
-      "typeVersion": 4.2,
-      "position": [
-        1696,
-        -80
-      ],
-      "id": "75c7e3fb-b3ae-4662-9984-bfe62490dc88",
-      "name": "handoff_to_human11",
-      "credentials": {
-        "chatwootApi": {
-          "id": "TPBJz9hspCT2OIci",
-          "name": "Chatwoot DomiChat QA"
-        }
-      }
-    },
-    {
-      "parameters": {
         "description": "Usa esta herramienta cuando hayas identificado el tipo de servicio y recopilado toda la información requerida.",
         "workflowId": {
           "__rl": true,
@@ -700,7 +605,9 @@
           "mappingMode": "defineBelow",
           "value": {
             "conversation_id": "={{ $('Extract Chatwoot Data').item.json.conversation_id }}",
-            "account_id": "={{ $('Extract Chatwoot Data').item.json.account_id }}"
+            "account_id": "={{ $('Extract Chatwoot Data').item.json.account_id }}",
+            "detalles_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('detalles_pedido', `Detalles completos del pedido solicitado por el usuario organizados en una oración.`, 'string') }}",
+            "tipo_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_pedido', `Tipo de pedido solicitado (Domicilio, Favor o Viaje)`, 'string') }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -721,6 +628,26 @@
               "display": true,
               "canBeUsedToMatch": true,
               "removed": false
+            },
+            {
+              "id": "detalles_pedido",
+              "displayName": "detalles_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tipo_pedido",
+              "displayName": "tipo_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -735,6 +662,40 @@
       ],
       "id": "48df0a37-badb-4da1-be8e-495b1a1dc2af",
       "name": "handoff_to_human"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.WHATSAPP_CLIENT_SENDER_ACCESS_TOKEN }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"status\": \"read\",\n    \"message_id\": \"{{ $('Extract Chatwoot Data').first().json.source_id }}\",\n    \"typing_indicator\": {\n        \"type\": \"text\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -144,
+        -368
+      ],
+      "id": "e67fbe66-48a2-48c1-8081-b0fe53dea015",
+      "name": "Marcar como Leído + Typing",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "maxTries": 3
     }
   ],
   "pinData": {
@@ -744,21 +705,21 @@
           "headers": {
             "host": "qa-n8n.domichat.com.co",
             "user-agent": "rest-client/2.1.0 (linux-musl x86_64) ruby/3.4.4p34",
-            "content-length": "2639",
+            "content-length": "3119",
             "accept": "application/json",
             "accept-encoding": "gzip, br",
             "cdn-loop": "cloudflare; loops=1",
             "cf-connecting-ip": "72.60.121.15",
             "cf-ipcountry": "US",
-            "cf-ray": "9bfb3aa6ae153448-EWR",
+            "cf-ray": "9c24225a5e417285-EWR",
             "cf-visitor": "{\"scheme\":\"https\"}",
             "content-type": "application/json",
-            "x-forwarded-for": "72.60.121.15, 104.23.190.60",
+            "x-forwarded-for": "72.60.121.15, 172.70.115.20",
             "x-forwarded-host": "qa-n8n.domichat.com.co",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "68b94681cb8f",
-            "x-real-ip": "104.23.190.60"
+            "x-real-ip": "172.70.115.20"
           },
           "params": {},
           "query": {},
@@ -770,7 +731,7 @@
             "additional_attributes": {},
             "content_attributes": {},
             "content_type": "text",
-            "content": "Domicilio\nQuiero un pollo asado del asadero los Chilacos para la vereda San Juan finca Santa Cecilia",
+            "content": null,
             "conversation": {
               "additional_attributes": {},
               "can_reply": true,
@@ -785,37 +746,52 @@
                 "hmac_verified": false,
                 "pubsub_token": "aXyTqEotBUDoSRZGtLfKnjHy"
               },
-              "id": 35,
+              "id": 46,
               "inbox_id": 1,
               "messages": [
                 {
-                  "id": 242,
-                  "content": "Domicilio\nQuiero un pollo asado del asadero los Chilacos para la vereda San Juan finca Santa Cecilia",
+                  "id": 400,
+                  "content": null,
                   "account_id": 1,
                   "inbox_id": 1,
-                  "conversation_id": 35,
+                  "conversation_id": 46,
                   "message_type": 0,
-                  "created_at": 1768709284,
-                  "updated_at": "2026-01-18T04:08:04.825Z",
+                  "created_at": 1769138205,
+                  "updated_at": "2026-01-23T03:16:45.647Z",
                   "private": false,
                   "status": "sent",
-                  "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDNFOUVDRDgwRkVCNTA1QkYyNQA=",
+                  "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FCNjQ0OURDNzgxM0E2MjVCREQA",
                   "content_type": "text",
                   "content_attributes": {},
                   "sender_type": "Contact",
                   "sender_id": 1,
                   "external_source_ids": {},
                   "additional_attributes": {},
-                  "processed_message_content": "Domicilio\nQuiero un pollo asado del asadero los Chilacos para la vereda San Juan finca Santa Cecilia",
+                  "processed_message_content": null,
                   "sentiment": {},
                   "conversation": {
                     "assignee_id": null,
-                    "unread_count": 2,
-                    "last_activity_at": 1768709284,
+                    "unread_count": 3,
+                    "last_activity_at": 1769138205,
                     "contact_inbox": {
                       "source_id": "573006064535"
                     }
                   },
+                  "attachments": [
+                    {
+                      "id": 5,
+                      "message_id": 400,
+                      "file_type": "audio",
+                      "account_id": 1,
+                      "extension": null,
+                      "data_url": "https://qa-chatwoot.domichat.com.co/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--75775b7505328dcd80bba5fdce1a0baa957cbc12/File.ogg",
+                      "thumb_url": "",
+                      "file_size": 16285,
+                      "width": null,
+                      "height": null,
+                      "transcribed_text": ""
+                    }
+                  ],
                   "sender": {
                     "additional_attributes": {},
                     "custom_attributes": {},
@@ -852,19 +828,19 @@
               "status": "pending",
               "custom_attributes": {},
               "snoozed_until": null,
-              "unread_count": 2,
-              "first_reply_created_at": "2026-01-18T04:07:58.473Z",
+              "unread_count": 3,
+              "first_reply_created_at": "2026-01-23T03:16:24.536Z",
               "priority": null,
               "waiting_since": 0,
               "agent_last_seen_at": 0,
               "contact_last_seen_at": 0,
-              "last_activity_at": 1768709284,
-              "timestamp": 1768709284,
-              "created_at": 1768709277,
-              "updated_at": 1768709284.8267765
+              "last_activity_at": 1769138205,
+              "timestamp": 1769138205,
+              "created_at": 1769135670,
+              "updated_at": 1769138205.650392
             },
-            "created_at": "2026-01-18T04:08:04.825Z",
-            "id": 242,
+            "created_at": "2026-01-23T03:16:45.647Z",
+            "id": 400,
             "inbox": {
               "id": 1,
               "name": "DomiChat QA"
@@ -887,7 +863,22 @@
               "thumbnail": "",
               "blocked": false
             },
-            "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDNFOUVDRDgwRkVCNTA1QkYyNQA=",
+            "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FCNjQ0OURDNzgxM0E2MjVCREQA",
+            "attachments": [
+              {
+                "id": 5,
+                "message_id": 400,
+                "file_type": "audio",
+                "account_id": 1,
+                "extension": null,
+                "data_url": "https://qa-chatwoot.domichat.com.co/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--75775b7505328dcd80bba5fdce1a0baa957cbc12/File.ogg",
+                "thumb_url": "",
+                "file_size": 16285,
+                "width": null,
+                "height": null,
+                "transcribed_text": ""
+              }
+            ],
             "event": "message_created"
           },
           "webhookUrl": "https://qa-n8n.domichat.com.co/webhook/70c778e7-b0db-433a-83fb-dbb165fbd6ca",
@@ -911,6 +902,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-18T04:25:22.000Z",
-  "versionId": "e5e75920-a066-44ae-bc97-fef89b475a9c"
+  "updatedAt": "2026-01-23T03:21:00.000Z",
+  "versionId": "a3cb0f89-9656-4e98-a537-88ff63c3b13e"
 }
