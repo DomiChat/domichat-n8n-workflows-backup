@@ -1,0 +1,216 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "1. Abrir Conversación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Abrir Conversación": {
+      "main": [
+        [
+          {
+            "node": "2. Asignar a Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Asignar a Agente": {
+      "main": [
+        [
+          {
+            "node": "Guardar Pedido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-18T03:33:14.886Z",
+  "id": "iaX05BwekrJHDeS1",
+  "isArchived": false,
+  "meta": null,
+  "name": "0002 DomiChat Desactivar Bot y Guardar Pedido",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "conversation_id",
+              "type": "any"
+            },
+            {
+              "name": "account_id",
+              "type": "any"
+            },
+            {
+              "name": "detalles_pedido"
+            },
+            {
+              "name": "tipo_pedido"
+            }
+          ]
+        }
+      },
+      "id": "a88622b7-367d-4f84-8d80-1d06179189e7",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        96,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').first().json.account_id }}/conversations/{{ $('Start').first().json.conversation_id }}/toggle_status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"open\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        176
+      ],
+      "id": "5e4187c0-3630-492c-b13b-b144bfc25c65",
+      "name": "1. Abrir Conversación",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        },
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/assignments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"assignee_id\": {{ $env.CHATWOOT_ASSIGNEE_ID }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        496,
+        176
+      ],
+      "id": "fc7ce508-3b39-475f-bf5c-2410890c0268",
+      "name": "2. Asignar a Agente",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        },
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "dBqurS65Cvihd0xI",
+          "mode": "list",
+          "cachedResultName": "Pedidos",
+          "cachedResultUrl": "/projects/0IzhKVOc0T9TvoCy/datatables/dBqurS65Cvihd0xI"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "detalles": "={{ $('Start').first().json.detalles_pedido }}",
+            "tipo": "={{ $('Start').first().json.tipo_pedido }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "detalles",
+              "displayName": "detalles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        704,
+        176
+      ],
+      "id": "6deac739-67bd-4811-91fe-ef856e2d408c",
+      "name": "Guardar Pedido"
+    }
+  ],
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "conversation_id": 62,
+          "account_id": 1,
+          "detalles_pedido": "Pollo asado de los chilacos en combo, para la dirección Vereda San Juan, sector la gloria.",
+          "tipo_pedido": "Domicilio"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-18T03:33:14.890Z",
+      "createdAt": "2026-01-18T03:33:14.890Z",
+      "role": "workflow:owner",
+      "workflowId": "iaX05BwekrJHDeS1",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-01-24T19:07:13.000Z",
+  "versionId": "0bf3628d-b6e1-44c8-8913-bb5bd112048c"
+}
