@@ -3,7 +3,7 @@
   "connections": {},
   "createdAt": "2026-01-06T22:13:47.518Z",
   "id": "yTO4ezVHqgRnzrQi",
-  "isArchived": false,
+  "isArchived": true,
   "meta": null,
   "name": "My workflow 2",
   "nodes": [
@@ -54,6 +54,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-06T22:13:47.518Z",
-  "versionId": "ec7f4476-c0b7-469c-957b-d723e66c75fb"
+  "updatedAt": "2026-01-24T17:58:02.000Z",
+  "versionId": "c346f2cd-73fb-497e-bf0f-adea57908b8a"
 }
