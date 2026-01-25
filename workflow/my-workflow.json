@@ -26,7 +26,7 @@
   },
   "createdAt": "2025-12-02T15:57:21.421Z",
   "id": "ZYFDxhkaIasH2uMT",
-  "isArchived": false,
+  "isArchived": true,
   "meta": null,
   "name": "My workflow",
   "nodes": [
@@ -356,6 +356,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2025-12-03T18:53:08.000Z",
-  "versionId": "2671044f-9636-42f4-9fb4-1552e318713b"
+  "updatedAt": "2026-01-24T17:58:18.000Z",
+  "versionId": "2cf573c7-abf3-410b-8047-70d5708b6c2c"
 }
