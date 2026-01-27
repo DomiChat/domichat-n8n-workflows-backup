@@ -251,6 +251,24 @@
                 "operation": "equals",
                 "singleValue": true
               }
+            },
+            {
+              "id": "fa1eef87-2d9f-4cd4-94cd-664dbce45a07",
+              "leftValue": "={{ $json.message_hour }}",
+              "rightValue": 10,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "2a6b7ce2-560b-4d7a-b045-9e5f874464e0",
+              "leftValue": "={{ $json.message_hour }}",
+              "rightValue": 22,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
             }
           ],
           "combinator": "and"
@@ -475,6 +493,12 @@
               "name": "source_id",
               "value": "={{ $json.body.conversation.messages[0].source_id }}",
               "type": "string"
+            },
+            {
+              "id": "241d036e-66b4-495b-9eb3-d44c8f808356",
+              "name": "message_hour",
+              "value": "={{ (new Date($json.body.created_at).getUTCHours() - 5 + 24) % 24 }}",
+              "type": "number"
             }
           ]
         },
@@ -815,6 +839,101 @@
         }
       },
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "conversation_id",
+              "name": "conversation_id",
+              "value": "={{ $json.body.conversation.id }}",
+              "type": "number"
+            },
+            {
+              "id": "conversation_status",
+              "name": "conversation_status",
+              "value": "={{ $json.body.conversation.status }}",
+              "type": "string"
+            },
+            {
+              "id": "message_content",
+              "name": "message_content",
+              "value": "={{ $json.body.content || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "message_id",
+              "name": "message_id",
+              "value": "={{ $json.body.id }}",
+              "type": "number"
+            },
+            {
+              "id": "content_type",
+              "name": "content_type",
+              "value": "={{ $json.body.content_type }}",
+              "type": "string"
+            },
+            {
+              "id": "contact_name",
+              "name": "contact_name",
+              "value": "={{ $json.body.sender.name }}",
+              "type": "string"
+            },
+            {
+              "id": "whatsapp_id",
+              "name": "whatsapp_id",
+              "value": "={{ $json.body.conversation.contact_inbox.source_id }}",
+              "type": "string"
+            },
+            {
+              "id": "message_type",
+              "name": "message_type",
+              "value": "={{ $json.body.message_type }}",
+              "type": "string"
+            },
+            {
+              "id": "account_id",
+              "name": "account_id",
+              "value": "={{ $json.body.account.id }}",
+              "type": "number"
+            },
+            {
+              "id": "attachment_type",
+              "name": "attachment_type",
+              "value": "={{ $json.body.attachments && $json.body.attachments.length > 0 ? $json.body.attachments[0].file_type : 'none' }}",
+              "type": "string"
+            },
+            {
+              "id": "audio_url",
+              "name": "audio_url",
+              "value": "={{ $json.body.attachments && $json.body.attachments.length > 0 && $json.body.attachments[0].file_type === 'audio' ? $json.body.attachments[0].data_url : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "d64d850d-2986-4c5f-b838-fadbedd6d8e3",
+              "name": "source_id",
+              "value": "={{ $json.body.conversation.messages[0].source_id }}",
+              "type": "string"
+            },
+            {
+              "id": "message_hour",
+              "name": "message_hour",
+              "value": "={{ new Date($json.body.created_at).getHours() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -528,
+        160
+      ],
+      "id": "182818f3-a79c-4ac6-9d18-61fdeba79b7f",
+      "name": "Extract Chatwoot Data1"
     }
   ],
   "pinData": {
@@ -824,21 +943,21 @@
           "headers": {
             "host": "qa-n8n.domichat.com.co",
             "user-agent": "rest-client/2.1.0 (linux-musl x86_64) ruby/3.4.4p34",
-            "content-length": "3221",
+            "content-length": "3161",
             "accept": "application/json",
             "accept-encoding": "gzip, br",
             "cdn-loop": "cloudflare; loops=1",
             "cf-connecting-ip": "72.60.121.15",
             "cf-ipcountry": "US",
-            "cf-ray": "9c30ec9d8d24a8c2-EWR",
+            "cf-ray": "9c409e676bba1ea7-EWR",
             "cf-visitor": "{\"scheme\":\"https\"}",
             "content-type": "application/json",
-            "x-forwarded-for": "72.60.121.15, 172.71.203.14",
+            "x-forwarded-for": "72.60.121.15, 104.23.253.130",
             "x-forwarded-host": "qa-n8n.domichat.com.co",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "68b94681cb8f",
-            "x-real-ip": "172.71.203.14"
+            "x-real-ip": "104.23.253.130"
           },
           "params": {},
           "query": {},
@@ -850,7 +969,7 @@
             "additional_attributes": {},
             "content_attributes": {},
             "content_type": "text",
-            "content": "San Juan, Vía la cumbre",
+            "content": "Hola",
             "conversation": {
               "additional_attributes": {},
               "can_reply": true,
@@ -865,33 +984,33 @@
                 "hmac_verified": false,
                 "pubsub_token": "aXyTqEotBUDoSRZGtLfKnjHy"
               },
-              "id": 59,
+              "id": 63,
               "inbox_id": 1,
               "messages": [
                 {
-                  "id": 593,
-                  "content": "San Juan, Vía la cumbre",
+                  "id": 762,
+                  "content": "Hola",
                   "account_id": 1,
                   "inbox_id": 1,
-                  "conversation_id": 59,
+                  "conversation_id": 63,
                   "message_type": 0,
-                  "created_at": 1769272319,
-                  "updated_at": "2026-01-24T16:31:59.529Z",
+                  "created_at": 1769436887,
+                  "updated_at": "2026-01-26T14:14:47.919Z",
                   "private": false,
                   "status": "sent",
-                  "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FBRkE1OENDRDQ5QTE0QUNFOEEA",
+                  "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDEyQjM4NTJEQkEyNkE3NDU2OAA=",
                   "content_type": "text",
                   "content_attributes": {},
                   "sender_type": "Contact",
                   "sender_id": 1,
                   "external_source_ids": {},
                   "additional_attributes": {},
-                  "processed_message_content": "San Juan, Vía la cumbre",
+                  "processed_message_content": "Hola",
                   "sentiment": {},
                   "conversation": {
                     "assignee_id": null,
-                    "unread_count": 1,
-                    "last_activity_at": 1769272319,
+                    "unread_count": 10,
+                    "last_activity_at": 1769436887,
                     "contact_inbox": {
                       "source_id": "573006064535"
                     }
@@ -948,19 +1067,19 @@
               "status": "pending",
               "custom_attributes": {},
               "snoozed_until": null,
-              "unread_count": 1,
+              "unread_count": 10,
               "first_reply_created_at": null,
               "priority": null,
               "waiting_since": 0,
-              "agent_last_seen_at": 1769272309,
+              "agent_last_seen_at": 0,
               "contact_last_seen_at": 0,
-              "last_activity_at": 1769272319,
-              "timestamp": 1769272319,
-              "created_at": 1769271975,
-              "updated_at": 1769272319.5305946
+              "last_activity_at": 1769436887,
+              "timestamp": 1769436887,
+              "created_at": 1769278173,
+              "updated_at": 1769436887.946015
             },
-            "created_at": "2026-01-24T16:31:59.529Z",
-            "id": 593,
+            "created_at": "2026-01-26T14:14:47.919Z",
+            "id": 762,
             "inbox": {
               "id": 1,
               "name": "DomiChat QA"
@@ -991,7 +1110,7 @@
               "thumbnail": "",
               "blocked": false
             },
-            "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0FBRkE1OENDRDQ5QTE0QUNFOEEA",
+            "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDEyQjM4NTJEQkEyNkE3NDU2OAA=",
             "event": "message_created"
           },
           "webhookUrl": "https://qa-n8n.domichat.com.co/webhook/70c778e7-b0db-433a-83fb-dbb165fbd6ca",
@@ -1001,7 +1120,10 @@
     ]
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -1015,6 +1137,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-24T18:29:05.000Z",
-  "versionId": "90d8de5b-61f7-4fa6-85bb-51eb8051bdb4"
+  "updatedAt": "2026-01-26T14:39:45.000Z",
+  "versionId": "6d56d26a-0867-45bc-82b6-9613f87474cc"
 }
