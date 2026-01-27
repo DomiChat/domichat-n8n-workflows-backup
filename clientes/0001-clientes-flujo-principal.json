@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Clasificar Tipo Mensaje": {
       "main": [
@@ -2365,6 +2365,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-06T22:01:55.000Z",
+  "updatedAt": "2026-01-26T13:58:00.000Z",
   "versionId": "197a90e2-fd09-4d54-9238-471afbfc1cef"
 }
