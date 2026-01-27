@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Manual Trigger": {
       "main": [
@@ -233,6 +233,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-02T23:13:31.000Z",
+  "updatedAt": "2026-01-26T13:57:56.000Z",
   "versionId": "65181eaa-99c0-4019-80b3-59bcccb71305"
 }
