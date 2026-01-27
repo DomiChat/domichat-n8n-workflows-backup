@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Webhook GET - Cargar Formulario": {
       "main": [
@@ -782,6 +782,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-11-04T21:19:27.000Z",
+  "updatedAt": "2026-01-26T13:58:17.000Z",
   "versionId": "17d42ccb-00f2-4d19-8886-51f0d3cf7aff"
 }
