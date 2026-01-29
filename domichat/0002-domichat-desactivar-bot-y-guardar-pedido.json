@@ -167,6 +167,26 @@
               "type": "string",
               "readOnly": false,
               "removed": false
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
             }
           ],
           "attemptToConvertTypes": false,
@@ -211,6 +231,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-01-24T19:07:13.000Z",
-  "versionId": "0bf3628d-b6e1-44c8-8913-bb5bd112048c"
+  "updatedAt": "2026-01-28T20:21:42.000Z",
+  "versionId": "92b19f55-dccd-4346-a872-6d4080a56973"
 }
