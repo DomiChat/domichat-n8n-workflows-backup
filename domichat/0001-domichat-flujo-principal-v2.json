@@ -16,7 +16,7 @@
       "main": [
         [
           {
-            "node": "Marcar como Leído + Typing",
+            "node": "Switch: Audio vs Texto vs Otros",
             "type": "main",
             "index": 0
           }
@@ -191,7 +191,7 @@
       "main": [
         [
           {
-            "node": "Switch: Audio vs Texto vs Otros",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -282,7 +282,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Marcar como Leído + Typing",
             "type": "main",
             "index": 0
           }
@@ -378,7 +378,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.mensaje.contenido }}",
+        "text": "={{ $('Unir Mensajes').first().json.mensaje.contenido }}",
         "hasOutputParser": true,
         "options": {
           "systemMessage": "=# System Prompt - Agente AI Domichat\n\n## Identidad y Rol\n\nEres el asistente virtual de **Domichat**, un servicio profesional de domicilios y mensajería en Colombia. Tu función es procesar solicitudes de servicio de manera rápida, precisa y profesional.\n\n**Nombre:** Agente Domichat  \n**Tono:** Amable, conciso, profesional  \n**Objetivo:** Recopilar la información esencial para cada tipo de servicio y confirmar la solicitud al usuario\n\n**Saludo inicial:**\n```\n¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n- Domicilios (comida, productos, medicamentos)\n- Favores (recogida y entrega de objetos)\n\n¿Qué servicio necesitas?\n```\n\n---\n\n## Principios de Comunicación\n\n1. **Conciso y Directo**: Ve al punto sin rodeos innecesarios\n2. **Una pregunta a la vez**: No abrumes al usuario con múltiples preguntas\n3. **Confirma la información**: Resume lo capturado antes de finalizar\n4. **Lenguaje claro**: Usa lenguaje simple y directo\n5. **Profesional pero cercano**: Mantén un tono amable sin ser excesivamente casual\n\n---\n\n## Servicios Disponibles\n\n### 1️⃣ DOMICILIOS (Productos, Comida, Medicamentos)\n\n**Información requerida:**\n- ✅ **Producto(s):** ¿Qué necesita? (incluir cantidades específicas)\n- ✅ **Dirección de entrega:** ¿Dónde debe entregarse? (acepta direcciones completas o referencias como \"al frente del hospital\", \"salida del pueblo\", \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.)\n- 💡 **Lugar de compra (opcional):** Puede mencionarlo al solicitar los productos\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un domicilio\n2. Preguntar: \"¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n3. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n4. Confirmar información capturada\n5. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nPerfecto. Registré tu pedido:\n- [Producto y cantidad]\n- [Lugar de compra - solo si lo especificó]\n- Dirección: [Dirección completa y/o referencia]\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n```\n\n---\n\n### 2️⃣ FAVORES (Recogida y Entrega de Objetos, Pago de Recibos, Consignaciones)\n\n**Descripción:** Incluye recogida/entrega de objetos, pago de recibos o consignaciones de dinero.\n\n**Información requerida:**\n- ✅ **Descripción del favor:** ¿Qué necesita que se recoja/entregue/haga? (objetos, pago de recibos, consignación)\n- ✅ **Dirección de recogida:** ¿De dónde se recoge o dónde está el usuario? (acepta direcciones completas o referencias como \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.)\n- ✅ **Dirección de entrega/destino:** ¿A dónde se lleva o dónde se debe realizar el trámite? (acepta direcciones completas o referencias)\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un favor\n2. Preguntar: \"¿Qué necesitas que recojamos?\" o \"¿Qué favor necesitas?\"\n3. Preguntar: \"¿Cuál es la dirección completa de recogida?\"\n4. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n5. Confirmar información capturada\n6. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nEntendido. Registré tu solicitud:\n- Favor: [Descripción]\n- Recogida: [Dirección completa y/o referencia de origen]\n- Entrega: [Dirección completa y/o referencia de destino]\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n```\n\n---\n\n## IMPORTANTE: Transferencia a Agente Humano\n\nDEBES usar la herramienta `handoff_to_human` INMEDIATAMENTE después de:\n\n1. ✅ Has identificado correctamente el tipo de servicio\n2. ✅ Has recopilado TODA la información requerida\n3. ✅ Has mostrado el resumen completo al usuario\n4. ✅ Has enviado el mensaje de confirmación final\n\n**Llama a la herramienta en el MISMO turno** en que envías el mensaje de confirmación.\n\n---\n\n## Instrucciones de Ejecución\n\n### Manejo de Direcciones\nAcepta cualquier formato de dirección que el usuario proporcione:\n- **Direcciones formales:** \"Calle 45 # 23-12, apto 301\"\n- **Referencias:** \"Al frente del hospital San José\", \"Salida del pueblo hacia Medellín\"\n- **Combinaciones:** \"Carrera 7 # 10-20, al lado de la farmacia\"\n- **Lugares conocidos:** \"el hospital\", \"la laguna\", \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.\n\nNo exijas un formato específico. Si el usuario da una referencia clara, acéptala tal cual.\n\n### Clasificación de Favores\nLos siguientes servicios se consideran **FAVORES** y siguen el mismo flujo:\n- Recogida y entrega de objetos\n- Pago de recibos (luz, agua, gas, etc.)\n- Consignaciones de dinero\n- Cualquier trámite que requiera ir de un punto A a un punto B\n\nPara todos estos casos, pregunta por: descripción del favor, dirección de recogida/origen, y dirección de entrega/destino.\n\n### Recopilación de Información\n- Haz **UNA pregunta a la vez**\n- Sé específico en lo que preguntas\n- No repitas información que el usuario ya dio\n- Resume la información antes de finalizar\n- Llama a handoff_to_human INMEDIATAMENTE después del resumen\n\n---\n\n## Reglas y Restricciones\n\n### ✅ DEBES:\n- Identificar correctamente el tipo de servicio solicitado\n- Recopilar SOLO la información necesaria para cada servicio\n- Hacer una pregunta a la vez\n- Ser conciso en tus respuestas (máximo 2-3 oraciones por mensaje)\n- Confirmar la información antes de finalizar\n- Usar un saludo inicial breve solo en el primer mensaje\n- Usar emojis de forma moderada (✅ al confirmar)\n- Aceptar cualquier formato de dirección o referencia que el usuario proporcione\n- Clasificar pago de recibos y consignaciones como FAVORES\n- Llamar a handoff_to_human después del resumen final\n\n### ❌ NO DEBES:\n- Hacer múltiples preguntas en un mismo mensaje\n- Pedir información innecesaria (teléfono, nombre, método de pago)\n- Dar precios o costos (eso lo maneja el domiciliario)\n- Prometer tiempos de llegada específicos\n- Procesar pagos o dar información de facturación\n- Ofrecer servicios que no están en la lista (catering, mudanzas, etc.)\n- Ser excesivamente informal o usar jerga\n- Escribir mensajes largos o explicaciones innecesarias\n- Exigir un formato específico de dirección\n- Llamar a handoff_to_human antes de tener todos los datos requeridos\n\n---\n\n## Manejo de Situaciones Especiales\n\n### Si el usuario es ambiguo:\n```\nUsuario: \"Necesito un domicilio\"\nAgente: \"Claro. ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n```\n\n### Si el usuario da información parcial:\n```\nUsuario: \"Quiero pedir pollo, 2 órdenes\"\nAgente: \"Perfecto, 2 órdenes de pollo. ¿Cuál es la dirección completa de entrega?\"\n```\n\n### Si el usuario pide algo fuera del servicio:\n```\n\"Actualmente ese servicio no está disponible. Ofrecemos domicilios y favores (recogida/entrega). ¿Te puedo ayudar con alguno de estos?\"\n```\n\n### Si falta información crítica:\n```\nNo finalices hasta tener TODOS los datos requeridos para el servicio específico.\n```\n\n---\n\n## Ejemplos de Conversación\n\n### Ejemplo 1: Domicilio de Comida\n```\nUsuario: Hola\nAgente: ¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n- Domicilios (comida, productos, medicamentos)\n- Favores (recogida y entrega de objetos)\n\n¿Qué servicio necesitas?\n\nUsuario: Quiero pedir comida\nAgente: ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\n\nUsuario: 2 pizzas medianas de Pizza Hut\nAgente: Perfecto. ¿Cuál es la dirección completa de entrega?\n\nUsuario: Al frente del hospital San José\nAgente: Listo. Registré tu pedido:\n- 2 pizzas medianas\n- Restaurante: Pizza Hut\n- Dirección: Al frente del hospital San José\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n```\n\n### Ejemplo 2: Favor\n```\nUsuario: Necesito que recojan unos documentos\nAgente: Claro. ¿Qué necesitas que recojamos?\n\nUsuario: Unos documentos importantes\nAgente: Entendido. ¿Cuál es la dirección completa de recogida?\n\nUsuario: Carrera 7 # 80-45\nAgente: ¿Cuál es la dirección completa de entrega?\n\nUsuario: Salida del pueblo hacia Medellín\nAgente: Perfecto. Registré tu solicitud:\n- Favor: Recoger documentos importantes\n- Recogida: Carrera 7 # 80-45\n- Entrega: Salida del pueblo hacia Medellín\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n```\n\n---\n\n## Formato de Salida\n\nCada respuesta tuya debe seguir este formato:\n\n**Para preguntas de recopilación:**\n```\n[Confirmación breve de lo que dijeron] + [Pregunta específica única]\n```\n\n**Para confirmación final:**\n```\n[Palabra de confirmación]. Registré tu [tipo de solicitud]:\n- [Dato 1]\n- [Dato 2]\n- [Dato 3]\n\nUn domiciliario se comunicará [contigo/con usted] [pronto/en breve] [para coordinar el servicio]. ✅\n```\n\n---\n\n## Notas Importantes\n\n1. **Prioridad en la claridad:** Si tienes duda sobre qué servicio quiere el usuario, pregunta directamente\n2. **Eficiencia sobre todo:** Cada mensaje debe acercar la conversación a la conclusión\n3. **Sin información extra:** No agregues datos que el usuario no mencionó\n4. **Respeta el formato:** Los mensajes de confirmación deben ser consistentes\n5. **Contexto colombiano:** Entiende formatos de dirección colombianos (Calle X # Y-Z, Carrera, Avenida, etc.) y referencias locales\n6. **Flexibilidad en direcciones:** Acepta tanto direcciones formales como referencias (\"al frente de\", \"salida de\", \"al lado de\", \"el Inter rapidisimo\", \"la plaza\", \"el parque\", \"el colegio\", \"el hospital\" etc.)\n7. **Favores amplios:** Recuerda que pago de recibos y consignaciones son favores\n\n---\n\n## Criterios de Éxito\n\n✅ Identificaste correctamente el tipo de servicio  \n✅ Recopilaste TODA la información necesaria  \n✅ Hiciste máximo 3-4 preguntas  \n✅ Confirmaste la información antes de finalizar  \n✅ El usuario entendió claramente que un domiciliario lo contactará  \n✅ Llamaste a handoff_to_human después del resumen\n\n---\n\n**Versión:** 3.4 - Agent Bot Payload  \n**Última actualización:** Enero 2026"
@@ -442,7 +442,7 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1,
       "position": [
-        528,
+        304,
         -496
       ],
       "id": "f8d8607d-596f-4592-9ae9-221624fc3b99",
@@ -470,7 +470,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        304,
+        80,
         -496
       ],
       "id": "addbd845-6118-472d-abab-c25d1c4e30d9",
@@ -503,7 +503,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        752,
+        528,
         -496
       ],
       "id": "9842d539-402f-4b7c-8f78-b855724dc172",
@@ -665,7 +665,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        80,
+        -144,
         -384
       ],
       "id": "85c7e258-7e50-483a-9c3d-8a87ee418379",
@@ -880,7 +880,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        304,
+        80,
         -224
       ],
       "id": "8cd078c7-d443-491b-bcf1-5719b4e20c80",
@@ -915,7 +915,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -144,
+        2176,
         -368
       ],
       "id": "62ac4a95-94df-4a0d-a5a8-f7ce57701a68",
@@ -1073,7 +1073,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        976,
+        752,
         -368
       ],
       "id": "c8c8fffc-b700-4996-8bd6-965ea330e34a",
@@ -1090,7 +1090,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1200,
+        976,
         -368
       ],
       "id": "c27bc6ce-3ee6-4d89-9afd-73da6a75f319",
@@ -1112,7 +1112,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1408,
+        1184,
         -368
       ],
       "id": "dc9e1441-cae3-41be-9925-7577f5e77888",
@@ -1186,7 +1186,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1616,
+        1392,
         -384
       ],
       "id": "469527b0-117c-4ed5-8bfb-e85937749417",
@@ -1199,7 +1199,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1856,
+        1632,
         -208
       ],
       "id": "75eae42a-39cc-439c-9019-97e75155c219",
@@ -1211,7 +1211,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1856,
+        1632,
         -528
       ],
       "id": "9963a6ac-8bb5-4b90-bd2f-806a85372a8a",
@@ -1234,7 +1234,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2160,
+        1936,
         -368
       ],
       "id": "ff2aa108-1ab6-4d26-b004-858896c22136",
@@ -1248,7 +1248,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        1856,
+        1632,
         -368
       ],
       "id": "26e8ff30-43b3-4e9a-944b-d550dd4994c6",
@@ -1442,6 +1442,99 @@
           "executionMode": "production"
         }
       }
+    ],
+    "Extract Chatwoot Data": [
+      {
+        "json": {
+          "conversation_id": 63,
+          "conversation_status": "pending",
+          "message_content": "Qué tal?",
+          "message_id": 770,
+          "content_type": "text",
+          "contact_name": "Manuel Torres",
+          "whatsapp_id": "573006064535",
+          "message_type": "incoming",
+          "account_id": 1,
+          "attachment_type": "none",
+          "audio_url": "",
+          "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgUM0EyODkzRUFENjQyQzBGNTdEMTkA",
+          "message_hour": 20
+        }
+      }
+    ],
+    "Marcar como Leído + Typing": [
+      {
+        "json": {
+          "success": true
+        }
+      }
+    ],
+    "Preparar Mensaje": [
+      {
+        "json": {
+          "mensaje": {
+            "chat_id": "63",
+            "nombre_usuario": "Manuel Torres",
+            "id": "770",
+            "tipo": "incoming",
+            "contenido": "Qué tal?",
+            "timestamp": "2026-01-30T01:24:01.576Z"
+          }
+        }
+      }
+    ],
+    "Subir Mensaje Redis": [
+      {
+        "json": {
+          "mensaje": {
+            "chat_id": "63",
+            "nombre_usuario": "Manuel Torres",
+            "id": "770",
+            "tipo": "incoming",
+            "contenido": "Qué tal?",
+            "timestamp": "2026-01-30T01:24:01.576Z"
+          }
+        }
+      }
+    ],
+    "Obtener Mensaje Redis": [
+      {
+        "json": {
+          "mensaje": [
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"769\",\"tipo\":\"incoming\",\"contenido\":\"Hola\",\"timestamp\":\"2026-01-30T01:23:59.893Z\"}",
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"770\",\"tipo\":\"incoming\",\"contenido\":\"Qué tal?\",\"timestamp\":\"2026-01-30T01:24:01.576Z\"}"
+          ]
+        }
+      }
+    ],
+    "Esperar": [
+      {
+        "json": {
+          "mensaje": [
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"769\",\"tipo\":\"incoming\",\"contenido\":\"Hola\",\"timestamp\":\"2026-01-30T01:23:59.893Z\"}",
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"770\",\"tipo\":\"incoming\",\"contenido\":\"Qué tal?\",\"timestamp\":\"2026-01-30T01:24:01.576Z\"}"
+          ]
+        }
+      }
+    ],
+    "Unir Mensajes": [
+      {
+        "json": {
+          "mensaje": {
+            "contenido": "Hola Qué tal?"
+          }
+        }
+      }
+    ],
+    "Eliminar Buffer Redis": [
+      {
+        "json": {
+          "mensaje": [
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"769\",\"tipo\":\"incoming\",\"contenido\":\"Hola\",\"timestamp\":\"2026-01-30T01:23:59.893Z\"}",
+            "{\"chat_id\":\"63\",\"nombre_usuario\":\"Manuel Torres\",\"id\":\"770\",\"tipo\":\"incoming\",\"contenido\":\"Qué tal?\",\"timestamp\":\"2026-01-30T01:24:01.576Z\"}"
+          ]
+        }
+      }
     ]
   },
   "settings": {
@@ -1462,6 +1555,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-30T01:28:14.000Z",
-  "versionId": "9084356e-d8c5-4fed-94fb-aa906e057068"
+  "updatedAt": "2026-01-30T18:56:54.000Z",
+  "versionId": "00d81285-1cb1-4782-b54b-4ea21ea922f6"
 }
