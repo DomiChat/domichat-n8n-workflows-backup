@@ -1,0 +1,129 @@
+{
+  "active": false,
+  "connections": {
+    "Obtener Negocios": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Obtener Negocios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-02T01:54:00.365Z",
+  "id": "OOrAV8PpKBMpwUgZ",
+  "isArchived": false,
+  "meta": null,
+  "name": "0004 DomiChat Obtener Negocios",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "NVvAffpgeq7jzdG2",
+          "mode": "list",
+          "cachedResultName": "Negocios",
+          "cachedResultUrl": "/projects/0IzhKVOc0T9TvoCy/datatables/NVvAffpgeq7jzdG2"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "condition": "neq",
+              "keyValue": "0"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c494eb48-755b-421c-aa63-396f36f9a915",
+      "name": "Obtener Negocios"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a82ea10e-44d6-4c38-bac4-9dc4bd02b216",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "ab592c31-36da-45b7-a450-f8ae39d80dd7",
+              "name": "nombre",
+              "value": "={{ $json.nombre }}",
+              "type": "string"
+            },
+            {
+              "id": "d3bf0c67-0e0a-4362-8d4c-103a8e05042a",
+              "name": "tipo",
+              "value": "={{ $json.tipo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0071ab17-6ca6-4852-af5e-069b18d4e8e6",
+      "name": "Return"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bb4d50fb-3749-41d6-b96b-f4070ea39822",
+      "name": "Start"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T01:54:00.378Z",
+      "createdAt": "2026-02-02T01:54:00.378Z",
+      "role": "workflow:owner",
+      "workflowId": "OOrAV8PpKBMpwUgZ",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-02T02:34:22.000Z",
+  "versionId": "b16c4395-1990-4d0d-a91a-08fbef1f61bb"
+}
