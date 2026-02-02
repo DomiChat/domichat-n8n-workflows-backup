@@ -1,0 +1,152 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "1. Abrir Conversación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Abrir Conversación": {
+      "main": [
+        [
+          {
+            "node": "2. Asignar a Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Asignar a Agente": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2026-02-01T20:11:16.103Z",
+  "id": "40IZRGPhPSiTNHwL",
+  "isArchived": false,
+  "meta": null,
+  "name": "0003 DomiChat Transferir a Humano",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "conversation_id",
+              "type": "any"
+            },
+            {
+              "name": "account_id",
+              "type": "any"
+            }
+          ]
+        }
+      },
+      "id": "fe0f8555-7496-45df-8f7b-d26f63a4fa77",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        96,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').first().json.account_id }}/conversations/{{ $('Start').first().json.conversation_id }}/toggle_status",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"status\": \"open\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        288,
+        176
+      ],
+      "id": "728116bd-8348-4c29-9b14-86f904be824d",
+      "name": "1. Abrir Conversación",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        },
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Start').item.json.account_id }}/conversations/{{ $('Start').item.json.conversation_id }}/assignments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"assignee_id\": {{ $env.CHATWOOT_ASSIGNEE_ID }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        496,
+        176
+      ],
+      "id": "7c7e09ea-5fa1-4b5f-89cf-680ce5e4d090",
+      "name": "2. Asignar a Agente",
+      "credentials": {
+        "chatwootApi": {
+          "id": "TPBJz9hspCT2OIci",
+          "name": "Chatwoot DomiChat QA"
+        },
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "conversation_id": 62,
+          "account_id": 1,
+          "detalles_pedido": "Pollo asado de los chilacos en combo, para la dirección Vereda San Juan, sector la gloria.",
+          "tipo_pedido": "Domicilio"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-01T20:11:16.115Z",
+      "createdAt": "2026-02-01T20:11:16.115Z",
+      "role": "workflow:owner",
+      "workflowId": "40IZRGPhPSiTNHwL",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-01T20:11:30.000Z",
+  "versionId": "5ef56e0e-7092-4eb3-981f-b3481c2aefbe"
+}
