@@ -1,0 +1,1708 @@
+{
+  "active": false,
+  "connections": {
+    "Clasificar Tipo Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Obtener Base64",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensaje No Soportado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Principal": {
+      "main": [
+        [
+          {
+            "node": "Datos Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Agente Procesador",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Procesador Contraofertas",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Agente Procesador",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Procesador Contraofertas",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Detectar Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Preparar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Respuesta": {
+      "main": [
+        [
+          {
+            "node": "¿Pedido Confirmado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Base64": {
+      "main": [
+        [
+          {
+            "node": "Convertir Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separa Mensajes Salida": {
+      "main": [
+        [
+          {
+            "node": "Enviar Respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Subir Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Subir Mensaje Redis": {
+      "main": [
+        [
+          {
+            "node": "Obtener Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Mensaje Redis": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Eliminar Buffer Redis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar": {
+      "main": [
+        [
+          {
+            "node": "Obtener Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unir Mensajes": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Datos Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Clasificar Tipo Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convertir Audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eliminar Buffer Redis": {
+      "main": [
+        [
+          {
+            "node": "Unir Mensajes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crear_pedido": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detectar Confirmación": {
+      "main": [
+        [
+          {
+            "node": "Separa Mensajes Salida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Pedido Confirmado?": {
+      "main": [
+        [
+          {
+            "node": "Agente Procesador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "broadcast_domiciliarios": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Procesador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente Procesador": {
+      "main": [
+        [
+          {
+            "node": "Detectar Contraoferta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procesar_ventana_ofertas": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente Procesador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aceptar_contraoferta": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Respuesta Pedido Procesado": {
+      "main": [
+        [
+          {
+            "node": "¿Contraoferta Detectada?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detectar Contraoferta": {
+      "main": [
+        [
+          {
+            "node": "Enviar Respuesta Pedido Procesado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Contraoferta Detectada?": {
+      "main": [
+        [
+          {
+            "node": "Procesador Contraofertas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Procesador Contraofertas": {
+      "main": [
+        [
+          {
+            "node": "¿Contraoferta Aceptada?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Contraoferta Aceptada?": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Respuesta Contraoferta Procesada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procesar_contraoferta": {
+      "ai_tool": [
+        [
+          {
+            "node": "Procesador Contraofertas",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "rechazar_contraoferta": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-01T14:24:06.753Z",
+  "id": "kRVf01cK3HdNGwIK",
+  "isArchived": true,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "DOMICHAT CON COLA DE MENSAJES REDIS",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bade8a93-ab46-447a-9bb9-2e624c82d0c9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mensaje.tipo }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0f2b27f2-6947-4159-aaec-217d0280d6a0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Otro"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -5232,
+        -16
+      ],
+      "id": "86c457cf-bf8a-48f1-8fe7-75f2a049d30a",
+      "name": "Clasificar Tipo Mensaje",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -4800,
+        144
+      ],
+      "id": "a3e770ce-f004-4c66-99ae-dc1570bab15d",
+      "name": "Mensaje No Soportado",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "domichat",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -5712,
+        0
+      ],
+      "id": "358c950e-1dda-411f-bf6d-e33d64dfcda6",
+      "name": "Webhook Principal",
+      "webhookId": "130910f7-8d8c-4dd6-831d-741cf89ddfbd"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -4576,
+        -192
+      ],
+      "id": "c5ad3003-d4bd-46b1-98d5-c1ae4655cf77",
+      "name": "Transcribe a recording"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.mensaje.contenido }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "# Sistema de Prompt Simplificado para DomiChat\n\n## Identidad del Agente\nEres *DomiChat*, un asistente especializado en solicitudes de domicilios a través de WhatsApp.\n\n### Reglas Fundamentales\n- SOLO procesar solicitudes de domicilios\n- NUNCA confirmar un pedido sin datos completos\n- Mantener conversación fluida y energética\n- Usar emojis al inicio de cada párrafo\n- Máximo 2 saltos de línea consecutivos\n\n## Tools Disponibles\n\n### crear_pedido\nCrea un pedido cuando el cliente confirma todos los datos.\n\n**Parámetros:**\n- `client_name`: Nombre completo del cliente\n- `ciudad`: Ciudad seleccionada (\"La Vega\" o \"Villeta\")\n- `lista_compras`: Lista de productos con cantidades\n- `direccion`: Dirección completa con referencias\n- `zona_domicilio`: \"Urbana\" o \"Rural\" \n- `valor_oferta`: Valor que ofrece el cliente\n\n**Usar SOLO cuando el cliente confirme explícitamente el pedido.**\n\n### aceptar_contraoferta\nConfirma contraoferta ofrecida.\n\n**Parámetros:**\n- `pedido_id`: ID del pedido (extraer del contexto)\n\n## Flujo de Conversación\n\n### 1. Detección Inteligente de Solicitud Completa\nSi el mensaje incluye ciudad + productos + dirección + valor:\n- Extraer automáticamente todos los datos\n- Ir directo al resumen (paso 8)\n- NO mostrar confirmaciones individuales\n\n**Ejemplo:** \"La Vega, 1 hamburguesa de donde Ramón, Barrio Santander Calle 3 #12 21, Ofrezco 10000\"\n\n### 2. Bienvenida (si falta información)\n```\n🛵 ¡Hola [nombre]! Bienvenido a *DomiChat*\n\n🚀 Tu asistente de domicilios más rápido\n\n¿Qué necesitas hacer hoy?\n\n1️⃣ Solicitar un nuevo domicilio 🛒\n2️⃣ Saber cómo funciona DomiChat ❓\n\n📱 Responde con 1 o 2 para continuar\n```\n\n### 3. Seleccionar Ciudad\n```\n🏙️ *¡Perfecto! Primero elige tu ciudad*\n\n📍 ¿Desde dónde necesitas el domicilio?\n\n1️⃣ La Vega 🌿\n2️⃣ Villeta 🏞️\n\n📱 Responde con 1 o 2\n```\n\n### 4. Solicitar Lista de Compras\n```\n🛒 *¡Perfecto! Vamos a hacer tu pedido*\n\n📝 Dime qué necesitas con cantidades\n\n*Ejemplos:*\n🍔 1 hamburguesa completa, 2 almuerzos\n🛍️ 1 kilo arroz, 2 libras carne\n💊 1 caja acetaminofén, 1 jarabe tos\n\n💡 Puedes mezclar diferentes productos\n```\n\n*Validación:*\n- Cada producto DEBE tener cantidad\n- Rechazar productos prohibidos (drogas, armas)\n- Aceptar cantidades naturales (\"una coca\" = \"1 Coca-Cola\")\n\n### 5. Solicitar Dirección\n```\n📍 *¿Dónde te enviamos tu pedido?*\n\n🏠 Dirección completa con detalles e indicaciones\n\n*Zona urbana:* Barrio Centro, Calle 10, frente panadería\n*Zona rural:* Vereda El Chuscal, finca La Esperanza, portón verde\n\n💡 Entre más detalles, mejor servicio\n```\n\n*Validación:*\n- *Urbana:* Barrio + referencia básica (flexible)\n- *Rural:* Vereda + mínimo 2 referencias + indicaciones detalladas (estricto)\n\n### 6. Detectar Zona Automáticamente\n- *Urbana:* \"barrio\", \"calle\", \"sector\", \"centro\" → Mínimo $5,000\n- *Rural:* \"vereda\", \"finca\", \"río\", \"muro\" → Mínimo $10,000\n\n### 7. Solicitar Valor\n```\n💰 *¡Último paso!*\n\n🏙️ Zona urbana detectada - mínimo **$5,000**\n💡 Valor justo = aceptación más rápida\n\n📝 Escribe solo el número (ej: 8000)\n```\n\n*Validación:*\n- Múltiplo de 50 (5000, 5050, 8500)\n- Cumplir mínimo según zona\n\n### 8. Resumen del Pedido\n```\n📋 *RESUMEN DE TU PEDIDO*\n\n🏙️ *Ciudad:*\n[ciudad_seleccionada]\n\n🛒 *Productos:*\n[lista_productos]\n\n📍 *Dirección:*\n[direccion_usuario]\n\n💰 *Valor del domicilio:*\n$[valor_oferta]\n\n✅ ¿Todo está correcto?\n\n1️⃣ Sí, confirmar pedido\n2️⃣ No, quiero modificar algo\n\n📱 Responde 1 o 2\n```\n\n### 9. Confirmar Pedido\nAl confirmar con \"1\":\n\n1. **Invocar tool crear_pedido** con todos los datos\n2. **Enviar el siguiente mensaje:\n\n-- INICIO MENSAJE CONFIRMACIÓN --\n\"\"\"\n✅ ¡Pedido creado exitosamente!\n\n🆔 *ID de tu pedido:* [pedido_id]\n🚚 Notificando domiciliarios de tu zona\n⏰ Te contactaremos pronto\n\n📢 *¡Gracias por usar DomiChat!*\n\n```json\n{\n  \"pedido_id\": \"[pedido_id del resultado de crear_pedido]\",\n  \"ventana_id\": \"[ventana_id del resultado de crear_pedido]\",\n  \"nombre_completo\": [client_name],\n  \"ciudad\": \"[ciudad_seleccionada]\",\n  \"lista_compras\": \"[lista_productos_final]\",\n  \"zona_domicilio\": \"[zona_detectada]\",\n  \"direccion\": \"[direccion_final]\",\n  \"valor_oferta\": \"[valor_oferta_final]\"\n}\n```\n\"\"\"\n-- FIN MENSAJE CONFIRMACIÓN --\n\n**IMPORTANTE:** Guardar el pedido_id del resultado para posibles contraofertas futuras.\n\n### 10. Aceptar Contraoferta\n\nCuando se le envíe una contraoferta al usuario actúa así:\n\nSi acepta\n1. Invocar tool `aceptar_contraoferta` usando `pedido_id`\n2. Mostrar confirmación cuando la ejecución de la tool sea exitosa:\n\n```\n✅ ¡Perfecto! Contraoferta aceptada\n\n🛵 Tu domiciliario está confirmado y en camino\n⏰ Llegará en 25-35 minutos\n📞 Te contactará al llegar\n\n📢 ¡Gracias por usar DomiChat!\n```\n\nSi responde \"2\" o \"rechazar\":\n\n1. Invocar tool `rechazar_contraoferta` usando `pedido_id`\n2. Cuando se ejecute exitosamente la tool, se debe mostrar el siguiente mensaje:\n\n```\n😊 ¡Entendemos tu decisión!\n\n🙏 Gracias por usar DomiChat\n🚀 Te esperamos en una próxima ocasión\n\n¡Que tengas un excelente día!\n```\n\n**IMPORTANTE:** Esta funcionalidad solo está disponible después de recibir una contraoferta.\n\n## Manejo de Modificaciones\n\nSi el usuario quiere modificar en el resumen:\n```\n🔄 *¿Qué modificar?*\n\n*1️⃣ Ciudad*\n*2️⃣ Lista productos*\n*3️⃣ Dirección*\n*4️⃣ Valor domicilio*\n```\n\n- Permitir modificar solo el campo seleccionado\n- Mantener otros datos guardados\n- Volver directo al resumen\n\n## Respuestas de Error Comunes\n\n**Cantidad faltante:**\n```\n❌ *Faltan cantidades*\n\n✅ Ejemplo: \"1 kilo arroz, 2 libras carne\"\n📝 Reenvía con cantidades claras\n```\n\n*Valor inválido:*\n```\n❌ **Valor muy bajo**\n\n🏙️ Mínimo zona urbana: **$5,000**\n📝 Ingresa valor ≥ 5000\n```\n\n*No entendí:*\n```\n🤔 **No entendí**\n\n📱 Sigue las instrucciones\n❓ Escribe \"ayuda\" si tienes dudas\n```\n\n## Variables de Sesión\nMantener durante toda la conversación:\n- `nombre_cliente`\n- `ciudad_seleccionada`\n- `lista_productos_guardada`\n- `direccion_guardada`\n- `zona_detectada_guardada`\n- `valor_guardado`\n- `pedido_id_activo` (para usar en aceptar_contraoferta)\n\n## Personalización\n- Usar nombre del cliente: `{{ $json.usuario_data.pushName }}`\n- Validar nombre real antes de continuar, si no preguntalo.\n\n---\n\n**Principio clave:** Ser eficiente y directo. Si el usuario da toda la información de una vez, procesarla automáticamente. Solo pedir datos faltantes paso a paso."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2672,
+        0
+      ],
+      "id": "cdbf4849-9624-4eb8-a07f-6ee78d783693",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1632,
+        288
+      ],
+      "id": "8fa7bdf2-d87c-4248-820b-5ed9e86c8287",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Datos Mensaje').first().json.mensaje.telefono_usuario}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1504,
+        288
+      ],
+      "id": "ae19f8ff-ce31-42a9-ae5e-e4ed6918379a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -1824,
+        0
+      ],
+      "id": "bfbcd90d-8b35-427a-92b8-518a3f741c06",
+      "name": "Enviar Respuesta",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5c9b7c30-8005-4567-ad60-43aca006bb85",
+              "name": "base64",
+              "value": "={{ $('Webhook Principal').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5008,
+        -192
+      ],
+      "id": "7813f6e3-8268-4db9-b474-2110f959d0a9",
+      "name": "Obtener Base64"
+    },
+    {
+      "parameters": {
+        "content": "## PROCESAR MENSAJES DE ENTRADA",
+        "height": 576,
+        "width": 1312,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -5504,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "d6be4523-3cab-45aa-847d-cb4090b2ae61",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Obtenemos el texto de entrada (cambia la ruta según tu caso)\nconst texto = $input.first().json.output || \"\";\n\n// Dividir por uno o más saltos de línea (\\n) y eliminar espacios extra\nconst partes = texto\n  .split(/\\n+/)      // separa por uno o más saltos de línea\n  .map(p => p.trim()) // elimina espacios en cada parte\n  .filter(p => p);    // quita partes vacías\n\n// Crear un item por cada párrafo para n8n\nreturn partes.map(p => ({ json: { output: p } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2032,
+        0
+      ],
+      "id": "f059489c-0232-494e-bd8f-e345666f990c",
+      "name": "Separa Mensajes Salida",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## SOLICITAR Y CREAR PEDIDO",
+        "height": 688,
+        "width": 1296,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2976,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "d89e4bcb-e221-41bb-9bc9-35222fbbcf11",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "mensaje.chat_id",
+              "value": "={{ $('Webhook Principal').item.json.body.data.key.remoteJid }}",
+              "type": "string",
+              "id": "f19e550f-e50d-4665-802d-6e11ec5cdd8b"
+            },
+            {
+              "name": "mensaje.nombre_usuario",
+              "value": "={{ $('Webhook Principal').item.json.body.data.pushName }}",
+              "type": "string",
+              "id": "697cb1c4-040b-4b63-b669-af591073afe1"
+            },
+            {
+              "name": "mensaje.id",
+              "value": "={{ $('Webhook Principal').item.json.body.data.key.id }}",
+              "type": "string",
+              "id": "01601fc3-a7ae-4879-948c-34d97659e2e0"
+            },
+            {
+              "name": "mensaje.tipo",
+              "value": "={{ $('Datos Mensaje').item.json.mensaje.tipo }}",
+              "type": "string",
+              "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
+            },
+            {
+              "name": "mensaje.contenido",
+              "value": "={{ $('Webhook Principal').item.json.body?.data?.message?.conversation || $json.content?.parts[0]?.text }}",
+              "type": "string",
+              "id": "4a519d06-cde8-4b18-8809-71a208da885d"
+            },
+            {
+              "name": "mensaje.timestamp",
+              "value": "={{ $('Webhook Principal').item.json.body.data.messageTimestamp.toDateTime('s').toISO() }}",
+              "type": "string",
+              "id": "e76ba897-aa43-4175-8a19-bfa9647256bd"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4336,
+        0
+      ],
+      "id": "2a563414-08e0-4f1f-81a3-f56331f849c8",
+      "name": "Preparar Mensaje",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.mensaje.chat_id + '_buffer'}}",
+        "messageData": "={{ $json.mensaje.toJsonString() }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -4112,
+        0
+      ],
+      "id": "6be8cb1a-7710-4d01-86c9-0593da81eeca",
+      "name": "Subir Mensaje Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "=mensaje",
+        "key": "={{ $('Preparar Mensaje').item.json.mensaje.chat_id + \"_buffer\" }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -3904,
+        0
+      ],
+      "id": "bd18bf34-147c-4d93-a379-5c3523d1bc2b",
+      "name": "Obtener Mensaje Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ JSON.parse($json.mensaje.last()).id }}",
+                    "rightValue": "={{ $('Preparar Mensaje').item.json.mensaje.id }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    },
+                    "id": "9a41a113-7b32-4550-94f2-f9af2268fc49"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "No hacer nada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8ed1680d-6388-49e2-8d95-1043434d3c12",
+                    "leftValue": "={{ JSON.parse($json.mensaje.last()).timestamp }}",
+                    "rightValue": "={{ $now.minus(5, 'seconds').toLocal().toISO() }}",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=Seguir"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Esperar"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -3696,
+        -16
+      ],
+      "id": "20f3fddf-1a2d-4ac5-b0b5-f6737faa85e9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -3456,
+        160
+      ],
+      "id": "379d891d-62d2-4789-91d7-bd454a70cd52",
+      "name": "Esperar",
+      "webhookId": "c10fa27e-3376-46da-b183-dd51f0781907"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -3456,
+        -160
+      ],
+      "id": "3c573abb-5147-4a38-bfc0-ceda249b9df4",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "baba4b5a-843d-468f-857f-07ac39f10e19",
+              "name": "mensaje.contenido",
+              "value": "={{ $json.mensaje.map(m => JSON.parse(m).contenido).join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3152,
+        0
+      ],
+      "id": "629abe05-ecbe-41f8-aa9c-8e027acb8c32",
+      "name": "Unir Mensajes"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "instancia.url",
+              "value": "={{ $json.body.server_url }}",
+              "type": "string",
+              "id": "e5204d1b-bccc-4439-9ccd-cc83e4a59ddd"
+            },
+            {
+              "name": "instancia.nombre",
+              "value": "={{ $json.body.instance }}",
+              "type": "string",
+              "id": "abe73896-02aa-4f2d-9778-c180d62ac742"
+            },
+            {
+              "name": "instancia.apikey",
+              "value": "={{ $json.body.apikey }}",
+              "type": "string",
+              "id": "14f694e4-e97c-41f1-a905-a72ce21464db"
+            },
+            {
+              "name": "mensaje.tipo",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string",
+              "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
+            },
+            {
+              "id": "877d8ebb-7655-41b9-a40f-8862b45a43ec",
+              "name": "mensaje.telefono_usuario",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "5434d6df-9b0e-4bc9-baf7-96679f7d71ee",
+              "name": "={{ $('Webhook Principal').first().json.body.server_url}}",
+              "value": "={{ $('Webhook Principal').first().json.body.apikey }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5456,
+        0
+      ],
+      "id": "d1085cbb-2b6a-4c5b-9a69-4babbaeece78",
+      "name": "Datos Mensaje",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "content": "## PROCESAR COLA DE MENSAJES EN BUFFER",
+        "height": 576,
+        "width": 1184,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -4160,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "03b1be8f-fbb1-4db2-b3e4-88264acaafcd",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "=base64",
+        "options": {
+          "mimeType": "={{ $('Webhook Principal').item.json.body.data.message.audioMessage.mimetype }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -4800,
+        -192
+      ],
+      "id": "acca1a53-1d76-44e4-a91e-703f0a76946b",
+      "name": "Convertir Audio"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Preparar Mensaje').first().json.mensaje.chat_id + \"_buffer\"}}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -3456,
+        0
+      ],
+      "id": "0843e5c2-c09e-4e8f-a88a-275db5d4b3ea",
+      "name": "Eliminar Buffer Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Crea un pedido cuando el cliente confirma su solicitud.",
+        "workflowId": {
+          "__rl": true,
+          "value": "o15mjPs5tfCWDogz",
+          "mode": "list",
+          "cachedResultName": "2. Crear Pedido"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone_number": "={{ $('Webhook Principal').item.json.body.data.key.remoteJid.replace('@s.whatsapp.net', ''); }}",
+            "client_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('client_name', ``, 'string') }}",
+            "lista_compras": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('lista_compras', ``, 'string') }}",
+            "direccion": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('direccion', ``, 'string') }}",
+            "ciudad": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ciudad', ``, 'string') }}",
+            "valor_oferta": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor_oferta', ``, 'string') }}",
+            "zona_domicilio": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('zona_domicilio', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "client_name",
+              "displayName": "client_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "lista_compras",
+              "displayName": "lista_compras",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "direccion",
+              "displayName": "direccion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "ciudad",
+              "displayName": "ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "valor_oferta",
+              "displayName": "valor_oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "zona_domicilio",
+              "displayName": "zona_domicilio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2784,
+        176
+      ],
+      "id": "db9f07e3-6f87-4804-9d13-453bd0ee88ce",
+      "name": "crear_pedido",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.output;\n\n// Detectar si hay un JSON dentro de un bloque de código markdown\nconst jsonBlockMatch = aiResponse.match(/```json\\s*([\\s\\S]*?)\\s*```/);\nconst hasJson = jsonBlockMatch !== null;\n\n// Extraer el JSON si existe\nlet orderData = null;\nlet isPedidoConfirmado = false;\n\nif (hasJson) {\n    try {\n        // Extraer solo el contenido JSON del bloque\n        const jsonString = jsonBlockMatch[1].trim();\n        orderData = JSON.parse(jsonString);\n        \n        // Validar que el JSON tiene los campos requeridos para un pedido confirmado\n        if (orderData && \n            orderData.pedido_id && \n            orderData.ventana_id && \n            orderData.lista_compras && \n            orderData.direccion && \n            orderData.zona_domicilio &&\n            orderData.valor_oferta &&\n            orderData.nombre_completo &&\n            orderData.ciudad) {\n            isPedidoConfirmado = true;\n        }\n    } catch (error) {\n        console.log('Error parsing JSON:', error);\n        orderData = null;\n    }\n}\n\n// Limpiar la respuesta para el cliente (quitar todo el bloque JSON)\nlet cleanResponse = aiResponse;\nif (hasJson) {\n    cleanResponse = aiResponse.replace(jsonBlockMatch[0], '').trim();\n    // Quitar líneas vacías extra que puedan quedar\n    cleanResponse = cleanResponse.replace(/\\n\\s*\\n+/g, '\\n\\n').trim();\n}\n\n// Estructurar la salida con los nuevos campos\nreturn [{\n    output: cleanResponse,\n    is_pedido_confirmado: isPedidoConfirmado,\n    order_data: orderData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2304,
+        0
+      ],
+      "id": "6860d784-2d3f-497e-bde1-9932844459c3",
+      "name": "Detectar Confirmación"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $('Detectar Confirmación').item.json.is_pedido_confirmado }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "id": "d4f8d128-f23f-46a2-a8e7-d799687aff6f"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1600,
+        0
+      ],
+      "id": "e61d4caa-e92c-4ff6-a11e-a7919eab7646",
+      "name": "¿Pedido Confirmado?"
+    },
+    {
+      "parameters": {
+        "description": "Llama esta tool para hacer un broadcast del pedido a todos los domiciliarios",
+        "workflowId": {
+          "__rl": true,
+          "value": "DX7i9tey20I1k436",
+          "mode": "list",
+          "cachedResultName": "3. Broadcast Domiciliarios"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "lista_compras": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('lista_compras', ``, 'string') }}",
+            "valor_oferta": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor_oferta', ``, 'string') }}",
+            "zona_domicilio": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('zona_domicilio', ``, 'string') }}",
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}",
+            "direccion": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('direccion', ``, 'string') }}",
+            "ciudad": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ciudad', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "lista_compras",
+              "displayName": "lista_compras",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor_oferta",
+              "displayName": "valor_oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "zona_domicilio",
+              "displayName": "zona_domicilio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "direccion",
+              "displayName": "direccion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ciudad",
+              "displayName": "ciudad",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1216,
+        256
+      ],
+      "id": "d84bed5c-6575-42a3-8caf-5ecd6ab09638",
+      "name": "broadcast_domiciliarios"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Nuevo pedido {{ $('Detectar Confirmación').first().json.order_data.toJsonString() }}",
+        "options": {
+          "systemMessage": "# Eres un asistente especializado de gestión de pedidos de domicilios a través de WhatsApp.\n\n### Reglas Fundamentales\n- SOLO procesar solicitudes de domicilios\n- Mantener conversación fluida y energética\n- Usar emojis al inicio de cada párrafo\n- Máximo 2 saltos de línea consecutivos\n\n## Tools Disponibles\n\n### broadcast_domiciliarios\nRealiza una difusión del pedido entrante a los domiciliarios.\n\n**Parámetros:**\n- `pedido_id`: id único de pedido\n- `lista_compras`: Lista de productos con cantidades\n- `ciudad`: Ciudad seleccionada\n- `direccion`: Dirección completa con referencias\n- `zona_domicilio`: \"Urbana\" o \"Rural\" \n- `valor_oferta`: Valor que ofrece el cliente\n\n### procesar_ventana_ofertas\nRealiza el procesamiento de las ofertas obtenidas para el pedido actual. \n\n**Parámetros:**\n- `pedido_id`: id único de pedido\n- `ventana_id`: id único de ventana\n- `valor_oferta`: Valor que ofrece el cliente\n- `domiciliarios_notificados`: números de teléfono domiciliarios notificados\n\n**Usar las tools SOLO cuando se indique en el flujo de conversación.**\n\n## Flujo de Conversación\n\n## Nunca, por ningún motivo te saltes los pasos abajo mencionados.\n## SIEMPRE que llegue un nuevo pedido ejecuta los pasos en orden.\n\n## Paso 1. \n\nUtiliza la tool de broadcast_domiciliarios para enviar el pedido a todos los domiciliarios.\n\n* Si es exitoso pasa al Paso 2.\n\n* Si no hay domiciliarios disponibles no continues con los siguientes pasos y responde el responde el siguiente mensaje:\n\nNo hay domiciliarios disponibles en este momento 😔.\n\nPor favor intenta más tarde.\n\n* Si falta la tool no continues con los siguientes pasos y responde:\n\nLo sentimos, no pudimos procesar tu pedido. \n\nReintenta más tarde.\n\n## Paso 2. \n\nUtiliza la tool de procesar_ventana_ofertas para procesar las ofertas que pueda tener este pedido\n\n* Si el resultado es aceptación, responde con el siguiente mensaje:\n\n🎉 *¡PEDIDO CONFIRMADO!*\n\n✅ Tu domiciliario aceptó el precio original\n🚚 Domiciliario: nombre_domiciliario\n💰 Precio: valor_final\n📱 Calificación: calificacion_domiciliario\n⏱️ Tiempo estimado: 25-35 minutos\n\n🚀 ¡Tu pedido está en camino!\n📞 El domiciliario te contactará pronto\n\n✨ Gracias por usar DomiChat\n\n* Si el resultado es contraoferta, responde con el siguiente mensaje:\n\n✅ ¡ENCONTRAMOS TU DOMICILIARIO!\n\n👤 nombre_domiciliario - ⭐ calificacion_domiciliario\n💰 Contraoferta: valor_final\n🚚 En camino en 25-35 min\n\n1️⃣ Aceptar Contraoferta ✅\n2️⃣ Rechazar ❌\n\n⏰ *2 minutos para responder*\n\n```json\n{\n  \"pedido_id\": \"[pedido_id del resultado de crear_pedido]\",\n  \"oferta_id\": \"[oferta del resultado de procesar ventana ofertas]\"\n}\n\n* Si el resultado es que no hubo ofertas, responde el con el siguiente mensaje:\n\n❌ Sin domiciliarios por valor_oferta\n\n🔥 *¿SUBIR A (valor_oferta * 1.3)?*\n\n1️⃣ Sí, quiero mi pedido YA 🚀\n2️⃣ No ❌\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -1248,
+        -16
+      ],
+      "id": "77d3ec8d-880f-42e8-bc22-45f53012f8bc",
+      "name": "Agente Procesador"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        -16
+      ],
+      "id": "b4054846-ca25-4480-a3ee-e6d33e673799",
+      "name": "Enviar Respuesta Pedido Procesado",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "description": "Llama esta tool para procesar la ventana de ofertas del pedido.",
+        "workflowId": {
+          "__rl": true,
+          "value": "hado7J3e9CgYL89Q",
+          "mode": "list",
+          "cachedResultName": "4. Procesar Ventana Ofertas"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ventana_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('ventana_id', ``, 'string') }}",
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}",
+            "valor_oferta": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor_oferta', ``, 'string') }}",
+            "domiciliarios_notificados": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('domiciliarios_notificados', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ventana_id",
+              "displayName": "ventana_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor_oferta",
+              "displayName": "valor_oferta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "domiciliarios_notificados",
+              "displayName": "domiciliarios_notificados",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1024,
+        256
+      ],
+      "id": "e9111735-7c6d-4a1e-82ca-84cbd680c2f9",
+      "name": "procesar_ventana_ofertas"
+    },
+    {
+      "parameters": {
+        "name": "aceptar_contraoferta",
+        "description": "Esta tool es llamada cuando el usuario ha decidido aceptar la contraoferta ofrecida",
+        "workflowId": {
+          "__rl": true,
+          "value": "MceSCYTcROkaYgUw",
+          "mode": "list",
+          "cachedResultName": "5. Aceptar Contraoferta"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "pedido_id"
+          ],
+          "schema": [
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        -2688,
+        224
+      ],
+      "id": "2a43cba3-39ea-48de-9cfd-e1365d37e6a5",
+      "name": "aceptar_contraoferta"
+    },
+    {
+      "parameters": {
+        "content": "## PROCESAR PEDIDO",
+        "height": 688,
+        "width": 1168,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1680,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "8c4fe0e3-4062-47ab-8a69-bd2599d8b168",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json.output;\n\n// Detectar si hay un JSON dentro de un bloque de código markdown\nconst jsonBlockMatch = aiResponse.match(/```json\\s*([\\s\\S]*?)\\s*```/);\nconst hasJson = jsonBlockMatch !== null;\n\n// Extraer el JSON si existe\nlet counterOfferData = null;\nlet isContraoferta = false;\n\nif (hasJson) {\n    try {\n        // Extraer solo el contenido JSON del bloque\n        const jsonString = jsonBlockMatch[1].trim();\n        counterOfferData = JSON.parse(jsonString);\n        \n        // Validar que el JSON tiene los campos requeridos para una contraoferta\n        if (counterOfferData && \n            counterOfferData.pedido_id && \n            counterOfferData.oferta_id) {\n            isContraoferta = true;\n        }\n    } catch (error) {\n        console.log('Error parsing JSON:', error);\n        counterOfferData = null;\n    }\n}\n\n// Limpiar la respuesta para el cliente (quitar todo el bloque JSON)\nlet cleanResponse = aiResponse;\nif (hasJson) {\n    cleanResponse = aiResponse.replace(jsonBlockMatch[0], '').trim();\n    // Quitar líneas vacías extra que puedan quedar\n    cleanResponse = cleanResponse.replace(/\\n\\s*\\n+/g, '\\n\\n').trim();\n}\n\n// Estructurar la salida con los nuevos campos\nreturn [{\n    output: cleanResponse,\n    is_contraoferta: isContraoferta,\n    counteroffer_data: counterOfferData\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -912,
+        -16
+      ],
+      "id": "b87e039d-df0b-438b-81e3-55b6bb46f32e",
+      "name": "Detectar Contraoferta"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $('Detectar Contraoferta').item.json.is_contraoferta }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "id": "d4f8d128-f23f-46a2-a8e7-d799687aff6f"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        -16
+      ],
+      "id": "49e13b04-7858-41c5-adb6-5ec9d0ae1a45",
+      "name": "¿Contraoferta Detectada?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        432,
+        48
+      ],
+      "id": "f3fde4c5-68ca-4e3a-9006-8f7c29fbce76",
+      "name": "Enviar Respuesta Contraoferta Procesada",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Nueva contraoferta: {{ $('Detectar Contraoferta').item.json.counteroffer_data.toJsonString() }}",
+        "options": {
+          "systemMessage": "# Eres un asistente especializado en procesar contraofertas de domicilios a través de WhatsApp.\n\n### Reglas Fundamentales\n- SOLO procesar solicitudes de contraofertas\n- Mantener conversación fluida y energética\n- Usar emojis al inicio de cada párrafo\n- Máximo 2 saltos de línea consecutivos\n\n## Tools Disponibles\n\n### procesar_contraoferta\nProcesa una contraoferta si es aceptada o no por el cliente\n\n**Parámetros:**\n- `pedido_id`: id único de pedido\n- `oferta_id`: id único de oferta\n\n**Usar las tools SOLO cuando se indique en el flujo de conversación.**\n\n## Flujo de Conversación\n\n## Nunca, por ningún motivo te saltes los pasos abajo mencionados.\n## SIEMPRE que llegue una nueva contraoferta ejecuta los pasos en orden Empieza por el Paso 1 SIEMPRE.\n\n## Paso 1. \n\nUtiliza la tool de procesar_contraoferta para responder según el resultado:\n\n* Si el resultado es contraoferta no aceptada, responde con el siguiente mensaje:\n\n⏰ *TIEMPO AGOTADO*\n\nTu oportunidad de aceptar la contraoferta ha expirado.\n\n¿Quieres iniciar un nuevo pedido?\n\n1️⃣ Sí, nuevo pedido\n2️⃣ No, terminar conversación\n\n* Si el resultado fue contraoferta fue aceptada la respuesta debe ser:\n\nACEPTADA-ACEPTADA-ACEPTADA"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        -32
+      ],
+      "id": "ab97d932-5c1c-4816-9bbd-26b090d760a8",
+      "name": "Procesador Contraofertas"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "42781870-7596-4e7b-b096-797030e86fd9",
+              "leftValue": "={{ $input.first().json.output }}",
+              "rightValue": "ACEPTADA-ACEPTADA-ACEPTADA",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        -32
+      ],
+      "id": "c79a0b0a-def9-48da-b1b0-9494c7581654",
+      "name": "¿Contraoferta Aceptada?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        432,
+        -128
+      ],
+      "id": "b100d3a6-c418-45e3-9120-333095619524",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "description": "Llama esta tool para procesar la contraoferta de un pedido",
+        "workflowId": {
+          "__rl": true,
+          "value": "bRT9qZ3eaEbbzBdn",
+          "mode": "list",
+          "cachedResultName": "6. Procesar Contraoferta"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}",
+            "oferta_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('oferta_id', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "oferta_id",
+              "displayName": "oferta_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        176
+      ],
+      "id": "c8d0f3c6-7ec1-4b29-a437-15bc9ea4a7ed",
+      "name": "procesar_contraoferta"
+    },
+    {
+      "parameters": {
+        "content": "## PROCESAR CONTRAOFERTA",
+        "height": 560,
+        "width": 1168,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -512,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "84b3bb9d-2fe3-4778-a3ab-fcfc7970b847",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "description": "Esta tool es llamada cuando el usuario ha decidido rechazar la contraoferta ofrecida",
+        "workflowId": {
+          "__rl": true,
+          "value": "CPZDTR7y7QkYm6pl",
+          "mode": "list",
+          "cachedResultName": "7. Rechazar Contraoferta"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "pedido_id": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('pedido_id', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "pedido_id"
+          ],
+          "schema": [
+            {
+              "id": "pedido_id",
+              "displayName": "pedido_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -2544,
+        240
+      ],
+      "id": "312c5fde-5459-41e8-b1a3-1eddc85c946f",
+      "name": "rechazar_contraoferta"
+    }
+  ],
+  "pinData": {
+    "Webhook Principal": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.cdld.uk",
+            "user-agent": "axios/1.10.0",
+            "content-length": "8417",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "3.212.41.31",
+            "cf-ipcountry": "US",
+            "cf-ray": "97372591db45ddb6-EWR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "3.212.41.31, 104.23.190.239",
+            "x-forwarded-host": "n8n.cdld.uk",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "e9a612584be2",
+            "x-real-ip": "104.23.190.239"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "El Chat de Los Domicilios",
+            "data": {
+              "key": {
+                "remoteJid": "573006064535@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3A6AE66C7DF10A3D1AAB",
+                "senderLid": "95331127660658@lid"
+              },
+              "pushName": "Manuel Torres",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "audioMessage": {
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/537001523_756890353713865_6161710748425885514_n.enc?ccb=11-4&oh=01_Q5Aa2QG3v3BZm-mQDIEk_B-MxG8iUqu8sNdJ2wCHx-qx0yLwvA&oe=68D08956&_nc_sid=5e03e0&mms3=true",
+                  "mimetype": "audio/ogg; codecs=opus",
+                  "fileSha256": "+XxFDs9KvPbJVvQ3x78OVagkuOmrApfYdo6G2hLlY1M=",
+                  "fileLength": "4809",
+                  "seconds": 1,
+                  "ptt": true,
+                  "mediaKey": "fXa37HS4MmnaC86Ho7PlI2W0O3WZP+sL8O3BXMfhd4I=",
+                  "fileEncSha256": "Az1km2Fb03iRIfhDrUkDov3jd3HvRk14lXq2hzPid8U=",
+                  "directPath": "/v/t62.7117-24/537001523_756890353713865_6161710748425885514_n.enc?ccb=11-4&oh=01_Q5Aa2QG3v3BZm-mQDIEk_B-MxG8iUqu8sNdJ2wCHx-qx0yLwvA&oe=68D08956&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1755915791",
+                  "contextInfo": {
+                    "expiration": 7776000,
+                    "ephemeralSettingTimestamp": "1747358958",
+                    "disappearingMode": {
+                      "initiator": "CHANGED_IN_CHAT"
+                    }
+                  },
+                  "streamingSidecar": "Bc4I+75nBGV9HA==",
+                  "waveform": "AA8fLj5OVFhbXmJkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZA=="
+                },
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "u300inmCWDZ4GA==",
+                    "senderTimestamp": "1755368317",
+                    "recipientKeyHash": "E6y2DXn9+C+VXw==",
+                    "recipientTimestamp": "1755726967"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "8RNWo3KyJXDg2iCxoERpmwN72guUPAtMeHd1m/CBa7A="
+                },
+                "base64": "T2dnUwACAAAAAAAAAABkAAAAAAAAADI5MFABE09wdXNIZWFkAQE4AYA+AAAAAABPZ2dTAAAAAAAAAAAAAGQAAAABAAAAWxHrFgEYT3B1c1RhZ3MIAAAAV2hhdHNBcHAAAAAAT2dnUwAAuFIBAAAAAABkAAAAAgAAAFF07aod/xD/Sf8y/yv/JP81/yX/DP8T/x3/L+z/GP8O/0BLhgcmNTg3C+TBNuzFgIA9sr0rb5JXeUxWb39zJt02ktoCSVJma0BxxKli57WU+IeV/PYLqzVky35McroMwXaD11uC2lbmHkoyRh+Tn2NAXV9b9Vml61mVh9Sdwouo3KMsuJgbbHGmjWqrNOwBvyBpF4foI3e9r2FBKuzMp2GScF6Q4OoQl0+sZmKgg2UWhkQQfJyRsQM62/NbrY/JCdiMvKuByGg9oLCIefeoq0j8luJCShOU06N31nAVJMoM584yzHY1+U5E4QuAOyh1K/x/4qZKRFmUktSsbOoXTTchjwWNv77pZp20sUppvRsraFTczAqHQ5BAiFiCCvxDTs7d+p7dZLfAuzjNWJOwEmY4S4Y6OTQxNas3YniYUCsxUyI2acZOcbGwCIwLzfZYuY2lw5wrGEmDwDc2J61TNfb/jDWj4HMyhHABg9WqyCqEltirx+sxMRx3XGx3zXGVK1YNEyEVvb5rhWuY6UVAc+BuvKsLS86ocAoq5IoYEroixY5SRLs9e0xIJ0CsqXKJ7kyunnbwPhjcwA9DkzshWIwRXuttm8enqHc45hh96BofWYxDOLoYlBc7DXE56+KArNbCdwng1viX+XqN3Rr0CytFS9Kb0PeskfFa6OriCmswb9JohP9PvPJnzeR7or3LmKyvEUWKNSESQB92WAMVd/d//Y8BIxQHBsk0mZreoFewa1rxCViF71Lv5MJEpWjUU75NKINYqx9lPxt3Gr13SbOk850xs2W6zStvTH8FTHdq/+919TW3Fd07liO+kxQbBJfm6KAE7N0AcEuGKDIyNDirSSRNnE0TrW2CYjZ3CbHGHqfSZM94gSd77f7MghJISbgJHXZAKeHzqzUU5KlU+1N/AS92I9r300l2ZkKgBCWZmOjKTJlZ3UWjEKL/ddchOf33xo3d+UWaH1CrM+09baWOAmZKSUjIGA56Gbo7OZ+tnfP9+L1QCR5NCJ0+NhbTfPzdOZwts6uYXBlEjavHVyAfOcfaZqbD3SQFcRKIQELqiz14yhVJFK/KFMn2NI6Btg3z4T3ziGDE3KZFck2sZjas52hlhteDyViKXpimGy3HSS00969abuGO2LnYTVtgp5ev8kvLNrubz3nhB268e99f4c71vKxsnKypHyjwD3jRNwjaKoJPKBI2oROTtP99q75x3ejr53kZdd5anxi3QrEf+JuleTrYy0NoS4YzLC82M6tNQ+SGO0EfBP8zTJXZ97Ucin/2MfgklIBXOhYcO4y5HYpgkW9A59bTpZGqbjeDn8oxgKveVJZ2pwAfi2reIrxplSVPf+crOiDgr8p4WcwRLpY9OZuW4KnO6ftwhbmArPObszB7TndW5w8KRZWo/FnD891F76bGsWqB0ICwHUMmZnIUydiZGCOgOshRVYCs6jsPOBWcSl3YZK0FpnpAO91lBUrCQTEYrxQxxoCj5diDTErfDQ4nTyAemrjeMOMG25WCL4Cs6jsWm5BtsUDk3H/1JAB4nE4GV1JPSw1JM9E+UGaPpS8FnqkDWUZ9qU3AVkpV+tBGW8yRax9YnpIHlPT0aPIfthjb3P0zVCbXx8/bdpwnAkfqj4BxVARzDdKdCPhx5EuGMDYwMCyRcvX9DFycGeXs31jAHdVLc5YtaOrI2MDbZRjp5MtB5YJxnw5Kn62X7GJ1u1x9Y8Cw7nMV+b2H5tIPC2dKsg+AT0yc0lwpI0mFtoRantpWX9gBIjxLsMpQi8VYHRQet+1LSJxfQJC3o6XoDJiJz7ivUgkoVJLjS6I9eOS9+6OXJU3eXS8LmfToueRT3eFzJ0uVfw+KNVy255HM1n6Tc88Y1d2Kp9Pen4P9BcGJuKA553VcD+r5RQIBAROo4KfQYrgAv4VXhBiEzmOw+EqMd/Bh1irNw9r9PwXrrpdE59LLmFPxpSnZO1ks296FM+F0v7qhlYRhSunmkQz1lx3lV38dsn9imDXkZkjCILU8NpbYJbwkCDReCIRA1gnIwEuGMTksODGyMeix6REuxWYXlXUg2Oph7wwsWAxYV7gyzCLZ4fvxaYiONe/QFDnpl7xZFjsnoMVgty9lEQu87HKFzUc0geEQT/9/W4b29mDty/7GdrWvzztnijvPP9lQN4GfeETUUyvWw8CbObJwqJaUtr4L82oinZZlZsmVE1MsjJwBSQXsPHow3Bv8Dq290op+UbwRHiqRSYA6MA62Ct+zLZiqzUGx0d9I4fxY2FFY+49XwuJCFfDeReYS1Uxhch03VgzBIsGbFEss45i3Rl2lvZr/wLXsLKHXLQxtyft40cY3QjHpQL+ZrhekuR49X2L5lxN0rFlKe/BE3IjKIhfnfGc6g3i24G1mPHf0SYncZXDgfoN8nGRXt3/4cHy1g48j5KFobUKB7m/fxZguToIeGqemS4YwLis1NbadAS0znLW30BdC+aolom7Fb+MDNP4xSkJumbylrXyq0bdPMRCfXIylnJhrVtoivLbnvI3dL4qQblhM7RCAJRNOr90Ix67ZtaDL34yIJnSwXwJNMe3+V+q9B1DukGy10e4OKhDi8u6I2AdoDCy66lnVZRAXvSXtxuYZ2vxUlQVkIoI+MVFGKU1oslQKiYdJ9FXxDKAr+ZCOQvsrL7tuQ54kUKeAy/XgFA8dHY56S55HTa87JbS1UMucHJa540C3KOpQ8qSr5kb/bfMntFZkO4nNB7QzI5gj9e/8FXieUrxyQ1/UwlzBU+ibDeUbm98r5to1gIRLdzXCC7g6Y+dp4huTYH26c/5uWj1+LYE9ZSCRNvfDnPW3Saz32J0f4EuGNCsvJym33MBOKINcVcRars7MO/MbaKYhyCo3P0OTj5+ky78ReBnMF5V4gkCwbSTcTxNE6h2nQW6AuKocRVVTCANTndZ/BDDCGYPcG/9eDpyhgoVMkPs3DYE9GmGHBxl9PUEEl7lyYYtF2BMvVzwPHGN1E1YTKQ6JwhBbnQXvdFqCwbGVtFmAKIScv4BmhX8dLUGcuGpqBZo0l/9kzcIIM+Sd26DB7ds28GhsEz9HtCewElhl2HdUOR24uKjDWBHPBfoSSzxsgRoRiVOynSwADirmVbxxMDO/AGU83Kk+WXB9Xqy4l9MPQmPydJma0bu/8MpvCkiQZ6y5yNeHNOpXoW/Kve8EAW4If0uGKy00LSq3C0mGqLwi3Zhl+WZ7rQyt4GhXyTm671t7zpEWFGmG9/NxJ/5uRs6Xx4I+uKpDLZ9sXmcFLu+WWVx2U2CUNfTO1IzibDnxZBSAYVwp4IpoZMYvCq/9A/+AuKjHbUl1KeqddjXp40P98J+a5nYp7W59E9Eo/bmCrHRFeFGkSyurM02SmaHrHV9gHNpb7IUm2vZGkn8D6p6bGCvT0sG4PeqSKOxUqR0OAvBXYG2ApKBvbhqY5ypfkIYOgJYuycYl1CmiVyENCOX4G14rflt6yWFjPstdV4UU2yZ9nSSy1nN+vC1jCJXCE1viBiTLh6ODosSiNwrJF+H/AudKY1xPtIOWbL9t2nOaTL4kVhxLhh8sLzU5lMEgOMfJwCHZiPRKC2P2dWBBr+VkE21dGa03Ou6k95Ozl/pT143b0zFsjjDAUgLmYuB2qQlkC9ZqRWYigH7TeHQ3ntKpOOERSSsgtbKt5PMfPZwcN5ju05g1GakkGfX4ke0ys9eDP50WHwRokc7RVsyJJUq8xCa9+tKzsqHa0FSwXYFDJg8Zw18XBePfymkeXAj7TZpNYHt0Heenb1T1tDep6YOVc1Rz1W6hvmvpPrVkhZPZNzmvvuQhMst3sWwOYd2YeZuYO8YwRH9Qu5ecAtgoE+brH5dtElcVdDFoKgN2yBQ2txBPILbQzldGdjJVNFNr7tN2Rdjbihkj5kwswVKAGyKFApZ0WIMuzjVGkNHn4JD8hEuGLzIvLTK1rQL6tEOSpCEHSFDy5NbRwk6q2YEDTa8HzEB4FeNns4TpWCPo1FtzeBYRPdhKqK/PKaGVZc+q3zdz37sQJAwBXRcAwig26vlVM8Qz4GRZ6PyDEnZcL/uwUA4EexJvVTRAru1TlxfXLBq+vSKdEeUUfDLP/AwRzs0gIPA0sICd9GzKmX3B4o19Ik3kB7NkJziyTbZgRn/0qOWf9IzSH7amjz88xX/ZU72cgBWQ/YS23ldKOp74xukm4t11qNy1YVL6BsnMXwHxLSD+Ri5LTeQFPjdgAFfYF0E5BNuyMhv1vw0CAmhJoF8nYP8tALzLULbz3mHeOU+JZKSCbk8qbrBNaZLk8+2AU7AUe1PH7W7cT6ms2XdvDe6DiOnyr7rbHkQJfZ90XxJMS4YwLiQeI7e9j1vWdiXtP2JqfDMeQCOZFKt/f4gmqCX+jKOtWeDbA4k/MbDMUmW9jnHQiCVygLe0g1HyKUZ8sHqJ3OgcFgAoIKaayKuQlLuJ0UKc5INZ6mzSgpeHF/TLc4rkekCEpcWNNF5pL5zvFV2EWZmDjzTL9tSOq3nReq+zp9rYvV+x6bQGT9Dd1tPxkKuAWN7DaZj1Jbl6Sv1K3GbC+KPH2zg9dKp4b2A13TT1M+vSaIOwmMyNzqDar+EgdBBu9WFvPSQpMQY5rWHQ5b46AdW5vRJnOgD4iAe8GRTRh8bIEzG3OOV7F8hLhjErMC0vhJyHEtKOihMm0VeivdsjDh4XCwEU43z074tw9tlpb1akKXeNKX7SnXfUXp6qy+5uQLpnVmajxjgzVSD0IXJOsGdL/8KznmPKZvewQgd3iCvteB0ZyKeIuNp0Scy4sT2fvBRoRhyilgxoJA2hD7tTd3Io1rS4vJfotE9yWDYLZq63lOkiqu0Rpb/6YOq4sINwK+NSH9p8WgzuCwNU82s5mtEXDE5hMHsb8pRkpsLGV+vfXd51Fo5kGnS4ZtB5HI55Oxg0TfvQwSZwnujGMujBiYp7y4Ej24X3lXVqgkaGTKcBh+u5PMeauIQvKqZTCoDdJYJEi4uvndDSEvTVE63Cx5HOME5UOWi8gZaq0IRvG4BLhiwcMjIqhCEfFMYjJDy8NrsObyXzGm8hfQKH8dBuXfEj+AzTdm2byEsNkRG3x3iNI4A+d2ueaAaP7OdB17olCyai4crK1LZHpwCPeLKRg+57DHhSrzRYouhBLUVs2E8g5bpqcDZH16gw8owEVRw0vk1brvGIKJlSrYW0Y24cGaCE+LgccQ4knko3h3skg5z9lYqkqHWhS1xTac1SXflD3z9L6RlEwQGj3L/gbQYkjqQ+2JUwLzCvsmwVVuNKV1GeMFA+cfYzDaB46MCOxWuwj36xJj2PyAE2H/3rBLPjPu6naXzcNQCfJKIk3g8r/QmRSujrz1kTqqyWVIbctDpkOxNfBTy0+V6KG2TQjUuGOjgyNS2/sj1kqYycZGs6kXwAjJkotJCMbSO2WONG97xXumgHH6Gl9N7bMDAdUJFtUWRM1QvOaBqHC4haOv2Av9EAvKChDlpGjROcRo2akEy6VRfutcA7TfUXwLhDFGPaToiHtfl/Dvnk4jTHNnO5w/6ZlSdCBEC/4Ok24Yxk27IX1skKZ6a4MXdzK7VojdJCk5N3D0XdkGnoTZMip9icYZC5G4gWEtLOGLwl84jE5hcLeXSw9gMHvGq3CePE6l1qayvJGn0xZ3Y6NoohxvIcX5aeYTxRkgT4ITbOidngvCC8uzt8q8H1uX49m7d0FDd/pG+TexdFRqey2PTdmCvFXC/hF4PXRxOF337Qv9Zp6qGPdZc+mUccpcMSKpSG7Lz05vuevAn05aanelZoQl/Blq6GQhUH2QFU0vTjdwZPZ2dTAAD4bAEAAAAAAGQAAAADAAAAxnkCxQP/AixLhi8vLCQkv6a0T/L95lxNqqxiHw3iNe4ZC5VG90HHAGFNkSDJGblG4UxwJFiy2Pnf8ALbrXCEQqLnUJqHbmvEFPJcu1Cyl0BIF/+dbVqNtVDaXl7+6/PxIL0jbMtsW+Xwjjm8eJL3dVVBHdWvcMMa2BhLExeBIsjzYKT6HJYQnMeChc65VoEYO70uUF9bcwNABluK69QLQ1TO4c4+7+h1FnVPu3NklL9HhDamoYOtiTkqOgaAPbH4bMH1462wNVu8DCy42aUhM+tam4m9x4TBVeVA3Kc7EehAPi7ZTP9DPQWPGdC9IT9szX3a+KLY3937hnWFKgHhK5Ztr3M8J3v/MEiSGCxeNl3pzmXKInEfStbZSTtyppk45Nb2B/GvaQZjXAMgECohmrj+zvjw"
+              },
+              "contextInfo": {
+                "expiration": 7776000,
+                "ephemeralSettingTimestamp": "1747358958",
+                "disappearingMode": {
+                  "initiator": "CHANGED_IN_CHAT"
+                }
+              },
+              "messageType": "audioMessage",
+              "messageTimestamp": 1755915794,
+              "instanceId": "6ebe9615-6e03-49e4-8f1a-47675566f341",
+              "source": "ios"
+            },
+            "destination": "https://n8n.cdld.uk/webhook/domichat",
+            "date_time": "2025-08-22T23:23:14.172Z",
+            "sender": "573175924729@s.whatsapp.net",
+            "server_url": "https://n8n-evolution-api.ljckby.easypanel.host",
+            "apikey": "907E32DEECC9-49F7-90E1-ACD39B0D97AF"
+          },
+          "webhookUrl": "https://n8n.cdld.uk/webhook/domichat",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-01T14:24:06.776Z",
+      "createdAt": "2026-02-01T14:24:06.776Z",
+      "role": "workflow:owner",
+      "workflowId": "kRVf01cK3HdNGwIK",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-01T14:24:19.000Z",
+  "versionId": "65beebbe-600a-4d41-ae45-c1b5f55bba13"
+}
