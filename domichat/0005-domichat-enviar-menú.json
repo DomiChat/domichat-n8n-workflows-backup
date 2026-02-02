@@ -1,0 +1,185 @@
+{
+  "active": false,
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Obtener Negocio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Negocio": {
+      "main": [
+        [
+          {
+            "node": "Enviar PDF por WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar PDF por WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-02-02T02:06:53.343Z",
+  "id": "dKgynTwwk7dKKoti",
+  "isArchived": false,
+  "meta": null,
+  "name": "0005 DomiChat Enviar Menú",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "id_negocio",
+              "type": "number"
+            },
+            {
+              "name": "phone_number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "04abfefb-886c-42d2-bad7-12eed40fce62",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "NVvAffpgeq7jzdG2",
+          "mode": "list",
+          "cachedResultName": "Negocios",
+          "cachedResultUrl": "/projects/0IzhKVOc0T9TvoCy/datatables/NVvAffpgeq7jzdG2"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyValue": "={{ $json.id_negocio }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "8082c554-02db-4f0c-be1d-f8bcfb02f320",
+      "name": "Obtener Negocio"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"recipient_type\": \"individual\",\n    \"to\": \"{{ $('Start').first().json.phone_number }}\",\n    \"type\": \"document\",\n    \"document\": {\n        \"link\": \"{{ $('Obtener Negocio').first().json.menu_url }}\",\n        \"filename\": \"{{ $('Obtener Negocio').first().json.nombre || 'documento.pdf' }}\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        464,
+        0
+      ],
+      "id": "de6321bc-7064-485b-b24c-4e8c2a0ed806",
+      "name": "Enviar PDF por WhatsApp",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "maxTries": 3,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yzK6FuGQdZnPpC7u",
+          "name": "DomiChat QA Sender"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "19057a30-99c1-404a-8339-9d0bf32cfd2f",
+              "name": "respuesta",
+              "value": "Archivo enviado",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        0
+      ],
+      "id": "ca5ed2fa-7f46-4dab-a04b-13b41c3e66bb",
+      "name": "Resultado"
+    }
+  ],
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "id_negocio": 1,
+          "phone_number": "573243965443"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-02-02T02:06:53.345Z",
+      "createdAt": "2026-02-02T02:06:53.345Z",
+      "role": "workflow:owner",
+      "workflowId": "dKgynTwwk7dKKoti",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-02T02:34:24.000Z",
+  "versionId": "2752527a-fe6b-416a-883d-717e6a74f9d5"
+}
