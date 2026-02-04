@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Get Pedidos": {
       "main": [
@@ -435,6 +435,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
-  "updatedAt": "2025-11-10T21:16:38.000Z",
+  "updatedAt": "2026-02-03T13:54:23.000Z",
   "versionId": "2b31748f-c68f-42bc-b272-2715165b5c49"
 }
