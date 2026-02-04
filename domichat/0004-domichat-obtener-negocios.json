@@ -5,7 +5,7 @@
       "main": [
         [
           {
-            "node": "Return",
+            "node": "Validar Negocios Abiertos",
             "type": "main",
             "index": 0
           }
@@ -17,6 +17,51 @@
         [
           {
             "node": "Obtener Negocios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Negocios Abiertos": {
+      "main": [
+        [
+          {
+            "node": "Filtrar Solo Abiertos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return": {
+      "main": [
+        []
+      ]
+    },
+    "¿Hay Negocios Abiertos?": {
+      "main": [
+        [
+          {
+            "node": "Return",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return negocio cerrado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrar Solo Abiertos": {
+      "main": [
+        [
+          {
+            "node": "¿Hay Negocios Abiertos?",
             "type": "main",
             "index": 0
           }
@@ -53,8 +98,8 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1,
       "position": [
-        208,
-        0
+        224,
+        -16
       ],
       "id": "c494eb48-755b-421c-aa63-396f36f9a915",
       "name": "Obtener Negocios"
@@ -80,6 +125,12 @@
               "name": "tipo",
               "value": "={{ $json.tipo }}",
               "type": "string"
+            },
+            {
+              "id": "adb40285-3556-4293-89a2-7b8e2a271205",
+              "name": "estado",
+              "value": "={{ $json.mensaje }}",
+              "type": "string"
             }
           ]
         },
@@ -88,8 +139,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        416,
-        0
+        1120,
+        -112
       ],
       "id": "0071ab17-6ca6-4852-af5e-069b18d4e8e6",
       "name": "Return"
@@ -102,15 +153,128 @@
       "typeVersion": 1.1,
       "position": [
         0,
-        0
+        -16
       ],
       "id": "bb4d50fb-3749-41d6-b96b-f4070ea39822",
       "name": "Start"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================\n// VALIDADOR DE HORARIOS SCHEMA.ORG PARA N8N\n// Soporta múltiples items y zona horaria Colombia\n// ============================================\n\nconst items = $input.all();\nconst resultados = [];\n\n// IMPORTANTE: Definir zona horaria de Colombia\nconst TIMEZONE = 'America/Bogota';\n\nfor (const item of items) {\n  const horario = item.json.horarios || item.json.horario; // Soporta ambos nombres\n  \n  // Obtener fecha y hora actual EN COLOMBIA\n  const ahoraUTC = new Date();\n  const ahoraColombia = new Date(ahoraUTC.toLocaleString('en-US', { timeZone: TIMEZONE }));\n  \n  const diasSemana = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];\n  const diaActual = diasSemana[ahoraColombia.getDay()];\n  const minutosActuales = ahoraColombia.getHours() * 60 + ahoraColombia.getMinutes();\n  \n  // Si no hay horario definido = cerrado\n  if (!horario || horario.trim() === '') {\n    resultados.push({\n      json: {\n        ...item.json,\n        esta_abierto: false,\n        estado: 'Sin horario definido'\n      }\n    });\n    continue;\n  }\n  \n  // Parsear bloques separados por coma y punto y coma\n  const bloques = horario.split(/[,;]/).map(b => b.trim());\n  let horarioEncontrado = null;\n  \n  for (const bloque of bloques) {\n    const partes = bloque.split(' ');\n    \n    // Si solo hay días sin horario = abierto todo el día\n    if (partes.length === 1) {\n      const dias = partes[0];\n      if (verificarDia(dias, diaActual)) {\n        horarioEncontrado = '00:00-23:59';\n        break;\n      }\n      continue;\n    }\n    \n    // Formato normal: \"Mo-Fr 11:00-22:00\"\n    const dias = partes[0];\n    const horas = partes[1];\n    \n    if (verificarDia(dias, diaActual)) {\n      horarioEncontrado = horas;\n      break;\n    }\n  }\n  \n  // Si no se encontró el día = cerrado\n  if (!horarioEncontrado) {\n    resultados.push({\n      json: {\n        ...item.json,\n        esta_abierto: false,\n        estado: 'Cerrado hoy',\n        mensaje: 'No abre los ' + traducirDia(diaActual)\n      }\n    });\n    continue;\n  }\n  \n  // Parsear horario de apertura y cierre\n  const [apertura, cierre] = horarioEncontrado.split('-');\n  const minutosApertura = horaAMinutos(apertura);\n  const minutosCierre = horaAMinutos(cierre);\n  \n  // CASO ESPECIAL: Cierre después de medianoche (ej: 18:00-02:00)\n  let estaAbierto;\n  \n  if (minutosCierre < minutosApertura) {\n    // Cruza medianoche\n    estaAbierto = minutosActuales >= minutosApertura || minutosActuales < minutosCierre;\n  } else {\n    // Horario normal en el mismo día\n    estaAbierto = minutosActuales >= minutosApertura && minutosActuales < minutosCierre;\n  }\n  \n  // Calcular mensaje descriptivo\n  let mensaje = '';\n  if (estaAbierto) {\n    let minHastaCierre;\n    \n    if (minutosCierre < minutosApertura) {\n      // Cruza medianoche\n      if (minutosActuales >= minutosApertura) {\n        // Estamos en el día de apertura\n        minHastaCierre = (1440 - minutosActuales) + minutosCierre;\n      } else {\n        // Estamos en el día siguiente\n        minHastaCierre = minutosCierre - minutosActuales;\n      }\n    } else {\n      // Mismo día\n      minHastaCierre = minutosCierre - minutosActuales;\n    }\n    \n    const horas = Math.floor(minHastaCierre / 60);\n    const mins = minHastaCierre % 60;\n    mensaje = `Abierto - Cierra en ${horas}h ${mins}min`;\n  } else {\n    if (minutosActuales < minutosApertura) {\n      const minHastaApertura = minutosApertura - minutosActuales;\n      const horas = Math.floor(minHastaApertura / 60);\n      const mins = minHastaApertura % 60;\n      mensaje = `Cerrado - Abre en ${horas}h ${mins}min`;\n    } else {\n      mensaje = 'Cerrado - Abrirá mañana';\n    }\n  }\n  \n  resultados.push({\n    json: {\n      ...item.json,\n      esta_abierto: estaAbierto,\n      estado: estaAbierto ? 'Abierto' : 'Cerrado',\n      mensaje: mensaje,\n      horario_hoy: horarioEncontrado,\n      dia_actual: traducirDia(diaActual),\n      hora_actual: `${ahoraColombia.getHours()}:${String(ahoraColombia.getMinutes()).padStart(2, '0')}`\n    }\n  });\n}\n\nreturn resultados;\n\n// ============================================\n// FUNCIONES AUXILIARES\n// ============================================\n\nfunction verificarDia(expresionDias, diaActual) {\n  // Rangos: Mo-Fr\n  if (expresionDias.includes('-')) {\n    const [inicio, fin] = expresionDias.split('-');\n    const ordenDias = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];\n    const idxInicio = ordenDias.indexOf(inicio);\n    const idxFin = ordenDias.indexOf(fin);\n    const idxActual = ordenDias.indexOf(diaActual);\n    \n    if (idxInicio <= idxFin) {\n      return idxActual >= idxInicio && idxActual <= idxFin;\n    } else {\n      // Rango que cruza semana (ej: Sa-Mo)\n      return idxActual >= idxInicio || idxActual <= idxFin;\n    }\n  }\n  \n  // Múltiples días: Mo,We,Fr\n  return expresionDias.split(',').map(d => d.trim()).includes(diaActual);\n}\n\nfunction horaAMinutos(hora) {\n  const [h, m] = hora.split(':').map(Number);\n  return h * 60 + m;\n}\n\nfunction traducirDia(dia) {\n  const traducciones = {\n    'Mo': 'lunes',\n    'Tu': 'martes',\n    'We': 'miércoles',\n    'Th': 'jueves',\n    'Fr': 'viernes',\n    'Sa': 'sábado',\n    'Su': 'domingo'\n  };\n  return traducciones[dia] || dia;\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        -16
+      ],
+      "id": "f2a50690-36bb-4669-bb78-eaa047d5a34c",
+      "name": "Validar Negocios Abiertos"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61e5223f-d850-4316-bfa9-91011e5fe073",
+              "leftValue": "={{ Object.keys($json).length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        -16
+      ],
+      "id": "83f7735a-cbb5-462f-be54-f1d696b67dee",
+      "name": "¿Hay Negocios Abiertos?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a82ea10e-44d6-4c38-bac4-9dc4bd02b216",
+              "name": "mensaje",
+              "value": "=No hay negocios abiertos en este momento",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        80
+      ],
+      "id": "a5bfb20c-3125-4bb7-90b2-b13154c7bd2e",
+      "name": "Return negocio cerrado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "72dcf944-3698-4300-a065-688946d293d9",
+              "leftValue": "={{ $('Validar Negocios Abiertos').item.json.esta_abierto }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -16
+      ],
+      "id": "3c8d6370-b497-4270-a29b-ed9d93ac2b86",
+      "name": "Filtrar Solo Abiertos",
+      "alwaysOutputData": false
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Start": [
+      {
+        "json": {}
+      }
+    ]
+  },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
   },
   "shared": [
     {
@@ -124,6 +288,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-02-02T02:34:22.000Z",
-  "versionId": "b16c4395-1990-4d0d-a91a-08fbef1f61bb"
+  "updatedAt": "2026-02-03T21:45:24.000Z",
+  "versionId": "1a3b8cd6-35a9-4517-866f-6a4c74d424d3"
 }
