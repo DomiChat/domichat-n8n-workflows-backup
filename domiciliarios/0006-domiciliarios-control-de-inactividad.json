@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Revisar Cada 6 Horas": {
       "main": [
@@ -269,12 +269,12 @@
   "staticData": {
     "node:Revisar Cada 6 Horas": {
       "recurrenceRules": [
-        0
+        6
       ]
     }
   },
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-24T03:55:19.000Z",
+  "updatedAt": "2026-02-03T13:54:42.000Z",
   "versionId": "d0925572-2090-4665-8690-e9cfe59b144b"
 }
