@@ -1,5 +1,5 @@
 {
-  "active": true,
+  "active": false,
   "connections": {
     "Buscar Numero Domiciliario": {
       "main": [
@@ -1889,6 +1889,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2025-11-29T15:49:05.000Z",
+  "updatedAt": "2026-02-03T13:54:32.000Z",
   "versionId": "2968f27c-924c-4541-af00-5f62c4b8543b"
 }
