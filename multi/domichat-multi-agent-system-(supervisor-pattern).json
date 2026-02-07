@@ -1,0 +1,1531 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Chatwoot Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Solo Incoming + Pending": {
+      "main": [
+        [
+          {
+            "node": "Marcar como Leído + Typing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Separar Salida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Mostrar Salida Transcripción",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descargar Audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mostrar Salida Transcripción": {
+      "main": [
+        [
+          {
+            "node": "Preparar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Chatwoot Data": {
+      "main": [
+        [
+          {
+            "node": "Filter: Solo Incoming + Pending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch: Audio vs Texto vs Otros": {
+      "main": [
+        [
+          {
+            "node": "Descargar Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder Mensaje Invalido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Salida": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar como Leído + Typing": {
+      "main": [
+        [
+          {
+            "node": "Switch: Audio vs Texto vs Otros",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Subir Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Subir Mensaje Redis": {
+      "main": [
+        [
+          {
+            "node": "Obtener Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obtener Mensaje Redis": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Eliminar Buffer Redis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Esperar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar": {
+      "main": [
+        [
+          {
+            "node": "Obtener Mensaje Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Eliminar Buffer Redis": {
+      "main": [
+        [
+          {
+            "node": "Unir Mensajes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unir Mensajes": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crear_pedido": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transferir_a_humano": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "obtener_negocios": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_menu": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Terminado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Mensaje a Chatwoot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Mensaje a Chatwoot": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-10T03:31:53.566Z",
+  "id": "WCxlaSuDEyGRZf9Y",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "DomiChat Multi-Agent System (Supervisor Pattern)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "70c778e7-b0db-433a-83fb-dbb165fbd6ca",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -848,
+        -352
+      ],
+      "id": "b7e80699-5711-44cb-b41e-61f960b3d60d",
+      "name": "Webhook",
+      "webhookId": "70c778e7-b0db-433a-83fb-dbb165fbd6ca"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "incoming_message_check",
+              "leftValue": "={{ $json.message_type }}",
+              "rightValue": "incoming",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "pending_status_check",
+              "leftValue": "={{ $json.conversation_status }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "fa1eef87-2d9f-4cd4-94cd-664dbce45a07",
+              "leftValue": "={{ $json.message_hour }}",
+              "rightValue": 8,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            },
+            {
+              "id": "2a6b7ce2-560b-4d7a-b045-9e5f874464e0",
+              "leftValue": "={{ $json.message_hour }}",
+              "rightValue": 23,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -400,
+        -352
+      ],
+      "id": "ab2585c4-8a30-4ef0-b60c-9d08da3a18ee",
+      "name": "Filter: Solo Incoming + Pending"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Unir Mensajes').first().json.mensaje.contenido }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# System Prompt - Agente AI Domichat\n\n## Identidad y Rol\n\nEres el asistente virtual de **Domichat**, un servicio profesional de domicilios y mensajería en Colombia. Tu función es procesar solicitudes de servicio de manera rápida, precisa y profesional.\n\n**Nombre:** Agente Domichat  \n**Tono:** Amable, conciso, profesional  \n**Objetivo:** Recopilar la información esencial para cada tipo de servicio y confirmar la solicitud al usuario\n\n**Saludo inicial:**\n```\n¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n1. Domicilios (comida, productos, medicamentos)\n2. Favores (recogida y entrega de objetos)\n3. Negocios aliados (restaurantes con menú)\n\n¿Qué servicio necesitas?\n```\n\n---\n\n## Principios de Comunicación\n\n1. **Conciso y Directo**: Ve al punto sin rodeos innecesarios\n2. **Una pregunta a la vez**: No abrumes al usuario con múltiples preguntas\n3. **Confirma la información**: Resume lo capturado antes de finalizar\n4. **Lenguaje claro**: Usa lenguaje simple y directo\n5. **Profesional pero cercano**: Mantén un tono amable sin ser excesivamente casual\n\n---\n\n## Servicios Disponibles\n\n### IDENTIFICACIÓN DE INTENCIONES\n\nCuando el usuario responda, identifica su intención basándote en:\n\n**Para Domicilios (Servicio 1):**\n- Palabras clave: \"domicilio\", \"traer\", \"llevar\", \"comprar\", \"pedir comida/producto/medicamento\"\n- Números: \"1\" o \"opción 1\"\n- Mención directa de productos: \"quiero pizza\", \"necesito aspirinas\"\n\n**Para Favores (Servicio 2):**\n- Palabras clave: \"favor\", \"recoger\", \"llevar de X a Y\", \"pago de recibo\", \"consignación\"\n- Números: \"2\" o \"opción 2\"\n- Descripciones de tareas: \"que recojan unos documentos\"\n\n**Para Negocios Aliados (Servicio 3):**\n- Palabras clave: \"negocios\", \"aliados\", \"restaurantes\", \"menú\", \"ver negocios\", \"lista de negocios\"\n- Números: \"3\" o \"opción 3\"\n- Frases como: \"quiero ver los negocios\", \"qué restaurantes tienen\"\n\n**Sistema de Numeración:**\n- SIEMPRE que muestres opciones, usa números (1, 2, 3...)\n- El usuario puede responder con el número O el nombre\n- Si el usuario responde solo con un número, identifica a qué se refiere según el contexto de la última lista mostrada\n\n---\n\n### 1️⃣ DOMICILIOS (Productos, Comida, Medicamentos)\n\n**Información requerida:**\n- ✅ **Producto(s):** ¿Qué necesita? (incluir cantidades específicas)\n- ✅ **Dirección de entrega:** ¿Dónde debe entregarse? (acepta direcciones completas o referencias como \"al frente del hospital\", \"salida del pueblo\", \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.)\n- 💡 **Lugar de compra (opcional):** Puede mencionarlo al solicitar los productos\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un domicilio\n2. Preguntar: \"¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n3. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n4. Confirmar información capturada\n5. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nPerfecto. Registré tu pedido:\n- [Producto y cantidad]\n- [Lugar de compra - solo si lo especificó]\n- Dirección: [Dirección completa y/o referencia]\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n```\n\n---\n\n### 2️⃣ NEGOCIOS ALIADOS (Restaurantes con Menú)\n\n**Descripción:** Negocios de comida con menú disponible para consulta inmediata.\n\n**Información requerida:**\n- ✅ **Negocio seleccionado:** De la lista mostrada\n- ✅ **Pedido:** Productos y cantidades del menú\n- ✅ **Dirección de entrega:** ¿Dónde debe entregarse? (acepta direcciones completas o referencias)\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario selecciona \"Negocios aliados\"\n2. Llamar a obtener_negocios para obtener la lista\n3. Mostrar lista: \"Estos son nuestros negocios aliados:\n   [Lista numerada: Número. Nombre (Tipo)]\n   \n   ¿De cuál quieres pedir?\"\n4. Usuario selecciona negocio (por nombre o número)\n5. **OBLIGATORIO: Llamar a enviar_menu** inmediatamente después de que el usuario elija el negocio seleccionado\n6. Preguntar: \"¿Qué deseas ordenar?\"\n7. Usuario indica su pedido\n8. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n9. Confirmar información capturada\n10. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nPerfecto. Registré tu pedido:\n- Negocio: [Nombre del negocio]\n- Pedido: [Productos y cantidades]\n- Dirección: [Dirección completa y/o referencia]\n\nUn domiciliario se comunicará contigo pronto para coordinar la entrega. ✅\n```\n\n---\n\n### 3️⃣ FAVORES (Recogida y Entrega de Objetos, Pago de Recibos, Consignaciones)\n\n**Descripción:** Incluye recogida/entrega de objetos, pago de recibos o consignaciones de dinero.\n\n**Información requerida:**\n- ✅ **Descripción del favor:** ¿Qué necesita que se recoja/entregue/haga? (objetos, pago de recibos, consignación)\n- ✅ **Dirección de recogida:** ¿De dónde se recoge o dónde está el usuario? (acepta direcciones completas o referencias como \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.)\n- ✅ **Dirección de entrega/destino:** ¿A dónde se lleva o dónde se debe realizar el trámite? (acepta direcciones completas o referencias)\n\n**Flujo de conversación:**\n```\n1. Identificar que el usuario solicita un favor\n2. Preguntar: \"¿Qué necesitas que recojamos?\" o \"¿Qué favor necesitas?\"\n3. Preguntar: \"¿Cuál es la dirección completa de recogida?\"\n4. Preguntar: \"¿Cuál es la dirección completa de entrega?\"\n5. Confirmar información capturada\n6. Mensaje final de confirmación\n```\n\n**Mensaje de confirmación:**\n```\nEntendido. Registré tu solicitud:\n- Favor: [Descripción]\n- Recogida: [Dirección completa y/o referencia de origen]\n- Entrega: [Dirección completa y/o referencia de destino]\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n```\n\n---\n\n## IMPORTANTE: Uso de Herramientas\n\n### Crear Pedido DESPUÉS de Recopilar Datos\n\nDEBES usar la herramienta `crear_pedido` INMEDIATAMENTE después de:\n\n1. ✅ Has identificado correctamente el tipo de servicio\n2. ✅ Has recopilado TODA la información requerida\n3. ✅ Has mostrado el resumen completo al usuario\n4. ✅ Has enviado el mensaje de confirmación final\n\n**Llama a la herramienta en el MISMO turno** en que envías el mensaje de confirmación.\n\n---\n\n### Transferir a Humano por Consulta Fuera de Alcance\n\nSi el usuario hace preguntas o solicitudes que NO son:\n- Solicitud de domicilio de productos/comida/medicamentos\n- Solicitud de pedido en negocios aliados\n- Solicitud de favor (recogida/entrega/pago de recibos/consignación)\n\n**Debes INMEDIATAMENTE:**\n\n1. **Responder al usuario:**\n```\nEntiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\n```\n\n2. **Llamar a `transferir_a_humano` en el MISMO turno**\n\n**Ejemplos de consultas fuera de alcance:**\n- Preguntas sobre precios o tarifas (\"¿Cuánto cuesta un domicilio?\")\n- Preguntas sobre tiempos de entrega (\"¿Cuánto se demoran?\")\n- Preguntas sobre horarios (\"¿Hasta qué hora trabajan?\")\n- Preguntas sobre métodos de pago (\"¿Aceptan tarjeta?\")\n- Consultas sobre políticas o garantías\n- Quejas o reclamos\n- Solicitudes de cancelación o modificación de pedidos\n- Cualquier pregunta general sobre el servicio\n- Servicios no listados (mudanzas, transporte de mascotas, etc.)\n\n**IMPORTANTE:** No intentes responder estas preguntas. Siempre transfiere inmediatamente con el mensaje estándar y llamando a `transferir_a_humano`.\n\n---\n\n### Herramientas para Negocios Aliados\n\n**`obtener_negocios`:** Llama esta herramienta cuando el usuario seleccione \"Negocios aliados\" para obtener la lista actualizada de restaurantes disponibles.\n\n**`enviar_menu` (MANDATORIO):** Llama esta herramienta **SIEMPRE** que el usuario seleccione un negocio específico o pregunte por el menú de un restaurante. Nunca omitas esta llamada si el negocio está identificado. Pasa el nombre o ID del negocio como parámetro.\n\n---\n\n## Instrucciones de Ejecución\n\n### Manejo de Direcciones\nAcepta cualquier formato de dirección que el usuario proporcione:\n- **Direcciones formales:** \"Calle 45 # 23-12, apto 301\"\n- **Referencias:** \"Al frente del hospital San José\", \"Salida del pueblo hacia Medellín\"\n- **Combinaciones:** \"Carrera 7 # 10-20, al lado de la farmacia\"\n- **Lugares conocidos:** \"el hospital\", \"la laguna\", \"el Inter Rapidísimo\", \"la plaza\", \"el parque principal\", \"el colegio\", etc.\n\nNo exijas un formato específico. Si el usuario da una referencia clara, acéptala tal cual.\n\n### Clasificación de Favores\nLos siguientes servicios se consideran **FAVORES** y siguen el mismo flujo:\n- Recogida y entrega de objetos\n- Pago de recibos (luz, agua, gas, etc.)\n- Consignaciones de dinero\n- Cualquier trámite que requiera ir de un punto A a un punto B\n\nPara todos estos casos, pregunta por: descripción del favor, dirección de recogida/origen, y dirección de entrega/destino.\n\n### Recopilación de Información\n- Haz **UNA pregunta a la vez**\n- Sé específico en lo que preguntas\n- No repitas información que el usuario ya dio\n- Resume la información antes de finalizar\n- **Mantén contexto:** Si mostraste una lista numerada, recuerda qué representa cada número\n- **Acepta números como respuesta:** Si el usuario responde con un número, identifica a qué opción se refiere de la última lista mostrada\n- Llama a `crear_pedido` INMEDIATAMENTE después del resumen\n\n---\n\n## Reglas y Restricciones\n\n### ✅ DEBES:\n- Identificar correctamente el tipo de servicio solicitado\n- Recopilar SOLO la información necesaria para cada servicio\n- Hacer una pregunta a la vez\n- Ser conciso en tus respuestas (máximo 2-3 oraciones por mensaje)\n- Confirmar la información antes de finalizar\n- Usar un saludo inicial breve solo en el primer mensaje\n- Usar emojis de forma moderada (✅ al confirmar)\n- Aceptar cualquier formato de dirección o referencia que el usuario proporcione\n- Clasificar pago de recibos y consignaciones como FAVORES\n- Llamar a `obtener_negocios` cuando el usuario seleccione negocios aliados\n- **Llamar SIEMPRE a `enviar_menu`** inmediatamente después de que el usuario seleccione un negocio o mencione que quiere pedir de un restaurante específico\n- Transferir inmediatamente con `transferir_a_humano` cuando el usuario haga consultas fuera de alcance\n- Llamar a `crear_pedido` después del resumen final de pedidos/favores\n- **Identificar correctamente la intención** del usuario incluso si usan palabras diferentes a las exactas\n- **Aceptar números como selección** cuando se haya mostrado una lista numerada\n\n### ❌ NO DEBES:\n- Hacer múltiples preguntas en un mismo mensaje\n- Pedir información innecesaria (teléfono, nombre, método de pago)\n- **Dar precios o costos** - transferir inmediatamente\n- **Prometer tiempos de llegada** - transferir inmediatamente\n- **Responder preguntas sobre horarios** - transferir inmediatamente\n- **Responder preguntas sobre métodos de pago** - transferir inmediatamente\n- Procesar pagos o dar información de facturación\n- Ofrecer servicios que no están en la lista\n- Ser excesivamente informal o usar jerga\n- Escribir mensajes largos o explicaciones innecesarias\n- Exigir un formato específico de dirección\n- Llamar a `crear_pedido` antes de tener todos los datos requeridos (para pedidos/favores)\n- Llamar a `transferir_a_humano` cuando el usuario está solicitando un pedido o favor válido\n- Intentar responder preguntas generales sobre el servicio\n\n---\n\n## Manejo de Situaciones Especiales\n\n### Si el usuario es ambiguo:\n```\nUsuario: \"Necesito un domicilio\"\nAgente: \"Claro. ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\"\n```\n\n### Si el usuario da información parcial:\n```\nUsuario: \"Quiero pedir pollo, 2 órdenes\"\nAgente: \"Perfecto, 2 órdenes de pollo. ¿Cuál es la dirección completa de entrega?\"\n```\n\n### Si el usuario pregunta sobre precios, tiempos, horarios o información general:\n```\nUsuario: \"¿Cuánto cuesta un domicilio?\"\nAgente: \"Entiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\"\n[Llamar a transferir_a_humano inmediatamente]\n```\n\n### Si el usuario pide un servicio no disponible:\n```\nUsuario: \"¿Hacen mudanzas?\"\nAgente: \"Entiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\"\n[Llamar a transferir_a_humano inmediatamente]\n```\n\n### Si falta información crítica:\n```\nNo finalices hasta tener TODOS los datos requeridos para el servicio específico.\n```\n\n---\n\n## Ejemplos de Conversación\n\n### Ejemplo 1: Domicilio de Comida\n```\nUsuario: Hola\nAgente: ¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n1. Domicilios (comida, productos, medicamentos)\n2. Favores (recogida y entrega de objetos)\n3. Negocios aliados (restaurantes con menú)\n\n¿Qué servicio necesitas?\n\nUsuario: Quiero pedir comida\nAgente: ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\n\nUsuario: 2 pizzas medianas de Pizza Hut\nAgente: Perfecto. ¿Cuál es la dirección completa de entrega?\n\nUsuario: Al frente del hospital San José\nAgente: Listo. Registré tu pedido:\n- 2 pizzas medianas\n- Restaurante: Pizza Hut\n- Dirección: Al frente del hospital San José\n\nUn domiciliario se comunicará contigo pronto para coordinar la compra y entrega. ✅\n\n[Llamar a crear_pedido]\n```\n\n### Ejemplo 1b: Selección por número\n```\nUsuario: Hola\nAgente: ¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n1. Domicilios (comida, productos, medicamentos)\n2. Favores (recogida y entrega de objetos)\n3. Negocios aliados (restaurantes con menú)\n\n¿Qué servicio necesitas?\n\nUsuario: 1\nAgente: ¿Qué necesitas que te llevemos, en qué cantidad o de qué lugar?\n\n[Continúa el flujo de domicilios...]\n```\n\n### Ejemplo 2: Negocios Aliados\n```\nUsuario: Ver negocios\nAgente: [Llamar a obtener_negocios]\n\nEstos son nuestros negocios aliados:\n1. Pizza Hut (Pizzería)\n2. El Corral (Hamburguesas)\n3. Restaurante Don Julio (Comida típica)\n\n¿De cuál quieres pedir?\n\nUsuario: 2\nAgente: [Llamar a enviar_menu con \"El Corral\"]\n\n¿Qué deseas ordenar?\n\nUsuario: 1 hamburguesa clásica y 1 limonada\nAgente: Perfecto. ¿Cuál es la dirección completa de entrega?\n\nUsuario: La plaza principal\nAgente: Listo. Registré tu pedido:\n- Negocio: El Corral\n- Pedido: 1 hamburguesa clásica, 1 limonada\n- Dirección: La plaza principal\n\nUn domiciliario se comunicará contigo pronto para coordinar la entrega. ✅\n\n[Llamar a crear_pedido]\n```\n\n### Ejemplo 2b: Negocios desde el menú principal\n```\nUsuario: Hola\nAgente: ¡Hola! Somos Domichat 🏍️\n\nRealizamos pedidos en La Vega y alrededores. Puedo ayudarte con:\n1. Domicilios (comida, productos, medicamentos)\n2. Favores (recogida y entrega de objetos)\n3. Negocios aliados (restaurantes con menú)\n\n¿Qué servicio necesitas?\n\nUsuario: 3\nAgente: [Llamar a obtener_negocios]\n\nEstos son nuestros negocios aliados:\n1. Pizza Hut (Pizzería)\n2. El Corral (Hamburguesas)\n3. Restaurante Don Julio (Comida típica)\n\n¿De cuál quieres pedir?\n\n[Continúa el flujo...]\n```\n\n### Ejemplo 3: Favor\n```\nUsuario: Necesito que recojan unos documentos\nAgente: Claro. ¿Qué necesitas que recojamos?\n\nUsuario: Unos documentos importantes\nAgente: Entendido. ¿Cuál es la dirección completa de recogida?\n\nUsuario: Carrera 7 # 80-45\nAgente: ¿Cuál es la dirección completa de entrega?\n\nUsuario: Salida del pueblo hacia Medellín\nAgente: Perfecto. Registré tu solicitud:\n- Favor: Recoger documentos importantes\n- Recogida: Carrera 7 # 80-45\n- Entrega: Salida del pueblo hacia Medellín\n\nUn domiciliario se comunicará pronto para coordinar el servicio. ✅\n\n[Llamar a crear_pedido]\n```\n\n### Ejemplo 4: Consulta Fuera de Alcance\n```\nUsuario: ¿Cuánto cobran por un domicilio?\nAgente: Entiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\n\n[Llamar a transferir_a_humano inmediatamente]\n```\n\n### Ejemplo 5: Servicio No Disponible\n```\nUsuario: ¿Hacen transporte de mascotas?\nAgente: Entiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\n\n[Llamar a transferir_a_humano inmediatamente]\n```\n\n---\n\n## Formato de Salida\n\nCada respuesta tuya debe seguir este formato:\n\n**Para preguntas de recopilación:**\n```\n[Confirmación breve de lo que dijeron] + [Pregunta específica única]\n```\n\n**Para confirmación final:**\n```\n[Palabra de confirmación]. Registré tu [tipo de solicitud]:\n- [Dato 1]\n- [Dato 2]\n- [Dato 3]\n\nUn domiciliario se comunicará [contigo/con usted] [pronto/en breve] [para coordinar el servicio]. ✅\n```\n\n**Para consultas fuera de alcance:**\n```\nEntiendo tu consulta. Un domiciliario se comunicará contigo en un momento para ayudarte con eso.\n```\n\n---\n\n## Notas Importantes\n\n1. **Prioridad en la claridad:** Si tienes duda sobre qué servicio quiere el usuario, pregunta directamente\n2. **Eficiencia sobre todo:** Cada mensaje debe acercar la conversación a la conclusión\n3. **Sin información extra:** No agregues datos que el usuario no mencionó\n4. **Respeta el formato:** Los mensajes de confirmación deben ser consistentes\n5. **Contexto colombiano:** Entiende formatos de dirección colombianos (Calle X # Y-Z, Carrera, Avenida, etc.) y referencias locales\n6. **Flexibilidad en direcciones:** Acepta tanto direcciones formales como referencias (\"al frente de\", \"salida de\", \"al lado de\", \"el Inter rapidisimo\", \"la plaza\", \"el parque\", \"el colegio\", \"el hospital\" etc.)\n7. **Favores amplios:** Recuerda que pago de recibos y consignaciones son favores\n8. **Transferencia inmediata:** Cualquier consulta que no sea solicitar domicilio o favor debe transferirse inmediatamente a agente humano usando `transferir_a_humano`\n9. **Uso de herramientas:** Llama a `obtener_negocios` y `enviar_menu` en el flujo de negocios aliados\n10. **Reconocimiento de intenciones:** Identifica correctamente si el usuario quiere domicilios, favores o negocios aliados, incluso con palabras como \"ver negocios\", \"menú\", \"lista de restaurantes\"\n11. **Sistema de numeración:** Acepta números como respuesta válida cuando has mostrado una lista numerada\n\n---\n\n## Criterios de Éxito\n\n✅ Identificaste correctamente el tipo de servicio  \n✅ Recopilaste TODA la información necesaria  \n✅ Hiciste máximo 3-4 preguntas  \n✅ Confirmaste la información antes de finalizar  \n✅ El usuario entendió claramente que un domiciliario lo contactará  \n✅ Llamaste a `crear_pedido` después del resumen O a `transferir_a_humano` si fue consulta fuera de alcance\n✅ Usaste `obtener_negocios` y `enviar_menu` correctamente en negocios aliados\n\n---\n\n**Versión:** 3.7 - Agent Bot Payload  \n**Última actualización:** Enero 2026"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2448,
+        -368
+      ],
+      "id": "c56c918c-ea36-43e6-aa5e-01bec93d706e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2048,
+        32
+      ],
+      "id": "a8dc1a6c-1268-4550-b8d9-24d75d0cd93e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IsH1W1e4HDyYBz55",
+          "name": "Google AI Studio QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Extract Chatwoot Data').first().json.conversation_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2224,
+        32
+      ],
+      "id": "d2423f9d-396b-416d-acb5-0e441ac64a4c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        528,
+        -496
+      ],
+      "id": "f8d8607d-596f-4592-9ae9-221624fc3b99",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IsH1W1e4HDyYBz55",
+          "name": "Google AI Studio QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Extract Chatwoot Data').first().json.audio_url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        304,
+        -496
+      ],
+      "id": "addbd845-6118-472d-abab-c25d1c4e30d9",
+      "name": "Descargar Audio",
+      "credentials": {
+        "chatwootApi": {
+          "id": "YomhX1biCl7azTIQ",
+          "name": "Chatwoot DomiChat QA Bot"
+        },
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "071b5e92-2431-46ef-a9ef-15b19d8f2d8c",
+              "name": "message_content",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        -496
+      ],
+      "id": "9842d539-402f-4b7c-8f78-b855724dc172",
+      "name": "Mostrar Salida Transcripción"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "conversation_id",
+              "name": "conversation_id",
+              "value": "={{ $json.body.conversation.id }}",
+              "type": "number"
+            },
+            {
+              "id": "conversation_status",
+              "name": "conversation_status",
+              "value": "={{ $json.body.conversation.status }}",
+              "type": "string"
+            },
+            {
+              "id": "message_content",
+              "name": "message_content",
+              "value": "={{ $json.body.content || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "message_id",
+              "name": "message_id",
+              "value": "={{ $json.body.id }}",
+              "type": "number"
+            },
+            {
+              "id": "content_type",
+              "name": "content_type",
+              "value": "={{ $json.body.content_type }}",
+              "type": "string"
+            },
+            {
+              "id": "contact_name",
+              "name": "contact_name",
+              "value": "={{ $json.body.sender.name }}",
+              "type": "string"
+            },
+            {
+              "id": "whatsapp_id",
+              "name": "whatsapp_id",
+              "value": "={{ $json.body.conversation.contact_inbox.source_id }}",
+              "type": "string"
+            },
+            {
+              "id": "message_type",
+              "name": "message_type",
+              "value": "={{ $json.body.message_type }}",
+              "type": "string"
+            },
+            {
+              "id": "account_id",
+              "name": "account_id",
+              "value": "={{ $json.body.account.id }}",
+              "type": "number"
+            },
+            {
+              "id": "attachment_type",
+              "name": "attachment_type",
+              "value": "={{ $json.body.attachments && $json.body.attachments.length > 0 ? $json.body.attachments[0].file_type : 'none' }}",
+              "type": "string"
+            },
+            {
+              "id": "audio_url",
+              "name": "audio_url",
+              "value": "={{ $json.body.attachments && $json.body.attachments.length > 0 && $json.body.attachments[0].file_type === 'audio' ? $json.body.attachments[0].data_url : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "d64d850d-2986-4c5f-b838-fadbedd6d8e3",
+              "name": "source_id",
+              "value": "={{ $json.body.conversation.messages[0].source_id }}",
+              "type": "string"
+            },
+            {
+              "id": "241d036e-66b4-495b-9eb3-d44c8f808356",
+              "name": "message_hour",
+              "value": "={{ (new Date($json.body.created_at).getUTCHours() - 5 + 24) % 24 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -624,
+        -352
+      ],
+      "id": "be7ddb33-67b4-4946-8059-7c5c5c653cf0",
+      "name": "Extract Chatwoot Data"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "is_audio",
+                    "leftValue": "={{ $('Extract Chatwoot Data').item.json.attachment_type }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "no_attachments",
+                    "leftValue": "={{ $('Extract Chatwoot Data').item.json.attachment_type }}",
+                    "rightValue": "none",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Texto"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        80,
+        -384
+      ],
+      "id": "85c7e258-7e50-483a-9c3d-8a87ee418379",
+      "name": "Switch: Audio vs Texto vs Otros"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json.output;\nconst paragraphs = response.split(/\\n\\n+/)\n  .map(p => p.trim())\n  .filter(p => p.length > 0);\nreturn paragraphs.map(paragraph => {\n  return {\n    json: {\n      content: paragraph\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        -368
+      ],
+      "id": "a1051d16-2395-42fa-bd37-11c868c7dfaa",
+      "name": "Separar Salida"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Extract Chatwoot Data').first().json.account_id }}/conversations/{{ $('Extract Chatwoot Data').first().json.conversation_id }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=📵 Este tipo de mensaje no puede ser procesado. Por favor, escríbenos por texto o audio 📝"
+            },
+            {
+              "name": "message_type",
+              "value": "outgoing"
+            },
+            {
+              "name": "private",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        304,
+        -224
+      ],
+      "id": "8cd078c7-d443-491b-bcf1-5719b4e20c80",
+      "name": "Responder Mensaje Invalido",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/{{ $env.WHATSAPP_API_VERSION }}/{{ $env.WHATSAPP_CLIENT_PHONE_NUMBER_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"messaging_product\": \"whatsapp\",\n    \"status\": \"read\",\n    \"message_id\": \"{{ $('Extract Chatwoot Data').first().json.source_id }}\",\n    \"typing_indicator\": {\n        \"type\": \"text\"\n    }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -144,
+        -368
+      ],
+      "id": "62ac4a95-94df-4a0d-a5a8-f7ce57701a68",
+      "name": "Marcar como Leído + Typing",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "maxTries": 3,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "yzK6FuGQdZnPpC7u",
+          "name": "DomiChat QA Sender"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "name": "mensaje.chat_id",
+              "value": "={{ $('Extract Chatwoot Data').first().json.conversation_id }}",
+              "type": "string",
+              "id": "f19e550f-e50d-4665-802d-6e11ec5cdd8b"
+            },
+            {
+              "name": "mensaje.nombre_usuario",
+              "value": "={{ $('Extract Chatwoot Data').first().json.contact_name }}",
+              "type": "string",
+              "id": "697cb1c4-040b-4b63-b669-af591073afe1"
+            },
+            {
+              "name": "mensaje.id",
+              "value": "={{ $('Extract Chatwoot Data').first().json.message_id }}",
+              "type": "string",
+              "id": "01601fc3-a7ae-4879-948c-34d97659e2e0"
+            },
+            {
+              "name": "mensaje.tipo",
+              "value": "={{ $('Extract Chatwoot Data').first().json.message_type }}",
+              "type": "string",
+              "id": "adbe593a-24d3-4850-820b-285f8ffaaae8"
+            },
+            {
+              "name": "mensaje.contenido",
+              "value": "={{ $if($('Mostrar Salida Transcripción').isExecuted, $('Mostrar Salida Transcripción').first().json.message_content, $('Extract Chatwoot Data').first().json.message_content) }}",
+              "type": "string",
+              "id": "4a519d06-cde8-4b18-8809-71a208da885d"
+            },
+            {
+              "name": "mensaje.timestamp",
+              "value": "={{ $('Webhook').item.json.body.created_at.toDateTime().toISO() }}",
+              "type": "string",
+              "id": "e76ba897-aa43-4175-8a19-bfa9647256bd"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        976,
+        -368
+      ],
+      "id": "c8c8fffc-b700-4996-8bd6-965ea330e34a",
+      "name": "Preparar Mensaje",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $json.mensaje.chat_id + '_buffer'}}",
+        "messageData": "={{ $json.mensaje.toJsonString() }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -368
+      ],
+      "id": "c27bc6ce-3ee6-4d89-9afd-73da6a75f319",
+      "name": "Subir Mensaje Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "=mensaje",
+        "key": "={{ $('Preparar Mensaje').item.json.mensaje.chat_id + \"_buffer\" }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        -368
+      ],
+      "id": "dc9e1441-cae3-41be-9925-7577f5e77888",
+      "name": "Obtener Mensaje Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ JSON.parse($json.mensaje.last()).id }}",
+                    "rightValue": "={{ $('Preparar Mensaje').item.json.mensaje.id }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    },
+                    "id": "9a41a113-7b32-4550-94f2-f9af2268fc49"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "No hacer nada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8ed1680d-6388-49e2-8d95-1043434d3c12",
+                    "leftValue": "={{ JSON.parse($json.mensaje.last()).timestamp }}",
+                    "rightValue": "={{ $now.minus(5, 'seconds').toLocal().toISO() }}",
+                    "operator": {
+                      "type": "dateTime",
+                      "operation": "before"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=Seguir"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "Esperar"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1616,
+        -384
+      ],
+      "id": "469527b0-117c-4ed5-8bfb-e85937749417",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1856,
+        -208
+      ],
+      "id": "75eae42a-39cc-439c-9019-97e75155c219",
+      "name": "Esperar",
+      "webhookId": "c10fa27e-3376-46da-b183-dd51f0781907"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        -528
+      ],
+      "id": "9963a6ac-8bb5-4b90-bd2f-806a85372a8a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "baba4b5a-843d-468f-857f-07ac39f10e19",
+              "name": "mensaje.contenido",
+              "value": "={{ $json.mensaje.map(m => JSON.parse(m).contenido).join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2144,
+        -368
+      ],
+      "id": "ff2aa108-1ab6-4d26-b004-858896c22136",
+      "name": "Unir Mensajes"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Preparar Mensaje').first().json.mensaje.chat_id + \"_buffer\"}}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        -368
+      ],
+      "id": "26e8ff30-43b3-4e9a-944b-d550dd4994c6",
+      "name": "Eliminar Buffer Redis",
+      "credentials": {
+        "redis": {
+          "id": "v1sP8v4ffq4fES1C",
+          "name": "Redis QA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Usa esta herramienta cuando hayas identificado el tipo de servicio y recopilado toda la información requerida.",
+        "workflowId": {
+          "__rl": true,
+          "value": "iaX05BwekrJHDeS1",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/iaX05BwekrJHDeS1",
+          "cachedResultName": "0002 DomiChat Desactivar Bot y Guardar Pedido"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "conversation_id": "={{ $('Extract Chatwoot Data').first().json.conversation_id }}",
+            "account_id": "={{ $('Extract Chatwoot Data').first().json.account_id }}",
+            "detalles_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('detalles_pedido', `Detalles completos del pedido solicitado por el usuario organizados en una oración.`, 'string') }}",
+            "tipo_pedido": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_pedido', `Tipo de pedido solicitado (Domicilio o Favor)`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "account_id",
+              "displayName": "account_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "detalles_pedido",
+              "displayName": "detalles_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tipo_pedido",
+              "displayName": "tipo_pedido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2400,
+        32
+      ],
+      "id": "48df0a37-badb-4da1-be8e-495b1a1dc2af",
+      "name": "crear_pedido"
+    },
+    {
+      "parameters": {
+        "description": "Usa esta tool cuando se necesite transferir a un humano",
+        "workflowId": {
+          "__rl": true,
+          "value": "40IZRGPhPSiTNHwL",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/40IZRGPhPSiTNHwL",
+          "cachedResultName": "0003 DomiChat Transferir a Humano"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "conversation_id": "={{ $('Extract Chatwoot Data').first().json.conversation_id }}",
+            "account_id": "={{ $('Extract Chatwoot Data').first().json.account_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "conversation_id",
+              "displayName": "conversation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "account_id",
+              "displayName": "account_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2560,
+        32
+      ],
+      "id": "899e01be-7ced-4288-93c3-4dec892f5cf7",
+      "name": "transferir_a_humano"
+    },
+    {
+      "parameters": {
+        "description": "Llama esta tarea para obtener la lista de negocios aliados de DomiChat",
+        "workflowId": {
+          "__rl": true,
+          "value": "OOrAV8PpKBMpwUgZ",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/OOrAV8PpKBMpwUgZ",
+          "cachedResultName": "0004 DomiChat Obtener Negocios"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2720,
+        32
+      ],
+      "id": "1e994fef-26c4-45f6-a71c-d718e4d8f88d",
+      "name": "obtener_negocios"
+    },
+    {
+      "parameters": {
+        "description": "Llama a esta tarea cuando el usuario haya seleccionado un negocio para enviarle el respectivo menú en pdf",
+        "workflowId": {
+          "__rl": true,
+          "value": "dKgynTwwk7dKKoti",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/dKgynTwwk7dKKoti",
+          "cachedResultName": "0005 DomiChat Enviar Menú"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id_negocio": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('id_negocio', ``, 'number') }}",
+            "phone_number": "={{ $('Extract Chatwoot Data').first().json.whatsapp_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "id_negocio",
+              "displayName": "id_negocio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2880,
+        32
+      ],
+      "id": "4a65f703-2b8b-46d4-a22a-d8711b2d60a7",
+      "name": "enviar_menu"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Terminado",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        -384
+      ],
+      "id": "27864316-f209-487c-9b08-9a7c0e5ea886"
+    },
+    {
+      "parameters": {
+        "amount": "=0.5"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3504,
+        -224
+      ],
+      "id": "0b3583d9-3be0-489d-ad42-9fa59fe0cc93",
+      "name": "Wait",
+      "webhookId": "3fbfbabb-4f3d-46ee-8e24-d4c69b4e4d44"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3136,
+        -368
+      ],
+      "id": "a6b00016-7a22-4efa-9afe-b87ab3fc6fbd",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://qa-chatwoot.domichat.com.co/api/v1/accounts/{{ $('Extract Chatwoot Data').first().json.account_id }}/conversations/{{ $('Extract Chatwoot Data').first().json.conversation_id }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.content }}"
+            },
+            {
+              "name": "message_type",
+              "value": "outgoing"
+            },
+            {
+              "name": "private",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        3312,
+        -224
+      ],
+      "id": "a44d62d8-336a-4c39-b920-f133c23e02e2",
+      "name": "Enviar Mensaje a Chatwoot",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "J8eC7O28csyPaVUv",
+          "name": "Chatwoot DomiChat QA"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "qa-n8n.domichat.com.co",
+            "user-agent": "rest-client/2.1.0 (linux-musl x86_64) ruby/3.4.4p34",
+            "content-length": "3266",
+            "accept": "application/json",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1",
+            "cf-connecting-ip": "72.60.121.15",
+            "cf-ipcountry": "US",
+            "cf-ray": "9c742b181aa15e66-EWR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "content-type": "application/json",
+            "x-forwarded-for": "72.60.121.15, 162.158.155.135",
+            "x-forwarded-host": "qa-n8n.domichat.com.co",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "68b94681cb8f",
+            "x-real-ip": "162.158.155.135"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "account": {
+              "id": 1,
+              "name": "DomiChat"
+            },
+            "additional_attributes": {},
+            "content_attributes": {},
+            "content_type": "text",
+            "content": "Vereda san juan, frente al acueducto",
+            "conversation": {
+              "additional_attributes": {},
+              "can_reply": true,
+              "channel": "Channel::Whatsapp",
+              "contact_inbox": {
+                "id": 1,
+                "contact_id": 1,
+                "inbox_id": 1,
+                "source_id": "573006064535",
+                "created_at": "2026-01-18T00:19:06.401Z",
+                "updated_at": "2026-01-18T00:19:06.401Z",
+                "hmac_verified": false,
+                "pubsub_token": "aXyTqEotBUDoSRZGtLfKnjHy"
+              },
+              "id": 79,
+              "inbox_id": 1,
+              "messages": [
+                {
+                  "id": 929,
+                  "content": "Vereda san juan, frente al acueducto",
+                  "account_id": 1,
+                  "inbox_id": 1,
+                  "conversation_id": 79,
+                  "message_type": 0,
+                  "created_at": 1769977424,
+                  "updated_at": "2026-02-01T20:23:44.553Z",
+                  "private": false,
+                  "status": "sent",
+                  "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDI2MzFENTRCOTkwMUJCOURDRQA=",
+                  "content_type": "text",
+                  "content_attributes": {},
+                  "sender_type": "Contact",
+                  "sender_id": 1,
+                  "external_source_ids": {},
+                  "additional_attributes": {},
+                  "processed_message_content": "Vereda san juan, frente al acueducto",
+                  "sentiment": {},
+                  "conversation": {
+                    "assignee_id": null,
+                    "unread_count": 4,
+                    "last_activity_at": 1769977424,
+                    "contact_inbox": {
+                      "source_id": "573006064535"
+                    }
+                  },
+                  "sender": {
+                    "additional_attributes": {
+                      "avatar_url_hash": "8862a4aac2dc189601e0960b1330079ebcee8b262b160c5c61195011c1e82445",
+                      "last_avatar_sync_at": "2026-01-24T14:58:47Z"
+                    },
+                    "custom_attributes": {
+                      "id": "7c75b8cb-6bc8-4289-8f42-9619f91c12ca",
+                      "ip_address": null,
+                      "custom_attribute_1": "La Vega",
+                      "custom_attribute_2": "2025-10-20 17:00:12.34659+00"
+                    },
+                    "email": "m@m.com",
+                    "id": 1,
+                    "identifier": null,
+                    "name": "Manuel Torres",
+                    "phone_number": "+573006064535",
+                    "thumbnail": "",
+                    "blocked": false,
+                    "type": "contact"
+                  }
+                }
+              ],
+              "labels": [
+                "pendiente"
+              ],
+              "meta": {
+                "sender": {
+                  "additional_attributes": {
+                    "avatar_url_hash": "8862a4aac2dc189601e0960b1330079ebcee8b262b160c5c61195011c1e82445",
+                    "last_avatar_sync_at": "2026-01-24T14:58:47Z"
+                  },
+                  "custom_attributes": {
+                    "id": "7c75b8cb-6bc8-4289-8f42-9619f91c12ca",
+                    "ip_address": null,
+                    "custom_attribute_1": "La Vega",
+                    "custom_attribute_2": "2025-10-20 17:00:12.34659+00"
+                  },
+                  "email": "m@m.com",
+                  "id": 1,
+                  "identifier": null,
+                  "name": "Manuel Torres",
+                  "phone_number": "+573006064535",
+                  "thumbnail": "",
+                  "blocked": false,
+                  "type": "contact"
+                },
+                "assignee": null,
+                "assignee_type": null,
+                "team": null,
+                "hmac_verified": false
+              },
+              "status": "pending",
+              "custom_attributes": {},
+              "snoozed_until": null,
+              "unread_count": 4,
+              "first_reply_created_at": null,
+              "priority": null,
+              "waiting_since": 0,
+              "agent_last_seen_at": 0,
+              "contact_last_seen_at": 0,
+              "last_activity_at": 1769977424,
+              "timestamp": 1769977424,
+              "created_at": 1769977365,
+              "updated_at": 1769977424.555192
+            },
+            "created_at": "2026-02-01T20:23:44.553Z",
+            "id": 929,
+            "inbox": {
+              "id": 1,
+              "name": "DomiChat QA"
+            },
+            "message_type": "incoming",
+            "private": false,
+            "sender": {
+              "account": {
+                "id": 1,
+                "name": "DomiChat"
+              },
+              "additional_attributes": {
+                "avatar_url_hash": "8862a4aac2dc189601e0960b1330079ebcee8b262b160c5c61195011c1e82445",
+                "last_avatar_sync_at": "2026-01-24T14:58:47Z"
+              },
+              "avatar": "",
+              "custom_attributes": {
+                "id": "7c75b8cb-6bc8-4289-8f42-9619f91c12ca",
+                "ip_address": null,
+                "custom_attribute_1": "La Vega",
+                "custom_attribute_2": "2025-10-20 17:00:12.34659+00"
+              },
+              "email": "m@m.com",
+              "id": 1,
+              "identifier": null,
+              "name": "Manuel Torres",
+              "phone_number": "+573006064535",
+              "thumbnail": "",
+              "blocked": false
+            },
+            "source_id": "wamid.HBgMNTczMDA2MDY0NTM1FQIAEhgWM0VCMDI2MzFENTRCOTkwMUJCOURDRQA=",
+            "event": "message_created"
+          },
+          "webhookUrl": "https://qa-n8n.domichat.com.co/webhook/70c778e7-b0db-433a-83fb-dbb165fbd6ca",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-10T03:31:53.570Z",
+      "createdAt": "2026-01-10T03:31:53.570Z",
+      "role": "workflow:owner",
+      "workflowId": "WCxlaSuDEyGRZf9Y",
+      "projectId": "0IzhKVOc0T9TvoCy"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-02-06T23:31:05.000Z",
+  "versionId": "70450a35-41a5-43bd-9f4f-2e755841ce7f"
+}
