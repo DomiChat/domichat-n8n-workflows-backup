@@ -108,7 +108,7 @@
         },
         "httpHeaderAuth": {
           "id": "J8eC7O28csyPaVUv",
-          "name": "Chatwoot DomiChat QA"
+          "name": "Chatwoot DomiChat QA Bot"
         }
       }
     },
@@ -138,7 +138,7 @@
         },
         "httpHeaderAuth": {
           "id": "J8eC7O28csyPaVUv",
-          "name": "Chatwoot DomiChat QA"
+          "name": "Chatwoot DomiChat QA Bot"
         }
       }
     },
@@ -239,8 +239,8 @@
           "name": "Chatwoot DomiChat QA"
         },
         "httpHeaderAuth": {
-          "id": "J8eC7O28csyPaVUv",
-          "name": "Chatwoot DomiChat QA"
+          "id": "E6c8r2xLhCJ3yZEJ",
+          "name": "Chatwoot DomiChat QA Admin"
         }
       }
     }
@@ -249,10 +249,40 @@
     "Start": [
       {
         "json": {
-          "conversation_id": 62,
+          "conversation_id": 99,
           "account_id": 1,
-          "detalles_pedido": "Pollo asado de los chilacos en combo, para la dirección Vereda San Juan, sector la gloria.",
+          "detalles_pedido": "2 sixpack de cerveza Poker, dirección de entrega: Vereda San Juan, finca Santa Cecilia",
           "tipo_pedido": "Domicilio"
+        }
+      }
+    ],
+    "1. Abrir Conversación": [
+      {
+        "json": {
+          "payload": {
+            "success": null,
+            "conversation_id": 99,
+            "current_status": "open",
+            "snoozed_until": null
+          }
+        }
+      }
+    ],
+    "2. Asignar a Agente": [
+      {
+        "json": {
+          "id": 3,
+          "account_id": 1,
+          "availability_status": "offline",
+          "auto_offline": true,
+          "confirmed": true,
+          "email": "herrerahnicol@gmail.com",
+          "provider": "email",
+          "available_name": "Nicol Herrera",
+          "name": "Nicol Herrera",
+          "role": "agent",
+          "thumbnail": "",
+          "custom_role_id": null
         }
       }
     ]
@@ -272,6 +302,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 0,
-  "updatedAt": "2026-02-08T22:40:22.000Z",
-  "versionId": "1322bb56-8519-4999-acd5-d6fd6927f7c1"
+  "updatedAt": "2026-02-09T13:49:25.000Z",
+  "versionId": "8ed2eea9-4b1d-4a1a-aa04-089cef58912b"
 }
